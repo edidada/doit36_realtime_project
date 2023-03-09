@@ -1,9 +1,8 @@
-package cn.doitedu.rtdw.etl;
+package cn.doitedu.rtdw.data_etl;
 
 import ch.hsr.geohash.GeoHash;
 import com.alibaba.fastjson.JSON;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
+import org.apache.flink.contrib.streaming.state.EmbeddedRocksDBStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
@@ -25,7 +24,7 @@ public class EtlJob01_UserEventsLogCommonDim {
         // 构造flink编程入口
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         // 一些必须参数设置
-        env.setStateBackend(new HashMapStateBackend());
+        env.setStateBackend(new EmbeddedRocksDBStateBackend());
         env.enableCheckpointing(5000, CheckpointingMode.EXACTLY_ONCE);
         env.getCheckpointConfig().setCheckpointStorage("file:/d:/ckpt");
 
@@ -104,6 +103,7 @@ public class EtlJob01_UserEventsLogCommonDim {
         // 支持延迟重试的lookup新特性（从flink-1.16.0开始才有的）
         tenv.executeSql(
                 "CREATE TEMPORARY VIEW wide_view AS  " +
+                        // flink-1.16.0增强的新特性：lookup查询支持延迟重试
                         "SELECT  /*+ LOOKUP('table'='ums_member_hbase_source', 'retry-predicate'='lookup_miss', 'retry-strategy'='fixed_delay', 'fixed-delay'='5s','max-attempts'='3') */" +
                         "u.f.id as user_id,e.username,e.session_id,e.eventId as event_id,e.eventTime as event_time,e.lat,e.lng," +
                         "e.release_channel,e.device_type,e.properties," +
