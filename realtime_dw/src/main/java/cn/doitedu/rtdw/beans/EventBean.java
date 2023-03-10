@@ -38,4 +38,5 @@ public class EventBean {
 
     // 页面访问结束时间
     long page_end_time;
+
 }

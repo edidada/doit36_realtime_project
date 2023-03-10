@@ -1,6 +1,7 @@
 package cn.doitedu.rtdw.data_etl;
 
 import cn.doitedu.rtdw.utils.CommonSql;
+import cn.doitedu.rtdw.utils.TimeRound;
 import org.apache.flink.contrib.streaming.state.EmbeddedRocksDBStateBackend;
 import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
@@ -69,7 +70,7 @@ public class EtlJob02_MallTfcAg01 {
 
         // 选择所需字段，扩展：小时、30分，10分，分 维度字段， 按照最小粒度，聚合pv数
         // 这里麻烦的点在：各种时间的处理，尤其是按30分钟、10分钟取整的操作，用内置函数极为不便，所以干脆做了自定义函数
-        tEnv.createTemporaryFunction("time_round",TimeRound.class);
+        tEnv.createTemporaryFunction("time_round", TimeRound.class);
         tEnv.executeSql(
                 "INSERT INTO mall_tfc_ag01                                                       "
                 + " WITH tmp AS (                                                                   "
@@ -125,28 +126,4 @@ public class EtlJob02_MallTfcAg01 {
         );
     }
 
-
-    // 自定义函数，按小时，10分，30分，60分钟 截断取整
-    public static class TimeRound extends ScalarFunction {
-        public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        public String eval(String dateTime,int interval) throws ParseException {
-            Date date = sdf.parse(dateTime);
-            long ts = date.getTime();
-
-            long factor = interval*60*1000;
-            long trunc = (ts/factor)*factor;
-
-            return sdf.format(new Date(trunc));
-        }
-    }
-
-    // 自定义函数，按小时，10分，30分，60分钟 截断取整
-    public static class TimeRound2 extends ScalarFunction {
-        public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        public String eval(Long ts,int interval) throws ParseException {
-            long factor = interval*60*1000;
-            long trunc = (ts/factor)*factor;
-            return sdf.format(new Date(trunc));
-        }
-    }
 }
