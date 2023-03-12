@@ -12,6 +12,7 @@ public class WindowTest {
         env.setParallelism(1);
         env.getCheckpointConfig().setCheckpointStorage("hdfs://doitedu:8020/ckpt");
 
+        //
         StreamTableEnvironment tenv = StreamTableEnvironment.create(env);
 
         tenv.executeSql(
