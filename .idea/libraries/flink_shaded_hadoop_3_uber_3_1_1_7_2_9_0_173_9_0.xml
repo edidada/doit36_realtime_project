@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="flink-shaded-hadoop-3-uber-3.1.1.7.2.9.0-173-9.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/flink-shaded-hadoop-3-uber-3.1.1.7.2.9.0-173-9.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/flink-shaded-hadoop-3-uber-3.1.1.7.2.9.0-173-9.0.jar!/" />
+    </SOURCES>
+  </library>
+</component>

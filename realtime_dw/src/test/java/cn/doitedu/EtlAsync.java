@@ -1,3 +1,5 @@
+package cn.doitedu;
+
 import cn.doitedu.rtdw.beans.EventBean;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
@@ -35,7 +37,6 @@ public class EtlAsync {
         env.setStateBackend(new HashMapStateBackend());
         env.enableCheckpointing(5000, CheckpointingMode.EXACTLY_ONCE);
         env.getCheckpointConfig().setCheckpointStorage("file:/d:/ckpt");
-
 
         DataStreamSource<String> ds = env.socketTextStream("doitedu", 9090);
 

@@ -134,11 +134,11 @@
         </dependency>
 
 
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-common</artifactId>
+            <artifactId>hadoop-hdfs</artifactId>
             <version>3.3.2</version>
-        </dependency>
+        </dependency>-->
 
 
         <dependency>
