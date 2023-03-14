@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="redis_demo" />
+        <module name="rt_rule_mk" />
         <module name="realtime_dw" />
         <module name="batch_jobs" />
       </profile>

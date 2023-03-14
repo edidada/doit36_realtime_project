@@ -12,6 +12,7 @@
         <module>realtime_dw</module>
         <module>batch_jobs</module>
         <module>redis_demo</module>
+        <module>rt_rule_mk</module>
     </modules>
 
     <properties>

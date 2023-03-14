@@ -1,11 +1,21 @@
 package cn.doitedu.rtdw.rt_dashboard;
 
 import cn.doitedu.rtdw.utils.CommonSql;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.contrib.streaming.state.EmbeddedRocksDBStateBackend;
 import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
+import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.types.Row;
+import redis.clients.jedis.Jedis;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * @Author: deep as the sea
@@ -15,11 +25,11 @@ import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
  * @Desc: 学大数据，到多易教育
  *
  *  营销活动A/B/C 的活动页（page006,page007,page008）流量实时监控指标计算
- *    计算指标： 每个营销活动页累计到当天当前的pv、uv量，每分钟更新一次
+ *    计算指标： 每个营销活动页当天累计到当前的pv、uv量，每分钟更新一次
  *
  **/
 public class Promotion01_PVUV {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         // 创建编程环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -56,7 +66,8 @@ public class Promotion01_PVUV {
 
         // 写一个统计sql，计算结果并插入目标sink表
         tenv.executeSql(
-                " INSERT INTO dashboard_promotion_abc_pvuv                                       "
+                /*" INSERT INTO dashboard_promotion_abc_pvuv                                       "*/
+                " create temporary view res_view  AS                                 "
                         +" WITH tmp AS (                                                                  "
                         +"   SELECT                                                                       "
                         +"     properties['url'] as page_url,                                             "
@@ -80,5 +91,57 @@ public class Promotion01_PVUV {
                         +"   window_end,                                                                  "
                         +"   page_url                                                                     "
         );
+
+        //tenv.executeSql("select * from res_view").print();
+
+
+        // 把表转成流
+        DataStream<Row> res_view = tenv.toDataStream(tenv.from("res_view"));
+
+        res_view.addSink(new RedisSink("doitedu",6379));
+
+        env.execute();
+
+
     }
+
+    public static class RedisSink extends RichSinkFunction<Row>{
+        String host;
+        int port;
+        Jedis jedis;
+
+
+        public RedisSink(String host,int port){
+            this.host = host;
+            this.port = port;
+        }
+
+
+        @Override
+        public void open(Configuration parameters) throws Exception {
+            jedis = new Jedis(this.host, this.port);
+        }
+
+
+        @Override
+        public void invoke(Row row, Context context) throws Exception {
+
+            // key-value  ,key-List  ,key-HashMap  , key-Set , key-SortedSet , key-bitmap ,key-GpS
+            String pageUrl = row.getFieldAs("page_url");
+            LocalDateTime update_time = row.getFieldAs("update_time");
+
+            Long pv = row.getFieldAs("pv");
+            Long uv = row.getFieldAs("uv");
+
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("update_time",update_time);
+            jsonObj.put("pv",pv);
+            jsonObj.put("uv",uv);
+
+            jedis.set(pageUrl, jsonObj.toJSONString());
+
+        }
+    }
+
+
 }
