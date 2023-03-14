@@ -32,6 +32,19 @@ import java.util.HashSet;
  *     规则2：id = r002
  *        如果某个用户在规则运行之后，发生了如下行为 >=4 次 ：collect事件且收藏的物品id属于  [p02,p04,p08]中的一种
  *        则，当该用户再发生分享行为(share)，就给他推送消息
+ *
+ *
+ *   测试环境，先创建一个topic
+ *   kafka-topics.sh --create --topic dwd-events-log --partitions 1 --replication-factor 1 --zookeeper doitedu:2181
+ *
+ *   然后可以用如下测试数据
+ *   {"user_id":5,"event_id":"event1","event_time":1678777681000,"properties":{}}
+ *   {"user_id":5,"event_id":"event2","event_time":1678777682000,"properties":{}}
+ *   {"user_id":5,"event_id":"event3","event_time":1678777683000,"properties":{}}
+ *   {"user_id":6,"event_id":"add_cart","event_time":1678777684000,"properties":{"item_id":"p04"}}
+ *   {"user_id":7,"event_id":"add_cart","event_time":1678777685000,"properties":{"item_id":"p05"}}
+ *   {"user_id":7,"event_id":"add_cart","event_time":1678777686000,"properties":{"item_id":"p01"}}
+ *
  **/
 public class Demo2 {
     public static void main(String[] args) throws Exception {
