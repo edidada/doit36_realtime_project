@@ -1,4 +1,4 @@
-package cn.doitedu.rtmk.demo2;
+package cn.doitedu.rtmk.beans;
 
 import lombok.*;
 

@@ -1,5 +1,6 @@
 package cn.doitedu.rtmk.demo1;
 
+import cn.doitedu.rtmk.beans.EventBean;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
