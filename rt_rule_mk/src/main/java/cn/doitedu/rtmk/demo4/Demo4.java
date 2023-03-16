@@ -92,9 +92,36 @@ public class Demo4 {
                 rule003Calculator.init(getRuntimeContext(),rule003Param);
 
 
+
+                RuleModel003Calculator rule004Calculator = new RuleModel003Calculator();
+                String rule004Param =
+                        "{\n" +
+                                "  \"ruleId\":\"r004\",\n" +
+                                "  \"ruleModelId\":\"m003\",\n" +
+                                "  \"triggerEvent\":{\n" +
+                                "    \"eventId\":\"ad_click\",\n" +
+                                "    \"eventPropName\":\"url\",\n" +
+                                "    \"eventPropCompareOp\":\"in\",\n" +
+                                "    \"eventPropValue\":[\"/page008\",\"/page009\"]\n" +
+                                "  },\n" +
+                                "  \"dynamicProfile\":[\n" +
+                                "    {\n" +
+                                "      \"tagEvent\":{\n" +
+                                "        \"eventId\":\"add_cart\",\n" +
+                                "        \"eventPropName\":\"item_price\",\n" +
+                                "        \"eventPropValueMaxMin\":2\n" +
+                                "      }\n" +
+                                "    }\n" +
+                                "  ]\n" +
+                                "}";
+                rule004Calculator.init(getRuntimeContext(),rule004Param);
+
+
+
                 ruleCalculators.put("r001", rule001Calculator);
                 ruleCalculators.put("r002", rule002Calculator);
                 ruleCalculators.put("r003", rule003Calculator);
+                ruleCalculators.put("r004", rule004Calculator);
 
             }
 
@@ -104,7 +131,6 @@ public class Demo4 {
                 for (Map.Entry<String, RuleCalculator> entry : ruleCalculators.entrySet()) {
                     RuleCalculator calculator = entry.getValue();
                     calculator.calc(eventBean,out);
-
                 }
             }
         }).print();

@@ -1,15 +1,20 @@
 {
-  "ruleId":"r002",
-  "triggerEventId":"item_share",
+  "ruleId":"r004",
+  "ruleModelId":"m003",
+  "triggerEvent":{
+    "eventId":"ad_click",
+    "eventPropName":"url",
+    "eventPropCompareOp":"in",
+    "eventPropValue":["/page008","/page009"]
+  },
   "dynamicProfile":[
     {
       "tagEvent":{
-        "tagEventId":"item_collect",
-        "tagEventProp":"item_id",
-        "tagEventValues":["p02","p04","p08"]
-      },
-      "tagCompareOp":">",
-      "tagCompareValue":4
+        "eventId":"add_cart",
+        "eventPropName":"item_price",
+        "eventPropValueMaxMin":2
+      }
     }
   ]
 }
+
