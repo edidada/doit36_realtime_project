@@ -1,0 +1,15 @@
+{
+  "ruleId":"r002",
+  "triggerEventId":"item_share",
+  "dynamicProfile":[
+    {
+      "tagEvent":{
+        "tagEventId":"item_collect",
+        "tagEventProp":"item_id",
+        "tagEventValues":["p02","p04","p08"]
+      },
+      "tagCompareOp":">",
+      "tagCompareValue":4
+    }
+  ]
+}

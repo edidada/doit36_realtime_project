@@ -15,18 +15,17 @@ public class Rule001Calculator implements RuleCalculator{
     @Override
     public void init(RuntimeContext runtimeContext) {
         this.r001TargetItems = new HashSet<>();
-        r001TargetItems.addAll(Arrays.asList("p01", "p03", "p05"));
+        r001TargetItems.addAll(Arrays.asList("ad01", "ad02", "ad03"));
         messageJsonObj.put("ruleId", "r001");
     }
 
 
     @Override
     public void calc(EventBean eventBean, Collector<String> out) {
-        if (eventBean.getEvent_id().equals("add_cart")
-                && r001TargetItems.contains(eventBean.getProperties().get("item_id"))) {
+        if (eventBean.getEvent_id().equals("ad_click")
+                && r001TargetItems.contains(eventBean.getProperties().get("ad_id"))) {
             trigRule(eventBean, out);
         }
-
     }
 
 

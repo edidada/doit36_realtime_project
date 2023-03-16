@@ -77,6 +77,7 @@ public class Demo1 {
                 // 如果某用户实施了添加购物车行为，且添加到购物车的商品属于 [p01,p03,p05]中的一种
                 if(eventBean.getEvent_id().equals("add_cart")
                         && targetItems.contains(eventBean.getProperties().get("item_id"))){
+
                     messageJsonObj.put("userId",eventBean.getUser_id());
                     messageJsonObj.put("matchTime",eventBean.getEvent_time());
 

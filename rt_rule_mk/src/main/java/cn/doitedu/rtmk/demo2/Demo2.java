@@ -105,7 +105,6 @@ public class Demo2 {
                 for (Map.Entry<String, RuleCalculator> entry : ruleCalculators.entrySet()) {
                     RuleCalculator calculator = entry.getValue();
                     calculator.calc(eventBean,out);
-
                 }
             }
         }).print();
