@@ -1,0 +1,46 @@
+{
+  "ruleId":1,
+  "ruleModelId":4,
+  "triggerEvent":{
+    "eventId":"a",
+    "propName":"p1",
+    "compareOp":"=",
+    "compareValue":"v1"
+  },
+  "dynamicProfile":{
+    "eventSeq":[
+      {
+        "eventId":"x",
+        "propName":"p2",
+        "compareOp":"=",
+        "compareValue":"v2"
+      },
+      {
+        "eventId":"y",
+        "propName":"p3",
+        "compareOp":"=",
+        "compareValue":"v3"
+      },
+      {
+        "eventId":"z",
+        "propName":"p4",
+        "compareOp":"=",
+        "compareValue":"v4"
+      }
+
+    ],
+    "seqActMinCount": 2
+  },
+  "staticProfile":[
+    {
+      "tagName":"tg01",
+      "compareOp":"=",
+      "compareValue":5
+    },
+    {
+      "tagName":"tg08",
+      "compareOp":"=",
+      "compareValue":28
+    }
+  ]
+}

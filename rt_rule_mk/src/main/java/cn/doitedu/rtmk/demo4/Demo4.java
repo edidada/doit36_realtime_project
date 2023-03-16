@@ -19,6 +19,22 @@ import org.apache.flink.util.Collector;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @Author: deep as the sea
+ * @Site: <a href="www.51doit.com">多易教育</a>
+ * @QQ: 657270652
+ * @Date: 2023/3/16
+ * @Desc: 学大数据，到多易教育
+ *
+ * 规则运算逻辑，封装到  规则运算机
+ * 规则运算机所需要的规则参数从硬编码中剥离出来，可由外部传入；
+ * 此时的规则运算机，严格上可称之为模型运算机
+ * 每个模型，有一个运算机类；有一套固定格式的参数模板；
+ * 每个具体规则，则有一套自己的具体的确定的参数；
+ *
+ *
+ *
+ **/
 public class Demo4 {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -50,6 +66,7 @@ public class Demo4 {
 
             @Override
             public void open(Configuration parameters) throws Exception {
+
                 RuleModel001Calculator rule001Calculator = new RuleModel001Calculator();
                 String rule001Param =
                         "{\n" +
@@ -118,10 +135,62 @@ public class Demo4 {
 
 
 
+                RuleModel004Calculator rule005Calculator = new RuleModel004Calculator();
+                String rule005Param =
+                        "{\n" +
+                                "  \"ruleId\":\"r005\",\n" +
+                                "  \"ruleModelId\":\"m004\",\n" +
+                                "  \"triggerEvent\":{\n" +
+                                "    \"eventId\":\"a\",\n" +
+                                "    \"propName\":\"p1\",\n" +
+                                "    \"compareOp\":\"=\",\n" +
+                                "    \"compareValue\":\"v1\"\n" +
+                                "  },\n" +
+                                "  \"dynamicProfile\":{\n" +
+                                "    \"eventSeq\":[\n" +
+                                "      {\n" +
+                                "        \"eventId\":\"x\",\n" +
+                                "        \"propName\":\"p2\",\n" +
+                                "        \"compareOp\":\"=\",\n" +
+                                "        \"compareValue\":\"v2\"\n" +
+                                "      },\n" +
+                                "      {\n" +
+                                "        \"eventId\":\"y\",\n" +
+                                "        \"propName\":\"p3\",\n" +
+                                "        \"compareOp\":\"=\",\n" +
+                                "        \"compareValue\":\"v3\"\n" +
+                                "      },\n" +
+                                "      {\n" +
+                                "        \"eventId\":\"z\",\n" +
+                                "        \"propName\":\"p4\",\n" +
+                                "        \"compareOp\":\"=\",\n" +
+                                "        \"compareValue\":\"v4\"\n" +
+                                "      }\n" +
+                                "\n" +
+                                "    ],\n" +
+                                "    \"seqActMinCount\": 2\n" +
+                                "  },\n" +
+                                "  \"staticProfile\":[\n" +
+                                "    {\n" +
+                                "      \"tagName\":\"tg01\",\n" +
+                                "      \"compareOp\":\"=\",\n" +
+                                "      \"compareValue\":5\n" +
+                                "    },\n" +
+                                "    {\n" +
+                                "      \"tagName\":\"tg08\",\n" +
+                                "      \"compareOp\":\"=\",\n" +
+                                "      \"compareValue\":28\n" +
+                                "    }\n" +
+                                "  ]\n" +
+                                "}";
+                rule005Calculator.init(getRuntimeContext(),rule005Param);
+
+
                 ruleCalculators.put("r001", rule001Calculator);
                 ruleCalculators.put("r002", rule002Calculator);
                 ruleCalculators.put("r003", rule003Calculator);
                 ruleCalculators.put("r004", rule004Calculator);
+                ruleCalculators.put("r005", rule005Calculator);
 
             }
 
