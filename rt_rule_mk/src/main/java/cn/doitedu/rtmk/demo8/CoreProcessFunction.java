@@ -42,6 +42,7 @@ public class CoreProcessFunction extends KeyedBroadcastProcessFunction<Integer, 
         }*/
 
         // 遍历运算机池(MapState)，将本次接收到的行为事件，交给每个运算机去处理
+        // 此法不可行，MapState在processBroadcastElement方法中不可用
        /* for (Map.Entry<Integer, RuleCalculator> entry : calculatorMapState.entries()) {
             RuleCalculator ruleCalculator = entry.getValue();
             ruleCalculator.calc(eventBean,out);
