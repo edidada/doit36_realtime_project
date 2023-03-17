@@ -20,6 +20,26 @@ import java.util.List;
  * @Date: 2023/3/16
  * @Desc: 学大数据，到多易教育
  * 规则模型3的参数模板：
+{
+"ruleId":"r004",
+"ruleModelId":"m003",
+"triggerEvent":{
+"eventId":"ad_click",
+"eventPropName":"url",
+"eventPropCompareOp":"in",
+"eventPropValue":["/page008","/page009"]
+},
+"dynamicProfile":[
+{
+"tagEvent":{
+"eventId":"add_cart",
+"eventPropName":"item_price",
+"eventPropValueMaxMin":2
+}
+}
+]
+}
+ *
  **/
 public class RuleModel003Calculator implements RuleCalculator {
 

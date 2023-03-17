@@ -1,0 +1,17 @@
+{
+  "triggerEvent":{
+    "eventId":"ad_click",
+    "eventPropName":"url",
+    "eventPropCompareOp":"in",
+    "eventPropValue":["/page008","/page009"]
+  },
+  "dynamicProfile":[
+    {
+      "tagEvent":{
+        "eventId":"add_cart",
+        "eventPropName":"item_price",
+        "eventPropValueMaxMin":2
+      }
+    }
+  ]
+}

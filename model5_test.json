@@ -1,0 +1,17 @@
+{
+  "triggerEventId":"item_share",
+  "dynamicProfile":[
+    {
+      "tagEvent":{
+        "tagEventId":"item_collect",
+        "tagEventProp":"item_id",
+        "tagEventValues":["p02","p04","p08"]
+      },
+      "tagCompareOp":">",
+      "tagCompareValue":4,
+      "startTime": "2023-02-01 00:00:00",
+      "endTime": "2023-04-01 00:00:00",
+      "conditionId": "dynCondition1"
+    }
+  ]
+}

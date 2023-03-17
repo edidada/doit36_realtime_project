@@ -1,0 +1,41 @@
+{
+  "model": "m004",
+  "modelId": "m004",
+  "triggerEventProps": {
+    "triggerEventPropName": "item_id",
+    "triggerEventPropOp": "in",
+    "triggerEventPropValue": "item01,item02"
+  },
+  "seqEventIdProps1": {
+    "seqEventPropName1": "item_id",
+    "seqEventPropCompareOp1": "in",
+    "seqEventPropValue1": "item03,item04"
+  },
+  "seqEventProps2": {
+    "seqEventPropName2": "ad_id",
+    "seqEventPropCompareOp2": "in",
+    "seqEventPropValue2": "item05"
+  },
+  "seqEventProps3": {
+    "seqEventPropName3": "item_id",
+    "seqEventPropCompareOp3": "in",
+    "seqEventPropValue3": "item06"
+  },
+  "staticProfile1": {
+    "tagName1": "tag01",
+    "compareOp1": "=",
+    "compareValue1": "5"
+  },
+  "staticProfile2": {
+    "tagName2": "tag02",
+    "compareOp2": "=",
+    "compareValue2": "6"
+  },
+  "triggerEventId": "add_cart",
+  "seqEventId1": "item_dz",
+  "seqEventId2": "ad_click",
+  "seqEventId3": "item_collect",
+  "triggerStartTime": "1678975474",
+  "triggerEndTime": "1680105600",
+  "seqActMinCount": "2"
+}

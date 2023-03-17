@@ -6,6 +6,7 @@ import cn.doitedu.rtmk.demo5.RuleModel001Calculator;
 import cn.doitedu.rtmk.demo5.RuleModel002Calculator;
 import cn.doitedu.rtmk.demo5.RuleModel003Calculator;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
@@ -100,21 +101,33 @@ public class Demo6 {
         // DataStream<RuleMeta> ruleMetaStream = tenv.toDataStream(tenv.from("rule_meta"), RuleMeta.class);
 
         DataStream<Row> rowRuleMetaStream = tenv.toChangelogStream(tenv.from("rule_meta"));
-        DataStream<RuleMeta> ruleMetaStream = rowRuleMetaStream.map(new MapFunction<Row, RuleMeta>() {
-            @Override
-            public RuleMeta map(Row row) throws Exception {
-                // row中包含  +I ,-U ,+U, -D 等
-                int opType = row.getKind().toByteValue();
-                int ruleId = row.getFieldAs("id");
-                int modelId = row.getFieldAs("model_id");
-                String paramJson = row.getFieldAs("param_json");
-                byte[] staticCrowdBytes = row.getFieldAs("static_crowd");
-                int status = row.getFieldAs("status");
-                LocalDateTime create_time = row.getFieldAs("create_time");
-                LocalDateTime update_time = row.getFieldAs("update_time");
+        DataStream<RuleMeta> ruleMetaStream = rowRuleMetaStream.map(row -> {
+            // row中包含  +I ,-U ,+U, -D 等
+            int opType = row.getKind().toByteValue();
 
-                return new RuleMeta(opType,ruleId,modelId,paramJson,staticCrowdBytes,status,"深似海的男人",create_time,update_time);
-            }
+            // 取出本规则参数所属的规则ID，及所属的规则模型ID
+            int ruleId = row.getFieldAs("id");
+            int modelId = row.getFieldAs("model_id");
+
+            // 取到规则的参数json，并填充 ruleId和modelId
+            String paramJson = row.getFieldAs("param_json");
+            JSONObject jsonObj = JSON.parseObject(paramJson);
+            jsonObj.put("ruleId",ruleId);
+            jsonObj.put("modelId",modelId);
+            paramJson = jsonObj.toJSONString();
+
+
+            // 取出静态画像人群bitmap的序列化字节
+            byte[] staticCrowdBytes = row.getFieldAs("static_crowd");
+            // 取出规则状态
+            int status = row.getFieldAs("status");
+            // 规则创建时间
+            LocalDateTime create_time = row.getFieldAs("create_time");
+            // 规则更新时间
+            LocalDateTime update_time = row.getFieldAs("update_time");
+
+            // 将规则元数据信息，封装成RuleMeta对象
+            return new RuleMeta(opType,ruleId,modelId,paramJson,staticCrowdBytes,status,"深似海的男人",create_time,update_time);
         });
 
 

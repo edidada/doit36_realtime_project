@@ -35,6 +35,7 @@ public class RuleModel001Calculator implements RuleCalculator {
         r001TargetItems.addAll(triggerEventPropValue);
 
         messageJsonObj.put("ruleId", paramJsonObj.getString("ruleId"));
+        messageJsonObj.put("modelId", paramJsonObj.getString("modelId"));
     }
 
 

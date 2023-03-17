@@ -1,6 +1,4 @@
 {
-  "ruleId": 2,
-  "modelId": 1,
   "triggerEventId": "ad_click",
   "triggerEventPropName": "ad_id",
   "triggerEventPropValue": [

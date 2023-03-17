@@ -20,21 +20,21 @@ import java.util.List;
  * @Date: 2023/3/16
  * @Desc: 学大数据，到多易教育
  * 规则模型2的参数模板：
- * {
- * "ruleId":"r002",
- * "triggerEventId":"item_share",
- * "dynamicProfile":[
- * {
- * "tagEvent":{
- * "tagEventId":"item_collect"
- * "tagEventProp":"item_id",
- * "tagEventValues":["p02","p04","p08"],
- * }
- * "tagCompareOp":">",
- * "tagCompareValue":4
- * }
- * ]
- * }
+{
+"ruleId":"r002",
+"triggerEventId":"item_share",
+"dynamicProfile":[
+{
+"tagEvent":{
+"tagEventId":"item_collect"
+"tagEventProp":"item_id",
+"tagEventValues":["p02","p04","p08"],
+}
+"tagCompareOp":">",
+"tagCompareValue":4
+}
+]
+}
  **/
 public class RuleModel002Calculator implements RuleCalculator {
     JSONObject messageJsonObj = new JSONObject();

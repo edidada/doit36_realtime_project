@@ -1,6 +1,4 @@
 {
-  "ruleId":1,
-  "ruleModelId":4,
   "triggerEvent":{
     "eventId":"a",
     "propName":"p1",
@@ -27,7 +25,6 @@
         "compareOp":"=",
         "compareValue":"v4"
       }
-
     ],
     "seqActMinCount": 2
   },
