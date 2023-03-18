@@ -35,6 +35,9 @@ public class CoreProcessFunction extends KeyedBroadcastProcessFunction<Integer, 
 
     @Override
     public void processElement(EventBean eventBean, KeyedBroadcastProcessFunction<Integer, EventBean, RuleMeta, String>.ReadOnlyContext ctx, Collector<String> out) throws Exception {
+        // 把eventBean缓存到状态中
+
+
         // 遍历运算机池(HashMap)，将本次接收到的行为事件，交给每个运算机去处理
         /* for (RuleCalculator calculator : ruleCalculators.values()) {
             calculator.calc(eventBean,out);
