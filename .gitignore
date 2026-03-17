@@ -1,3 +1,6 @@
 # 项目排除路径
-/batch_jobs/target/
-/realtime_dw/target/
+target
+.idea
+.DS_Store
+.mvn
+*.iml
