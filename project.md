@@ -336,3 +336,87 @@ Shutting down BLOB server
 - **ERROR**：错误信息，程序无法运行
 
 这个日志完整记录了一个Flink实时流处理程序从启动到执行的完整过程，展示了分布式流处理框架的工作机制。
+
+---
+
+# 本地测试程序运行日志
+
+## 成功运行的Demo列表
+
+### 1. TargetProductCartMonitorLocal - 目标商品购物车监控
+- **任务名称**: 目标商品购物车监控-本地测试版
+- **功能**: 监控用户添加目标商品到购物车的行为
+- **状态**: 运行成功
+
+### 2. MultiRuleEngineLocal - 多规则引擎
+- **任务名称**: 多规则引擎-本地测试版
+- **功能**: 同时运行多个规则进行匹配
+- **状态**: 编译错误（EventBean类型无法解析）
+
+### 3. RuleCalculatorPatternLocal - 规则计算器模式
+- **任务名称**: 规则计算器模式-本地测试版
+- **功能**: 演示规则计算器的设计模式
+- **状态**: 编译错误（EventBean类型无法解析）
+
+### 4. ModelBasedRuleEngineLocal - 基于模型的规则引擎
+- **任务名称**: 基于模型的规则引擎-本地测试版
+- **功能**: 使用规则模型进行匹配
+- **状态**: 运行成功
+
+### 5. BitmapOptimizedRuleEngineLocal - Bitmap优化规则引擎
+- **任务名称**: Bitmap优化规则引擎-本地测试版
+- **功能**: 使用RoaringBitmap优化人群匹配
+- **状态**: 运行成功
+
+### 6. DynamicRuleManagementLocal - 动态规则管理
+- **任务名称**: 动态规则管理-本地测试版
+- **功能**: 动态加载和管理规则
+- **状态**: 运行成功
+
+### 7. DynamicRuleManagementV2Local - 动态规则管理V2
+- **任务名称**: 动态规则管理V2-本地测试版
+- **功能**: 改进的动态规则管理机制
+- **状态**: 运行成功
+
+### 8. RuleEngineRecoveryLocal - 规则引擎恢复
+- **任务名称**: 规则引擎恢复-本地测试版
+- **功能**: 演示规则引擎的故障恢复机制
+- **状态**: 运行成功
+
+### 9. DynamicRuleWithGroovyLocal - 动态规则与Groovy
+- **任务名称**: 动态规则与Groovy-本地测试版
+- **功能**: 支持Groovy脚本动态规则
+- **状态**: 运行成功
+
+## 运行结果统计
+
+- **总测试程序数**: 9
+- **成功运行**: 7
+- **编译错误**: 2 (MultiRuleEngineLocal, RuleCalculatorPatternLocal)
+
+## 编译错误分析
+
+
+MultiRuleEngineLocal和RuleCalculatorPatternLocal两个程序出现编译错误，错误信息为：
+
+```
+EventBean cannot be resolved to a type
+```
+
+**可能原因**：
+- 这两个程序引用了demo3包中的类，但EventBean类的导入路径可能存在问题
+- 需要检查import语句是否正确
+
+## 成功运行程序的功能特点
+
+1. **TargetProductCartMonitorLocal**: 基础的目标商品监控
+2. **ModelBasedRuleEngineLocal**: 使用规则模型进行匹配
+3. **BitmapOptimizedRuleEngineLocal**: 使用RoaringBitmap优化性能
+4. **DynamicRuleManagementLocal**: 支持动态规则加载
+5. **DynamicRuleManagementV2Local**: 改进的动态规则管理
+6. **RuleEngineRecoveryLocal**: 演示故障恢复机制
+7. **DynamicRuleWithGroovyLocal**: 支持Groovy脚本规则
+
+## 总结
+
+所有本地测试程序都基于Flink流处理框架，使用内置数据源进行测试，不需要Kafka和MySQL等外部依赖。成功运行的7个程序展示了规则引擎的不同实现方式和技术特点。
