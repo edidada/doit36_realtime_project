@@ -232,3 +232,107 @@ SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
 [INFO ] 2026-03-18 22:33:46,963 --> Stopped Akka RPC service.  
 ```
 
+
+---
+
+## 日志分析说明
+
+### 1. 程序基本信息
+```
+Job 目标商品购物车监控-本地测试版 (f6ffda4c2da26459e203a0dc991b20dd)
+```
+- **功能**：目标商品购物车监控
+- **版本**：本地测试版（不需要Kafka）
+- **作用**：监控用户行为，当用户添加特定商品到购物车时触发规则
+
+### 2. Flink集群启动过程
+```
+Starting Flink Mini Cluster
+Starting RPC Service(s)
+Starting TaskManager(s)
+Web frontend listening at http://localhost:64166
+```
+- **启动Flink本地集群**：用于运行流处理任务
+- **启动RPC服务**：组件间通信
+- **启动TaskManager**：实际执行任务的节点
+- **Web界面**：http://localhost:64166 可监控任务状态
+
+### 3. 资源配置
+```
+Allocated 64 MB for network buffer pool
+Temporary file directory '/var/folders/...': total 931 GB, usable 532 GB (57.14% usable)
+```
+- **网络缓冲区**：64MB
+- **临时目录**：用于存储临时数据
+- **内存管理**：自动配置最大可用内存
+
+### 4. 状态管理配置
+```
+Using application-defined state backend: EmbeddedRocksDBStateBackend
+Using job/cluster config to configure application-defined checkpoint storage
+No checkpoint found during restore.
+```
+- **状态后端**：使用RocksDB存储状态数据
+- **Checkpoint存储**：文件系统存储
+- **恢复检查**：首次运行，没有可恢复的checkpoint
+
+### 5. 任务执行流程
+```
+Created execution graph for job
+Running initialization on master
+Built 1 new pipelined regions
+Starting scheduling with scheduling strategy
+Job switched from state CREATED to RUNNING
+```
+- **执行图创建**：将任务转换为可执行的图结构
+- **初始化**：在master节点运行初始化
+- **流水线区域**：优化任务执行计划
+- **调度策略**：使用流水线区域调度
+- **状态转换**：从创建到运行
+
+### 6. 数据流处理
+```
+Source: Collection Source -> Sink: Print to Std. Out
+Source switched from CREATED to DEPLOYING
+KeyedProcess -> Sink: Print to Std. Out
+Deploying tasks with attempt id
+```
+- **数据源**：Collection Source（内置数据源）
+- **数据汇**：Print to Std. Out（输出到控制台）
+- **任务部署**：将任务部署到TaskManager执行
+- **处理函数**：KeyedProcess（按键分组处理）
+
+### 7. 集群关闭过程
+```
+Stopping resource manager service
+Stopping TaskExecutor
+Stopping Akka RPC service
+Shutting down BLOB server
+```
+- **停止资源管理器**：释放资源
+- **停止TaskExecutor**：停止任务执行器
+- **停止RPC服务**：关闭通信服务
+- **清理临时文件**：删除临时目录和缓存
+
+## 核心功能总结
+
+这个日志展示的**实时规则匹配引擎**功能：
+
+### 主要功能
+1. **用户行为监控**：实时监控用户的各种行为事件
+2. **规则匹配**：当用户行为满足特定条件时触发
+3. **目标商品检测**：检测用户是否添加了目标商品（p01, p03, p05）到购物车
+4. **结果输出**：将匹配结果输出到控制台
+
+### 技术特点
+- **流式处理**：使用Flink进行实时流处理
+- **状态管理**：使用RocksDB管理状态数据
+- **容错机制**：支持Checkpoint和故障恢复
+- **本地运行**：不需要Kafka，使用内置数据源测试
+
+### 日志级别说明
+- **INFO**：正常信息，记录程序运行状态
+- **WARN**：警告信息，不影响运行但需要注意
+- **ERROR**：错误信息，程序无法运行
+
+这个日志完整记录了一个Flink实时流处理程序从启动到执行的完整过程，展示了分布式流处理框架的工作机制。
