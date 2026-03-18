@@ -161,7 +161,7 @@ java -cp realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar cn.doitedu.rtdw.data_et
 ```bash
 # 运行实时规则引擎Demo
 java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo1.Demo1
-java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo2.Demo2
+java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo2.MultiRuleEngine
 java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo3.Demo3
 java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo4.Demo4
 java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo5.Demo5

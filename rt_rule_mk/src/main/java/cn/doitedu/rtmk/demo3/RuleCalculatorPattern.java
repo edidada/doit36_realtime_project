@@ -19,7 +19,7 @@ import org.apache.flink.util.Collector;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Demo3 {
+public class RuleCalculatorPattern {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         // 一些必须参数设置

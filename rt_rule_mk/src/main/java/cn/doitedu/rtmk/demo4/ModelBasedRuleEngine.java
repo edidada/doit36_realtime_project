@@ -1,4 +1,4 @@
-package cn.doitedu.rtmk.demo5;
+package cn.doitedu.rtmk.demo4;
 
 import cn.doitedu.rtmk.beans.EventBean;
 import com.alibaba.fastjson.JSON;
@@ -15,7 +15,6 @@ import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.util.Collector;
-import org.roaringbitmap.RoaringBitmap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +35,7 @@ import java.util.Map;
  *
  *
  **/
-public class Demo5 {
+public class ModelBasedRuleEngine {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         // 一些必须参数设置
@@ -76,7 +75,7 @@ public class Demo5 {
                         "   \"triggerEventPropName\":\"ad_id\",\n" +
                         "   \"triggerEventPropValue\":[\"ad_01\",\"ad_02\",\"ad_03\"]\n" +
                         "}";
-                rule001Calculator.init(getRuntimeContext(),rule001Param,RoaringBitmap.bitmapOf());
+                rule001Calculator.init(getRuntimeContext(),rule001Param);
 
 
                 RuleModel001Calculator rule002Calculator = new RuleModel001Calculator();
@@ -87,7 +86,7 @@ public class Demo5 {
                                 "   \"triggerEventPropName\":\"item_id\",\n" +
                                 "   \"triggerEventPropValue\":[\"item_01\",\"item_02\",\"item_03\"]\n" +
                         "}";
-                rule002Calculator.init(getRuntimeContext(),rule002Param,null);
+                rule002Calculator.init(getRuntimeContext(),rule002Param);
 
 
                 RuleModel002Calculator rule003Calculator = new RuleModel002Calculator();
@@ -107,7 +106,7 @@ public class Demo5 {
                                 "    }\n" +
                                 "  ]\n" +
                                 "}";
-                rule003Calculator.init(getRuntimeContext(),rule003Param,null);
+                rule003Calculator.init(getRuntimeContext(),rule003Param);
 
 
 
@@ -132,7 +131,7 @@ public class Demo5 {
                                 "    }\n" +
                                 "  ]\n" +
                                 "}";
-                rule004Calculator.init(getRuntimeContext(),rule004Param,null);
+                rule004Calculator.init(getRuntimeContext(),rule004Param);
 
 
 
@@ -184,9 +183,7 @@ public class Demo5 {
                                 "    }\n" +
                                 "  ]\n" +
                                 "}";
-                // 本规则静态画像条件所圈定的人群
-                RoaringBitmap ruleStaticCrowd = RoaringBitmap.bitmapOf(20,21,22);
-                rule005Calculator.init(getRuntimeContext(),rule005Param,ruleStaticCrowd);
+                rule005Calculator.init(getRuntimeContext(),rule005Param);
 
 
                 ruleCalculators.put("r001", rule001Calculator);

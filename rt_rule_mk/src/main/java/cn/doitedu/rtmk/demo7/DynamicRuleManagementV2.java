@@ -1,4 +1,4 @@
-package cn.doitedu.rtmk.demo8;
+package cn.doitedu.rtmk.demo7;
 
 import cn.doitedu.rtmk.beans.EventBean;
 import com.alibaba.fastjson.JSON;
@@ -27,12 +27,14 @@ import java.time.LocalDateTime;
  * @Date: 2023/3/16
  * @Desc: 学大数据，到多易教育
  * <p>
- *
- *  考虑运算机对象，在系统故障重启后的恢复问题
- *
+ * 规则运算逻辑，封装到  规则运算机
+ * 规则运算机所需要的规则参数从硬编码中剥离出来，可由外部传入；
+ * 此时的规则运算机，严格上可称之为模型运算机
+ * 每个模型，有一个运算机类；有一套固定格式的参数模板；
+ * 每个具体规则，则有一套自己的具体的确定的参数；
  **/
 
-public class Demo8 {
+public class DynamicRuleManagementV2 {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         // 一些必须参数设置
@@ -116,7 +118,7 @@ public class Demo8 {
             LocalDateTime update_time = row.getFieldAs("update_time");
 
             // 将规则元数据信息，封装成RuleMeta对象
-            return new RuleMeta(opType,ruleId,modelId,paramJson,staticCrowdBytes,status,"深似海的男人",create_time,update_time,null);
+            return new RuleMeta(opType,ruleId,modelId,paramJson,staticCrowdBytes,status,"深似海的男人",create_time,update_time);
         });
 
 
