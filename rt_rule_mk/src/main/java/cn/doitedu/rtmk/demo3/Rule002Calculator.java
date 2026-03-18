@@ -6,7 +6,6 @@ import org.apache.flink.api.common.functions.RuntimeContext;
 import org.apache.flink.api.common.state.ValueState;
 import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.util.Collector;
-import org.glassfish.hk2.api.Visibility;
 
 import java.io.IOException;
 import java.util.Arrays;
