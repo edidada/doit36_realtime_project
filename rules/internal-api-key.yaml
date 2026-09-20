@@ -1,0 +1,7 @@
+rules:
+  - id: internal-api-key-exposed
+    patterns:
+      - pattern-regex: "sk-[a-zA-Z0-9]{32,}"
+    message: "Suspected internal API key exposed in source code"
+    languages: [generic]
+    severity: ERROR

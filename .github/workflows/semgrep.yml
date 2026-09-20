@@ -1,0 +1,43 @@
+name: Semgrep Security Scan
+
+on:
+  pull_request: {}
+  workflow_dispatch: {}
+  schedule:
+    # Weekly full scan at 02:00 UTC on Sunday.
+    - cron: '0 2 * * 0'
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  semgrep:
+    name: semgrep/ci
+    runs-on: ubuntu-latest
+    # Dependabot PRs cannot access repository secrets, including SEMGREP_APP_TOKEN.
+    if: github.actor != 'dependabot[bot]'
+    container:
+      image: semgrep/semgrep
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        run: semgrep ci --config=auto --config=rules/ --sarif -o result.sarif
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+
+      - name: Upload SARIF to GitHub
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: result.sarif
+          category: semgrep
+
+      - name: Upload SARIF as artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-results
+          path: result.sarif
