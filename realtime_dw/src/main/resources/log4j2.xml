@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  2026-10-11: 本工程 SLF4J 绑定唯一来源是 flink-doris-connector fat jar 内嵌的 log4j-slf4j-impl，
+  即 SLF4J -> Log4j2，因此配置文件必须是 log4j2.xml；同目录的 log4j.properties（log4j 1.x 格式）已失效，保留备查。
+  下面按原 log4j.properties 等价迁移：root=INFO/console、cn=INFO/console(additivity=false)、org.apache.hadoop=ERROR
+-->
+<configuration status="WARN">
+    <appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} --> %m%n"/>
+        </Console>
+    </appenders>
+
+    <loggers>
+        <Logger name="cn" level="INFO" additivity="false">
+            <appender-ref ref="console"/>
+        </Logger>
+
+        <Logger name="org.apache.hadoop" level="ERROR" additivity="false">
+            <appender-ref ref="console"/>
+        </Logger>
+
+        <Root level="INFO">
+            <appender-ref ref="console"/>
+        </Root>
+    </loggers>
+</configuration>

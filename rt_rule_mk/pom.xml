@@ -13,8 +13,8 @@
 
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <flink.version>1.16.1</flink.version>
     </properties>
 
@@ -70,11 +70,28 @@
         </dependency>
 
 
-        <!-- 打印日志的jar包 -->
+        <!-- 日志配置说明（2026-10-11）：
+             问题：flink-doris-connector-1.14_2.12:1.1.0 是 fat jar，里面已经打包了一份
+             org/slf4j/impl/StaticLoggerBinder（log4j-slf4j-impl → Log4j2）。绑定类藏在 jar 内部，
+             用 <exclusion> 排不掉，所以只要再引 slf4j-log4j12，SLF4J 就一定报
+             "Class path contains multiple SLF4J bindings"。
+             做法：全工程只留 doris 那一份绑定，删掉 slf4j-log4j12；
+             但 doris 里的 log4j-core 是坏的（打包时 META-INF/.../Log4j2Plugins.dat 被 log4j-web
+             那份覆盖成只剩 ServletAppender/WebLookup，Console appender 和 %d/%msg 等转换器全部丢失，
+             表现为日志不输出 + StatusLogger "Unrecognized conversion specifier"）。
+             所以这里显式引入完整的 log4j-api / log4j-core，并且**必须声明在 doris 依赖之前**，
+             让 classpath 顺序覆盖掉 fat jar 里那份残缺实现。配置文件见 src/main/resources/log4j2.xml。
+             注：log4j:log4j(1.x) 暂时保留，给 hadoop/hbase 客户端老代码兜底，它不含 SLF4J 绑定，不影响本问题。 -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.30</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.17.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.17.2</version>
         </dependency>
 
         <dependency>
@@ -115,6 +132,13 @@
             <groupId>org.apache.doris</groupId>
             <artifactId>flink-doris-connector-1.14_2.12</artifactId>
             <version>1.1.0</version>
+            <exclusions>
+                <!-- 它 pom 里声明了 slf4j-log4j12(1.7.9)，是第二个 SLF4J 绑定，排掉 -->
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
@@ -178,6 +202,13 @@
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-client</artifactId>
             <version>2.4.9</version>
+            <exclusions>
+                <!-- hbase-client → hadoop-auth(2.10.0) → slf4j-log4j12(1.7.25)，又一个 SLF4J 绑定，排掉 -->
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.roaringbitmap/RoaringBitmap -->
