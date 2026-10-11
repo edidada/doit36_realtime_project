@@ -21,11 +21,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 /**
- * @Author: deep as the sea
- * @Site: <a href="www.51doit.com">多易教育</a>
- * @QQ: 657270652
- * @Date: 2023/3/14
- * @Desc: 学大数据，到多易教育
  *
  *   实现目标：
  *      监控在线用户的行为

@@ -7,11 +7,6 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 /**
- * @Author: deep as the sea
- * @Site: <a href="www.51doit.com">多易教育</a>
- * @QQ: 657270652
- * @Date: 2023/3/13
- * @Desc: 学大数据，到多易教育
  * 广告请求实时特征工程
  **/
 public class EtlJob07_AdRequestSessionProcess {

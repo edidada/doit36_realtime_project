@@ -6,11 +6,6 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 /**
- * @Author: deep as the sea
- * @Site: <a href="www.51doit.com">多易教育</a>
- * @QQ: 657270652
- * @Date: 2023/3/10
- * @Desc: 学大数据，到多易教育
  *   停止job时drain掉所有数据（触发最后窗口）
  *   {"score":10,"eventTime":1678620730000}
  *   {"score":10,"eventTime":1678620731000}

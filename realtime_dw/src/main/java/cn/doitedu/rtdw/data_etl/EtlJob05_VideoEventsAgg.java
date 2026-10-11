@@ -24,11 +24,6 @@ import org.apache.flink.types.Row;
 import org.apache.flink.util.Collector;
 
 /**
- * @Author: deep as the sea
- * @Site: <a href="www.51doit.com">多易教育</a>
- * @QQ: 657270652
- * @Date: 2023/3/10
- * @Desc: 学大数据，到多易教育
  * 视频播放事件主题分析，多维轻度聚合计算
  **/
 public class EtlJob05_VideoEventsAgg {

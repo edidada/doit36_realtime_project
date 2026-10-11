@@ -14,11 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @Author: deep as the sea
- * @Site: <a href="www.51doit.com">多易教育</a>
- * @QQ: 657270652
- * @Date: 2023/3/9
- * @Desc: 学大数据，到多易教育
  *  实时流量概况多维模型统计任务（轻度聚合）
  **/
 public class EtlJob02_MallTfcAg01 {

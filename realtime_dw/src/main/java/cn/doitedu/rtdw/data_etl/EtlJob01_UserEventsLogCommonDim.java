@@ -11,11 +11,6 @@ import org.apache.flink.table.functions.ScalarFunction;
 import java.util.Map;
 
 /**
- * @Author: deep as the sea
- * @Site: <a href="www.51doit.com">多易教育</a>
- * @QQ: 657270652
- * @Date: 2023/3/7
- * @Desc: 学大数据，到多易教育
  * 用户行为日志数据公共维度退维任务
  **/
 public class EtlJob01_UserEventsLogCommonDim {

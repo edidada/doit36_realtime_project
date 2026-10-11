@@ -17,11 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Author: deep as the sea
- * @Site: <a href="www.51doit.com">多易教育</a>
- * @QQ: 657270652
- * @Date: 2023/3/14
- * @Desc: 学大数据，多易教育
  *
  * 实现目标，两个规则同时运行
  * 规则1： id=r001

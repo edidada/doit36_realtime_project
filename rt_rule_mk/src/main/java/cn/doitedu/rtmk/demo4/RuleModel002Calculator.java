@@ -14,11 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * @Author: deep as the sea
- * @Site: <a href="www.51doit.com">多易教育</a>
- * @QQ: 657270652
- * @Date: 2023/3/16
- * @Desc: 学大数据，到多易教育
  * 规则模型2的参数模板：
  * {
  * "ruleId":"r002",

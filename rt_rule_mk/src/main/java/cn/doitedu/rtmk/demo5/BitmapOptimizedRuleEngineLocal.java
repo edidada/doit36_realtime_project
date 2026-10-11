@@ -15,11 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Author: deep as the sea
- * @Site: <a href="www.51doit.com">多易教育</a>
- * @QQ: 657270652
- * @Date: 2023/3/16
- * @Desc: 学大数据，多易教育
  *
  * 规则运算逻辑，封装到  规则运算机
  * 规则运算机所需要的规则参数从硬编码中剥离出来，可由外部传入；

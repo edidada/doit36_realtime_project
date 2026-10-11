@@ -33,11 +33,6 @@ import org.apache.http.util.EntityUtils;
 import java.util.HashMap;
 
 /**
- * @Author: deep as the sea
- * @Site: <a href="www.51doit.com">多易教育</a>
- * @QQ: 657270652
- * @Date: 2023/3/11
- * @Desc: 学大数据，到多易教育
  * 搜索主题分析，轻度聚合（把一次搜索生命周期的信息聚合成1行）
  **/
 public class EtlJob06_SearchEventsAnalyse {

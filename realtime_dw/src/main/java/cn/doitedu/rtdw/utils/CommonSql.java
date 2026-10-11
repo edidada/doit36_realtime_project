@@ -1,10 +1,5 @@
 package cn.doitedu.rtdw.utils;
 /**
- * @Author: deep as the sea
- * @Site: <a href="www.51doit.com">多易教育</a>
- * @QQ: 657270652
- * @Date: 2023/3/9
- * @Desc: 学大数据，到多易教育
  *   用来封装一些需要被多次重复使用的sql语句
  **/
 public class CommonSql {

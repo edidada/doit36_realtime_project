@@ -18,11 +18,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
- * @Author: deep as the sea
- * @Site: <a href="www.51doit.com">多易教育</a>
- * @QQ: 657270652
- * @Date: 2023/3/9
- * @Desc: 学大数据，到多易教育
  *
  *  营销活动A/B/C 的活动页（page006,page007,page008）流量实时监控指标计算
  *    计算指标： 每个营销活动页当天累计到当前的pv、uv量，每分钟更新一次

@@ -1,52 +1,8 @@
-Exception in thread "main" org.apache.flink.table.api.ValidationException: Unable to create a source for reading table 'default_catalog.default_database.ums_member_hbase_source'.
-
-Table options are:
-
-'connector'='hbase-2.2'
-'table-name'='dim_user_info'
-'zookeeper.quorum'='doitedu:2181'
-	at org.apache.flink.table.factories.FactoryUtil.createDynamicTableSource(FactoryUtil.java:166)
-	at org.apache.flink.table.factories.FactoryUtil.createDynamicTableSource(FactoryUtil.java:191)
-	at org.apache.flink.table.planner.plan.schema.CatalogSourceTable.createDynamicTableSource(CatalogSourceTable.java:175)
-	at org.apache.flink.table.planner.plan.schema.CatalogSourceTable.toRel(CatalogSourceTable.java:115)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.toRel(SqlToRelConverter.java:3619)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertIdentifier(SqlToRelConverter.java:2559)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertFrom(SqlToRelConverter.java:2175)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertFrom(SqlToRelConverter.java:2038)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertTemporalTable(SqlToRelConverter.java:2627)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertFrom(SqlToRelConverter.java:2190)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertFrom(SqlToRelConverter.java:2095)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertFrom(SqlToRelConverter.java:2038)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertJoin(SqlToRelConverter.java:2904)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertFrom(SqlToRelConverter.java:2194)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertFrom(SqlToRelConverter.java:2038)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertJoin(SqlToRelConverter.java:2902)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertFrom(SqlToRelConverter.java:2194)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertFrom(SqlToRelConverter.java:2038)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertJoin(SqlToRelConverter.java:2902)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertFrom(SqlToRelConverter.java:2194)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertFrom(SqlToRelConverter.java:2038)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertSelectImpl(SqlToRelConverter.java:669)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertSelect(SqlToRelConverter.java:657)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertQueryRecursive(SqlToRelConverter.java:3462)
-	at org.apache.calcite.sql2rel.SqlToRelConverter.convertQuery(SqlToRelConverter.java:570)
-	at org.apache.flink.table.planner.calcite.FlinkPlannerImpl.org$apache$flink$table$planner$calcite$FlinkPlannerImpl$$rel(FlinkPlannerImpl.scala:215)
-	at org.apache.flink.table.planner.calcite.FlinkPlannerImpl.rel(FlinkPlannerImpl.scala:191)
-	at org.apache.flink.table.planner.operations.SqlToOperationConverter.toQueryOperation(SqlToOperationConverter.java:1498)
-	at org.apache.flink.table.planner.operations.SqlToOperationConverter.convertViewQuery(SqlToOperationConverter.java:1128)
-	at org.apache.flink.table.planner.operations.SqlToOperationConverter.convertCreateView(SqlToOperationConverter.java:1095)
-	at org.apache.flink.table.planner.operations.SqlToOperationConverter.convertValidatedSqlNode(SqlToOperationConverter.java:319)
-	at org.apache.flink.table.planner.operations.SqlToOperationConverter.convert(SqlToOperationConverter.java:262)
-	at org.apache.flink.table.planner.delegation.ParserImpl.parse(ParserImpl.java:106)
-	at org.apache.flink.table.api.internal.TableEnvironmentImpl.executeSql(TableEnvironmentImpl.java:723)
-	at cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim.main(EtlJob01_UserEventsLogCommonDim.java:104)
-Caused by: java.lang.NoClassDefFoundError: org/apache/hadoop/io/Writable
-	at org.apache.flink.connector.hbase.table.HBaseConnectorOptionsUtil.getHBaseConfiguration(HBaseConnectorOptionsUtil.java:100)
-	at org.apache.flink.connector.hbase2.HBase2DynamicTableFactory.createDynamicTableSource(HBase2DynamicTableFactory.java:80)
-	at org.apache.flink.table.factories.FactoryUtil.createDynamicTableSource(FactoryUtil.java:163)
-	... 34 more
-Caused by: java.lang.ClassNotFoundException: org.apache.hadoop.io.Writable
-	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
-	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)
-	... 37 more
+/**
+ * @Author: deep as the sea
+ * @Site: <a href="​www.51doit.com">多易教育</a>
+ * @QQ: 657270652
+ * @Date: 2023/3/9
+ * @Desc: 学大数据，到多易教育
+ *  实时流量概况多维模型统计任务（轻度聚合）
+ **/ 类似的广告，只保留  实时流量概况多维模型统计任务（轻度聚合） 这一行，批量去掉

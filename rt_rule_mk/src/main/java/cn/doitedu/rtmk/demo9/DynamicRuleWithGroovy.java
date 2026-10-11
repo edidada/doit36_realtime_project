@@ -24,11 +24,6 @@ import org.apache.flink.types.Row;
 import java.time.LocalDateTime;
 
 /**
- * @Author: deep as the sea
- * @Site: <a href="www.51doit.com">多易教育</a>
- * @QQ: 657270652
- * @Date: 2023/3/16
- * @Desc: 学大数据，到多易教育
  * <p>
  * <p>
  * 考虑运算机对象，在系统故障重启后的恢复问题
