@@ -1,0 +1,64 @@
+name: Build K3s Deployment Bundle
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/k3s.yml'
+      - 'deploy/k3s/**'
+      - 'docs/k3s-deployment.md'
+      - 'pom.xml'
+      - '**/pom.xml'
+      - '**/src/**'
+  push:
+    branches: [master, k3s]
+    paths:
+      - '.github/workflows/k3s.yml'
+      - 'deploy/k3s/**'
+      - 'docs/k3s-deployment.md'
+      - 'pom.xml'
+      - '**/pom.xml'
+      - '**/src/**'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  compile-and-package:
+    name: Compile and package K3s deployment
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      # This validates every Maven module. It intentionally does not run
+      # `mvn package`: the artifact produced below is the K3s deployment bundle.
+      - name: Compile all Maven modules
+        run: mvn --batch-mode --no-transfer-progress --show-version -DskipTests clean compile
+
+      - name: Create K3s deployment archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive_root="doit36-k3s-deployment-${GITHUB_SHA}"
+          rm -rf dist
+          mkdir -p "dist/${archive_root}"
+          cp -R deploy/k3s "dist/${archive_root}/deploy"
+          cp docs/k3s-deployment.md "dist/${archive_root}/"
+          tar -C dist -czf "dist/${archive_root}.tar.gz" "${archive_root}"
+          ls -lh dist/*.tar.gz
+          tar -tzf "dist/${archive_root}.tar.gz"
+
+      - name: Upload K3s deployment archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: k3s-deployment-${{ github.sha }}
+          path: dist/*.tar.gz
+          if-no-files-found: error
