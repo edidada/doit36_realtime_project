@@ -1,0 +1,123 @@
+# Runs the real Kafka -> HBase lookup -> Kafka + Doris ETL.
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: realtime-dw-etl-01
+  namespace: doit
+spec:
+  image: docker.io/doit36/flink-jobs:mac12-podman495-20261017-1230
+  imagePullPolicy: Never
+  flinkVersion: v1_16
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: '2'
+    state.checkpoints.dir: file:///flink-data/checkpoints
+    state.savepoints.dir: file:///flink-data/savepoints
+    kubernetes.jobmanager.cpu.limit-factor: '1.0'
+    kubernetes.taskmanager.cpu.limit-factor: '1.0'
+    kubernetes.jobmanager.memory.limit-factor: '1.0'
+    kubernetes.taskmanager.memory.limit-factor: '1.0'
+    env.java.opts: --add-exports=java.base/sun.net.util=ALL-UNNAMED --add-exports=java.rmi/sun.rmi.registry=ALL-UNNAMED
+      --add-exports=java.security.jgss/sun.security.krb5=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED
+      --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED
+      --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+      --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+    kubernetes.entry.path: /usr/bin/env
+    classloader.parent-first-patterns.additional: org.codehaus.janino.;org.codehaus.commons.compiler.
+    rest.flamegraph.enabled: 'false'
+  podTemplate:
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k3s-worker3
+      containers:
+      - name: flink-main-container
+        volumeMounts:
+        - name: flink-state
+          mountPath: /flink-data
+        - name: job-libs
+          mountPath: /opt/flink/usrlib
+        env:
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: 192.168.31.211:9092
+        - name: HBASE_ZOOKEEPER_QUORUM
+          value: 192.168.31.211:2181
+        - name: DORIS_FENODES
+          value: 192.168.31.251:8030
+        - name: DORIS_USERNAME
+          value: doit_etl
+        - name: FLINK_CHECKPOINT_URI
+          value: file:///flink-data/checkpoints
+        - name: DORIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: business-doris-auth
+              key: password
+      volumes:
+      - name: flink-state
+        persistentVolumeClaim:
+          claimName: flink-state
+      - name: job-libs
+        emptyDir: {}
+      - name: business-job
+        configMap:
+          name: business-etl-job
+      securityContext:
+        fsGroup: 9999
+      initContainers:
+      - name: prepare-flink-state
+        image: docker.io/doit36/flink-jobs:mac12-podman495-20261017-1230
+        imagePullPolicy: Never
+        command:
+        - /bin/sh
+        - -ec
+        - mkdir -p /flink-data/checkpoints /flink-data/savepoints /flink-data/standalone-events;
+          chown -R 9999:9999 /flink-data
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - name: flink-state
+          mountPath: /flink-data
+        resources:
+          requests:
+            cpu: 50m
+            memory: 32Mi
+          limits:
+            cpu: 100m
+            memory: 64Mi
+      - name: prepare-job-libs
+        image: docker.io/doit36/flink-jobs:mac12-podman495-20261017-1230
+        imagePullPolicy: Never
+        command:
+        - /bin/sh
+        - -ec
+        - mkdir -p /job-libs/realtime_dw; for f in /opt/flink/usrlib/realtime_dw/*.jar;
+          do case "$f" in */flink-table-planner_*.jar|*/realtime_dw-job.jar) continue;;
+          esac; cp "$f" /job-libs/realtime_dw/; done; cp /business/business-etl.jar
+          /job-libs/realtime_dw/realtime_dw-job.jar
+        volumeMounts:
+        - name: job-libs
+          mountPath: /job-libs
+        - name: business-job
+          mountPath: /business
+          readOnly: true
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 128Mi
+  jobManager:
+    resource:
+      cpu: 1
+      memory: 2048m
+  taskManager:
+    resource:
+      cpu: 2
+      memory: 4096m
+  job:
+    jarURI: local:///opt/flink/usrlib/realtime_dw/realtime_dw-job.jar
+    entryClass: cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim
+    parallelism: 1
+    upgradeMode: stateless
+    state: running
+  serviceAccount: flink

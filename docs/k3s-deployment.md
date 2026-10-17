@@ -191,6 +191,74 @@ kubectl -n doit run dns-test --rm -it --restart=Never \
   --image=busybox:1.36 -- nslookup doitedu
 ```
 
+## 原 Kafka/HBase/Doris 业务链路：内网地址替代 doitedu
+
+`doitedu` 是部署主机的 DNS/hosts 名称，可以替换为实际 LAN IP 或 K3s Service 域名，但目标必须运行对应服务。Kafka broker 的 advertised.listeners、HBase 在 ZooKeeper 注册的 RegionServer RPC 地址，以及 Doris FE 返回的 BE 地址也必须可达，不能只检查最初的 bootstrap 端口。
+
+本环境已为原入口 `EtlJob01_UserEventsLogCommonDim` 准备真实的 Kafka 3.9.1、HBase 2.4.18 和 Doris 2.1.8，并将地址拆为环境变量：Kafka/ZooKeeper 使用 worker1 `192.168.31.211`，Doris 使用 worker2 `192.168.31.251`，Flink 继续运行在 worker3。各服务使用固定节点 LAN 地址通告自身，独立的 `doit` 命名空间内保留 PVC。
+
+**2026-10-17 已通过原业务链路验收**：同一唯一批次输入 5 条，Kafka 宽表输出 5 条，Doris 查询 5 行，三张 HBase 维度字段一致；作业 RUNNING，验收期间 checkpoint 成功数增加 7 次且无新增失败。
+
+详细容量、no-AVX2 适配、部署清单、初始化和端到端验收脚本见 [原业务链路部署包](../deploy/k3s/business/README.md)。这套方案与下节的 datagen 独立验收作业共用同一个 FlinkDeployment，不能同时应用两份作业清单。
+
+## 不使用 doitedu 的独立部署与访问方案
+
+当没有 Kafka、HBase、Doris 时，使用本节的独立验收作业，无需为 `doitedu` 配置 DNS、hosts 或伪造中间件接口。入口为 `cn.doitedu.rtdw.deployment.StandaloneEventsJob`，链路为 **datagen 每秒生成 2 条事件 → SQL 转换 → PVC 上的 JSON 文件**，每 5 秒执行 checkpoint。它验证真实的 Flink 流处理、持久化与 Web UI；**不代表原 ETL 的 Kafka/HBase/Doris 业务链路已经验收**，原入口保持不变。
+
+### 已准备的运行环境
+
+本方案复用本次在 macOS 12.7.6 上用自行编译的 Podman 4.9.5 构建的 Linux/amd64 镜像：
+
+```text
+docker.io/doit36/flink-jobs:mac12-podman495-20261017-1230
+```
+
+镜像 tar 的 SHA256 为 `5a119f7de116b9ae9f990fefee9ba0c7f3feeb584623c74cafe4727912e1dbf1`，已按 Mac → master → 三个 worker 的路径分发、逐台校验并导入 k3s containerd。master 到 worker 的免密账户是 `wdidada`；导入镜像和管理集群使用已授权的 root SSH。所有节点上的 tar 位于 `/home/wdidada/doit36-images/`。清单使用 `imagePullPolicy: Never`，新节点必须先导入相同镜像。
+
+`deploy/k3s/flink-standalone.yaml` 复用 `doit/realtime-dw-etl-01` 和已绑定 worker3 的 `flink-state` PVC，以免同时启动两套 Flink 耗尽资源；应用它会以 stateless 方式切换当前作业。JobManager 为 1 CPU / 2 GiB，TaskManager 为 2 CPU / 4 GiB，并设置相同的资源上限。所有进程固定在 `k3s-worker3`，不支持跨节点共享这个 local-path PVC。
+
+新增入口编译为小型 JAR，通过带内容摘要名称的 ConfigMap 挂载到 init 容器；init 将其与镜像中的 `flink-json-1.16.1.jar` 放入独立作业目录。Flink 运行时继续使用 Podman 构建的镜像，避免把原 ETL 的 Doris/HBase、重复 planner 等依赖带入此验收作业。ConfigMap 仅适用于这里的小 JAR；业务 JAR 应在后续正式镜像构建时打包。
+
+### 复现部署
+
+前提：已有 Flink Operator，镜像已在节点导入，VM 107 已停止。脚本会应用 `deploy/k3s/namespace.yaml`、`flink-rbac.yaml`、`flink-state-pvc.yaml`，准备命名空间、ServiceAccount/RBAC 和 PVC。worker3 必须存在并有足够资源；已有 `flink-state` PVC 的绑定节点也必须是 worker3。
+
+```bash
+export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+bash deploy/k3s/deploy-standalone.sh
+```
+
+脚本先核验 VM 107 关机门禁，编译 `realtime_dw`，生成入口 JAR，以 SCP 传到 master，创建内容摘要版本的 ConfigMap，再应用 FlinkDeployment 和独立的 UI Service。SSH 主机默认是 `k3s-master`，可通过 `MASTER` 覆盖；PVE 地址和密钥可通过 `PVE`、`PVE_KEY` 覆盖。脚本不删除 PVC，不修改其他项目的命名空间。此环境没有公共镜像仓库，因此需要保留本地镜像缓存。
+
+### 访问与验收
+
+Web UI：<http://192.168.31.88:30816/>；REST：<http://192.168.31.88:30816/jobs/overview>。`deploy/k3s/flink-ui-nodeport.yaml` 将 30816 映射到 JobManager 的 8081。此入口只用于受信任 LAN；Flink UI 没有配置登录认证，不要将该端口转发到公网。
+
+```bash
+curl --noproxy '*' -fsS http://192.168.31.88:30816/jobs/overview
+ssh k3s-master 'kubectl -n doit get pods -o wide'
+# 将 JOB_ID 替换为 overview 返回的 jid。
+curl --noproxy '*' -fsS http://192.168.31.88:30816/jobs/JOB_ID/checkpoints
+ssh k3s-master 'kubectl -n doit exec deployment/realtime-dw-etl-01 -- sh -c "find /flink-data/standalone-events -name \"part-*\" -type f | head"'
+```
+
+验收条件是作业 `RUNNING`、checkpoint 的 `counts.completed` 持续增加，并且 `/flink-data/standalone-events` 中出现已提交的 `part-*` JSON 文件。每条输出包含 `event_id`、`event_type=page_view`、`channel=WEB` 和 `processed_at`。文件先滚动、再随 checkpoint 提交，因此启动后需要等待数十秒，不能只看 Pod Ready。
+
+### 2026-10-17 实测结果
+
+- Mac 直接访问 `http://192.168.31.88:30816/` 返回 HTTP 200，页面标题为 `Apache Flink Web Dashboard`，三个 JavaScript 资源均返回 HTTP 200。
+- 作业 `standalone-events-validation`（ID `984df8f4df0d4f455f9f1feaa751441e`）为 `RUNNING`，任务 `running=1`；worker3 上 JobManager、TaskManager 均 `1/1 Ready`，重启次数为 0。
+- 首次记录时 checkpoint `completed=8`，最新一次耗时 25 ms，元数据位于 `file:/flink-data/checkpoints/984df8f4df0d4f455f9f1feaa751441e/chk-8`。启动等待 TaskManager 时有 3 次未能触发的 checkpoint；任务进入 RUNNING 后连续成功。
+- PVC 已产生多个已提交 `part-*` 文件，实际读取到以下记录：
+
+```json
+{"event_id":383159,"event_type":"page_view","channel":"WEB","processed_at":"2026-10-17 07:26:48.309Z"}
+```
+
+实际镜像中 `flink` 用户的 UID/GID 是 **9999**。清单的 `fsGroup` 与初始化目录的 owner 使用 9999；设置为 999 会造成 `AccessDeniedException`，使作业反复失败，即使 Pod 显示 Ready 也不能算验收通过。
+
+JSON 文件滚动提交行为见 [Flink 1.16 文件系统连接器文档](https://nightlies.apache.org/flink/flink-docs-release-1.16/docs/connectors/table/filesystem/)。此作业持续产出文件；验收结束不再使用时，将 FlinkDeployment 的 `spec.job.state` 设置为 `suspended`，保留 PVC 供检查。恢复原 ETL 时必须重新准备真实中间件，不能直接把此验收作业当作业务替代品。
+
 ## 构建作业镜像
 
 `k3s` 分支推送时，`Proxmox K3s Flink Image` GitHub Actions 会编译全部 Maven 模块，随后从 `target/classes` 创建作业 JAR 并显式复制运行时依赖。它使用 Podman 构建镜像并导出 tar，**不执行** Maven 的 `package` 阶段；当前 POM 没有 shade/assembly 插件，普通 Maven JAR 也不能假定包含第三方依赖。

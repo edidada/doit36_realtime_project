@@ -21,3 +21,23 @@ sudo k3s ctr images list | grep 'doit36/flink-jobs'
 该模板默认运行 `realtime_dw` 作业；改为规则引擎时，将 `jarURI` 改为 `local:///opt/flink/usrlib/rt_rule_mk/rt_rule_mk-job.jar` 并指定对应入口类。它假设 Flink Kubernetes Operator 已在集群中安装，并将 JobManager/TaskManager 固定在 `k3s-worker1`，以兼容当前 `local-path` 的 RWO 存储。
 
 不要将本机 SSH 私钥、Kubeconfig、数据库密码或中间件地址写入此目录。
+
+## 原业务链路使用内网 IP
+
+真实 Kafka/HBase/Doris 部署、原 ETL 配置和双输出验收见
+[业务链路部署包](business/README.md)。当前环境使用该方案运行原业务入口；
+下节的独立作业仅用于基础设施诊断，重新部署它会替换当前业务作业。
+
+## 不依赖 doitedu 的验收作业
+
+已有本次 Podman 镜像缓存时，在仓库根目录执行：
+
+```bash
+export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+bash deploy/k3s/deploy-standalone.sh
+```
+
+这会把 `doit/realtime-dw-etl-01` 切换为独立的 datagen → SQL → PVC JSON 验收作业，
+不连接 Kafka/HBase/Doris。它复用 worker3 上的状态卷，保留原 ETL 源码。
+访问 <http://192.168.31.88:30816/>，并检查作业 RUNNING、checkpoint 和已提交文件；
+完整前提、复现方式和验收记录见 [不使用 doitedu 的方案](../../docs/k3s-deployment.md#不使用-doitedu-的独立部署与访问方案)。

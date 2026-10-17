@@ -1,0 +1,412 @@
+# Fixed LAN advertisements; Doris BE uses verified no-AVX2 distribution on this QEMU CPU.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: business-kafka-data
+  namespace: doit
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: business-hbase-data
+  namespace: doit
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: business-doris-fe-data
+  namespace: doit
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 3Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: business-doris-be-data
+  namespace: doit
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: business-kafka
+  namespace: doit
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: business-kafka
+  template:
+    metadata:
+      labels:
+        app: business-kafka
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k3s-worker1
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: business-kafka
+        image: docker.m.daocloud.io/apache/kafka:3.9.1
+        imagePullPolicy: Never
+        command: null
+        env:
+        - name: KAFKA_NODE_ID
+          value: '1'
+        - name: KAFKA_PROCESS_ROLES
+          value: broker,controller
+        - name: KAFKA_LISTENERS
+          value: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+        - name: KAFKA_ADVERTISED_LISTENERS
+          value: PLAINTEXT://192.168.31.211:9092
+        - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+          value: 1@192.168.31.211:9093
+        - name: KAFKA_CONTROLLER_LISTENER_NAMES
+          value: CONTROLLER
+        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+          value: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          value: '1'
+        - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+          value: '1'
+        - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
+          value: '1'
+        - name: KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS
+          value: '0'
+        - name: KAFKA_LOG_DIRS
+          value: /var/lib/kafka/data
+        - name: KAFKA_LOG_RETENTION_HOURS
+          value: '24'
+        - name: KAFKA_LOG_RETENTION_BYTES
+          value: '1073741824'
+        - name: KAFKA_HEAP_OPTS
+          value: -Xms256m -Xmx512m
+        - name: CLUSTER_ID
+          value: MkU3OEVBNTcwNTJENDM2Qk
+        resources:
+          requests:
+            cpu: 250m
+            memory: 1Gi
+          limits:
+            cpu: '2'
+            memory: 1Gi
+        ports:
+        - containerPort: 9092
+        - containerPort: 9093
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/kafka/data
+        readinessProbe:
+          tcpSocket:
+            port: 9092
+          initialDelaySeconds: 10
+          periodSeconds: 5
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: business-kafka-data
+      initContainers:
+      - name: prepare-data
+        image: docker.m.daocloud.io/apache/kafka:3.9.1
+        imagePullPolicy: Never
+        command:
+        - sh
+        - -ec
+        - chown -R 1000:1000 /var/lib/kafka/data
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/kafka/data
+        resources:
+          requests:
+            cpu: 50m
+            memory: 32Mi
+          limits:
+            cpu: 100m
+            memory: 64Mi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: business-hbase-conf
+  namespace: doit
+data:
+  hbase-site.xml: <configuration><property><name>hbase.rootdir</name><value>file:///data/root</value></property><property><name>hbase.cluster.distributed</name><value>false</value></property><property><name>hbase.zookeeper.quorum</name><value>192.168.31.211</value></property><property><name>hbase.zookeeper.property.clientPort</name><value>2181</value></property><property><name>hbase.zookeeper.property.clientPortAddress</name><value>0.0.0.0</value></property><property><name>hbase.zookeeper.property.dataDir</name><value>/data/zookeeper</value></property><property><name>hbase.master.hostname</name><value>192.168.31.211</value></property><property><name>hbase.regionserver.hostname</name><value>192.168.31.211</value></property><property><name>hbase.unsafe.stream.capability.enforce</name><value>false</value></property></configuration>
+  log4j.properties: 'log4j.rootLogger=INFO,console
+
+    log4j.appender.console=org.apache.log4j.ConsoleAppender
+
+    log4j.appender.console.layout=org.apache.log4j.PatternLayout
+
+    log4j.appender.console.layout.ConversionPattern=%d %-5p %c: %m%n
+
+    '
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: business-hbase
+  namespace: doit
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: business-hbase
+  template:
+    metadata:
+      labels:
+        app: business-hbase
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k3s-worker1
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: business-hbase
+        image: docker.m.daocloud.io/library/eclipse-temurin:11-jdk-jammy
+        imagePullPolicy: Never
+        command:
+        - bash
+        - -ec
+        - mkdir -p /data/logs; exec /opt/hbase/bin/hbase --config /etc/hbase master
+          start
+        env:
+        - name: HBASE_HEAPSIZE
+          value: 768M
+        - name: HBASE_LOG_DIR
+          value: /data/logs
+        - name: HBASE_PID_DIR
+          value: /tmp
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1536Mi
+          limits:
+            cpu: '2'
+            memory: 1536Mi
+        ports:
+        - containerPort: 2181
+        - containerPort: 16000
+        - containerPort: 16020
+        - containerPort: 16010
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: distribution
+          mountPath: /opt/hbase
+          readOnly: true
+        - name: conf
+          mountPath: /etc/hbase
+          readOnly: true
+        readinessProbe:
+          tcpSocket:
+            port: 2181
+          initialDelaySeconds: 10
+          periodSeconds: 5
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: business-hbase-data
+      - name: distribution
+        hostPath:
+          path: /var/lib/doit36/hbase-2.4.18
+          type: Directory
+      - name: conf
+        configMap:
+          name: business-hbase-conf
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: business-doris-fe
+  namespace: doit
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: business-doris-fe
+  template:
+    metadata:
+      labels:
+        app: business-doris-fe
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k3s-worker2
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: business-doris-fe
+        image: docker.m.daocloud.io/apache/doris:fe-2.1.8
+        imagePullPolicy: Never
+        command:
+        - bash
+        - -ec
+        - ulimit -n 65535; sed -i -E "s/-Xmx[0-9]+[gGmM]/-Xmx1024m/g; s/-Xms[0-9]+[gGmM]/-Xms512m/g"
+          /opt/apache-doris/fe/conf/fe.conf; echo "priority_networks = 192.168.31.0/24"
+          >> /opt/apache-doris/fe/conf/fe.conf; exec /opt/apache-doris/fe/bin/start_fe.sh
+          --console
+        env: []
+        resources:
+          requests:
+            cpu: 500m
+            memory: 2Gi
+          limits:
+            cpu: '2'
+            memory: 2Gi
+        ports:
+        - containerPort: 9030
+        - containerPort: 8030
+        - containerPort: 9010
+        - containerPort: 9020
+        volumeMounts:
+        - name: data
+          mountPath: /opt/apache-doris/fe/doris-meta
+        readinessProbe:
+          tcpSocket:
+            port: 9030
+          initialDelaySeconds: 10
+          periodSeconds: 5
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: business-doris-fe-data
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: business-doris-be
+  namespace: doit
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: business-doris-be
+  template:
+    metadata:
+      labels:
+        app: business-doris-be
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k3s-worker2
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: business-doris-be
+        image: docker.m.daocloud.io/apache/doris:fe-2.1.8
+        imagePullPolicy: Never
+        command:
+        - bash
+        - -ec
+        - ulimit -n 65535; printf "\npriority_networks = 192.168.31.0/24\nmem_limit
+          = 2G\n" >> /opt/apache-doris/be/conf/be.conf; exec /opt/apache-doris/be/bin/start_be.sh
+          --console
+        env: []
+        resources:
+          requests:
+            cpu: 750m
+            memory: 3Gi
+          limits:
+            cpu: '2'
+            memory: 3Gi
+        ports:
+        - containerPort: 9050
+        - containerPort: 8040
+        - containerPort: 9060
+        - containerPort: 8060
+        volumeMounts:
+        - name: noavx-be
+          mountPath: /opt/apache-doris/be
+        - name: data
+          mountPath: /opt/apache-doris/be/storage
+        readinessProbe:
+          tcpSocket:
+            port: 9050
+          initialDelaySeconds: 10
+          periodSeconds: 5
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: business-doris-be-data
+      - name: noavx-be
+        hostPath:
+          path: /var/lib/doit36/apache-doris-2.1.8-bin-x64-noavx2/be
+          type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: business-kafka
+  namespace: doit
+spec:
+  selector:
+    app: business-kafka
+  ports:
+  - name: kafka
+    port: 9092
+    targetPort: 9092
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: business-hbase
+  namespace: doit
+spec:
+  selector:
+    app: business-hbase
+  ports:
+  - name: zk
+    port: 2181
+    targetPort: 2181
+  - name: rpc
+    port: 16020
+    targetPort: 16020
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: business-doris-fe
+  namespace: doit
+spec:
+  selector:
+    app: business-doris-fe
+  ports:
+  - name: mysql
+    port: 9030
+    targetPort: 9030
+  - name: http
+    port: 8030
+    targetPort: 8030

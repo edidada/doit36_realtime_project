@@ -6,6 +6,7 @@ import org.apache.flink.contrib.streaming.state.EmbeddedRocksDBStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.table.api.StatementSet;
 import org.apache.flink.table.functions.ScalarFunction;
 
 import java.util.Map;
@@ -16,12 +17,19 @@ import java.util.Map;
 public class EtlJob01_UserEventsLogCommonDim {
     public static void main(String[] args) {
 
+        String kafkaServers = sqlValue("KAFKA_BOOTSTRAP_SERVERS", "doitedu:9092");
+        String hbaseQuorum = sqlValue("HBASE_ZOOKEEPER_QUORUM", "doitedu:2181");
+        String dorisNodes = sqlValue("DORIS_FENODES", "doitedu:8030");
+        String dorisUser = sqlValue("DORIS_USERNAME", "root");
+        String dorisPassword = sqlValue("DORIS_PASSWORD", "");
+
         // 构造flink编程入口
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         // 一些必须参数设置
         env.setStateBackend(new EmbeddedRocksDBStateBackend());
         env.enableCheckpointing(5000, CheckpointingMode.EXACTLY_ONCE);
-        env.getCheckpointConfig().setCheckpointStorage("file:/d:/ckpt");
+        env.getCheckpointConfig().setCheckpointStorage(
+                System.getenv().getOrDefault("FLINK_CHECKPOINT_URI", "file:/d:/ckpt"));
 
         // 构造table编程环境
         StreamTableEnvironment tenv = StreamTableEnvironment.create(env);
@@ -47,7 +55,7 @@ public class EtlJob01_UserEventsLogCommonDim {
                         + " ) WITH (                                            "
                         + "  'connector' = 'kafka',                             "
                         + "  'topic' = 'mall-events-log',                           "
-                        + "  'properties.bootstrap.servers' = 'doitedu:9092',   "
+                        + "  'properties.bootstrap.servers' = '" + kafkaServers + "',   "
                         + "  'properties.group.id' = 'goo1',                   "
                         + "  'scan.startup.mode' = 'latest-offset',           "
                         + "  'value.format'='json',                             "
@@ -64,7 +72,7 @@ public class EtlJob01_UserEventsLogCommonDim {
                         ") WITH (                                       " +
                         " 'connector' = 'hbase-2.2',                    " +
                         " 'table-name' = 'dim_user_info',               " +
-                        " 'zookeeper.quorum' = 'doitedu:2181'           " +
+                        " 'zookeeper.quorum' = '" + hbaseQuorum + "'           " +
                         ")");
 
         // 创建hbase连接器表： geohash码地域维表
@@ -76,7 +84,7 @@ public class EtlJob01_UserEventsLogCommonDim {
                         ") WITH (                                       " +
                         " 'connector' = 'hbase-2.2',                    " +
                         " 'table-name' = 'dim_geo_area',                " +
-                        " 'zookeeper.quorum' = 'doitedu:2181'           " +
+                        " 'zookeeper.quorum' = '" + hbaseQuorum + "'           " +
                         ")");
         // 创建hbase连接器表： 页面信息维表
         tenv.executeSql(
@@ -86,7 +94,7 @@ public class EtlJob01_UserEventsLogCommonDim {
                         " ) WITH (                                 " +
                         "   'connector' = 'hbase-2.2',             " +
                         "   'table-name' = 'dim_page_info',        " +
-                        "   'zookeeper.quorum' = 'doitedu:2181'    " +
+                        "   'zookeeper.quorum' = '" + hbaseQuorum + "'    " +
                         " )                                        ");
 
         tenv.createTemporaryFunction("geo", GeoHashFunction.class);
@@ -145,7 +153,7 @@ public class EtlJob01_UserEventsLogCommonDim {
                         + " ) WITH (                                            "
                         + "  'connector' = 'kafka',                             "
                         + "  'topic' = 'dwd-events-log',                      "
-                        + "  'properties.bootstrap.servers' = 'doitedu:9092',   "
+                        + "  'properties.bootstrap.servers' = '" + kafkaServers + "',   "
                         + "  'properties.group.id' = 'testGroup',               "
                         + "  'scan.startup.mode' = 'earliest-offset',           "
                         + "  'value.format'='json',                             "
@@ -153,7 +161,8 @@ public class EtlJob01_UserEventsLogCommonDim {
                         + "  'value.fields-include' = 'EXCEPT_KEY')             ");
 
         // 将关联好的宽表数据插入kafka
-        tenv.executeSql("insert into mall_events_wide_kafkasink select * from wide_view");
+        StatementSet inserts = tenv.createStatementSet();
+        inserts.addInsertSql("insert into mall_events_wide_kafkasink select * from wide_view");
 
 
         // 建doris连接器表，映射目标输出的doris表
@@ -186,16 +195,16 @@ public class EtlJob01_UserEventsLogCommonDim {
                         + "     page_service         VARCHAR(20)    "
                         + " ) WITH (                               "
                         + "    'connector' = 'doris',              "
-                        + "    'fenodes' = 'doitedu:8030',         "
+                        + "    'fenodes' = '" + dorisNodes + "',         "
                         + "    'table.identifier' = 'dwd.mall_events_wide',  "
-                        + "    'username' = 'root',                "
-                        + "    'password' = '',                    "
+                        + "    'username' = '" + dorisUser + "',                "
+                        + "    'password' = '" + dorisPassword + "',                    "
                         + "    'sink.label-prefix' = 'doris_label" + System.currentTimeMillis() + "'"
                         + " )                                         "
         );
         // 将关联好的宽表数据插入doris
         tenv.createTemporaryFunction("toJson", HashMap2Json.class);
-        tenv.executeSql("INSERT INTO mall_events_wide_doris_sink                                      "
+        inserts.addInsertSql("INSERT INTO mall_events_wide_doris_sink                                      "
                 + " SELECT                                                                         "
                 + "     gps_province         ,                                                     "
                 + "     gps_city             ,                                                     "
@@ -224,8 +233,12 @@ public class EtlJob01_UserEventsLogCommonDim {
                 + "     page_service                                                               "
                 + " FROM   wide_view                                                               "
         );
+        inserts.execute();
     }
 
+    private static String sqlValue(String name, String fallback) {
+        return System.getenv().getOrDefault(name, fallback).replace("'", "''");
+    }
 
     public static class HashMap2Json extends ScalarFunction{
         public String eval(Map<String,String> properties){
