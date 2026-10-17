@@ -17,13 +17,14 @@ public class EtlJob04_InteractiveEventsOverview {
     public static void main(String[] args) {
 
         Configuration conf = new Configuration();
-        conf.setString("state.backend.rocksdb.localdir","file:/d:/rocksdb_tmp/");
+        conf.setString("state.backend.rocksdb.localdir", System.getProperty("java.io.tmpdir") + "/doit36-rocksdb");
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(conf);
         env.setParallelism(1);
 
         env.enableCheckpointing(5000);
-        env.getCheckpointConfig().setCheckpointStorage("file:/d:/ckpt");
+        env.getCheckpointConfig().setCheckpointStorage(System.getProperty("flink.checkpoints.dir",
+                new java.io.File(System.getProperty("java.io.tmpdir"), "doit36-checkpoints").toURI().toString()));
         env.getCheckpointConfig().setCheckpointTimeout(3000);
         env.getCheckpointConfig().setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE);
 

@@ -36,7 +36,8 @@ public class ModelBasedRuleEngine {
         // 一些必须参数设置
         env.setStateBackend(new EmbeddedRocksDBStateBackend());
         env.enableCheckpointing(5000, CheckpointingMode.EXACTLY_ONCE);
-        env.getCheckpointConfig().setCheckpointStorage("file:/d:/ckpt");
+        env.getCheckpointConfig().setCheckpointStorage(System.getProperty("flink.checkpoints.dir",
+                new java.io.File(System.getProperty("java.io.tmpdir"), "doit36-checkpoints").toURI().toString()));
         env.setParallelism(1);
 
         // 读 kafka 数据

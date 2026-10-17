@@ -22,7 +22,8 @@ public class EtlJob02_MallTfcAg01 {
         // 创建编程环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.enableCheckpointing(2000, CheckpointingMode.EXACTLY_ONCE); // 启用checkpoint，模式为精确一次
-        env.getCheckpointConfig().setCheckpointStorage("file:/d:/checkpoint");  // 设置checkpoint的持久化存储路径
+        env.getCheckpointConfig().setCheckpointStorage(System.getProperty("flink.checkpoints.dir",
+                new java.io.File(System.getProperty("java.io.tmpdir"), "doit36-checkpoints").toURI().toString()));  // 设置checkpoint的持久化存储路径
         env.setParallelism(1);  // 设置默认并行度
         // TODO 可以增加一个设置： rocksdbBackend可以开启增量checkpoint
         //env.setStateBackend(new EmbeddedRocksDBStateBackend());
