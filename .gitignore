@@ -14,4 +14,4 @@ deploy/k3s/.image-build/
 deploy/k3s/output/
 
 # Live logs are local; sanitized execution snapshots are tracked under logs/validation.
-logs/runtime/
+#logs/runtime/
