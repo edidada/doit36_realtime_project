@@ -183,6 +183,8 @@ kubectl -n doit run dns-test --rm -it --restart=Never \
 
 推送默认在 `ubuntu-24.04` 上使用 Temurin 17 构建。手动点击 **Run workflow** 时可选择 Ubuntu `22.04`、`24.04`、`26.04` 及 Temurin LTS JDK `17`、`21`、`25`；所选 JDK 同时用于 Maven 编译环境和最终镜像运行时。Artifact 命名为 `k3s-flink-image-<run-number>-<runner-os>-jdk<version>`，其中包含 `flink-jobs-<run-number>-<runner-os>-jdk<version>.tar`。K3s 只能运行 Linux 容器，因此工作流不支持 Windows 或 macOS runner。
 
+为让“编译整个项目”也能在高版本 JDK 下通过，`batch_jobs` 使用 Scala `2.12.21`（保持 Scala 2.12 二进制兼容），并使用新版 Scala Maven Plugin；不要将其降回仅支持 Java 17 的 Scala 2.12.12。
+
 ```bash
 # 本地复现 CI 的镜像构建（不调用 Maven package）。
 mvn -DskipTests clean compile

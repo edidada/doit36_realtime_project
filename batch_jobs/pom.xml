@@ -12,7 +12,8 @@
     <artifactId>batch_jobs</artifactId>
 
     <properties>
-        <scala.version>2.12.12</scala.version>
+        <!-- Scala 2.12.21 supports the selectable JDK 17/21/25 LTS toolchains. -->
+        <scala.version>2.12.21</scala.version>
         <spark.version>3.1.2</spark.version>
         <spark.scala>2.12</spark.scala>
     </properties>
@@ -98,7 +99,8 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>4.3.1</version>
+                <!-- 4.9.2 supports modern Scala while retaining Maven 3.6 compatibility. -->
+                <version>4.9.2</version>
                 <executions>
                     <execution>
                         <goals>
