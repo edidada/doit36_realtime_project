@@ -23,6 +23,20 @@ K3s 节点已在 2026-10-17 通过当日生成的 `~/.ssh/id_ed25519` 完成免�
 
 集群运行 K3s `v1.35.4+k3s1`、CentOS Stream 9 和 containerd `2.2.3-k3s1`。`kube-system` 核心组件均在运行，现有工作负载位于 `galaxy-mall`、`middleware` 和 `shorturl` 命名空间；本项目必须使用独立的 `doit` 命名空间，不能修改已有资源。
 
+### Proxmox VM 操作系统推荐
+
+`Ubuntu 24.04 LTS` 与 `CentOS Stream 9` 本身都不算“重”；K3s 节点的主要资源消耗来自 kubelet、containerd、镜像缓存以及实际运行的 Pod，而不是没有桌面环境的基础系统。**不要安装 Desktop/GUI、开发工具全家桶或不需要的服务**；应使用 cloud image 或 Minimal/Server 安装，启用 `qemu-guest-agent`，并将容器镜像与数据目录放在 SSD 上。
+
+| 场景 | 新建 VM 首选 | 可选方案 | 不建议作为默认选择 | 原因 |
+| --- | --- | --- | --- | --- |
+| K3s control-plane / worker | **Ubuntu Server 24.04 LTS Minimal（cloud image）** | Rocky Linux 9 Minimal | Desktop ISO、非 LTS Ubuntu | Ubuntu 资料与 K3s 示例多、驱动和 cloud-init 体验成熟；LTS 便于长期维护。 |
+| 需要 RHEL 生态、SELinux/企业 RPM 规范 | **Rocky Linux 9 Minimal** | AlmaLinux 9、已验证的 CentOS Stream 9 | 为“绝对稳定”诉求新建 CentOS Stream 节点 | Rocky 9 是 RHEL 兼容的稳定发行版，生命周期长；CentOS Stream 是 RHEL 下一个小版本的持续交付分支，适合需要跟进 RHEL 生态或已标准化的团队。 |
+| CI 构建机、短期实验 VM | Ubuntu Server 24.04 LTS Minimal | Debian 12 Minimal | 用生产 worker 兼任构建机 | 构建负载应与 K3s 工作负载隔离；本环境的 VM `107` 已承担该角色。 |
+
+当前四个节点使用 CentOS Stream 9，且 K3s 已稳定运行，**不需要因为本建议而原地重装或迁移**。后续扩容时，同一集群优先保持同一发行版和同一大版本，避免混用导致内核、SELinux、包管理及故障处理路径不一致；若选择 Ubuntu，所有新节点统一为 Ubuntu 24.04 LTS Minimal。K3s 官方说明其可运行于大多数现代 Linux，基础最低资源只是起点，Flink 等工作负载仍须按实际容量规划资源。
+
+安装后基线：静态 DHCP/固定 IP、唯一 hostname、NTP、SSH 密钥登录、最小化开放端口、定期安全更新；不要为了安装 K3s 直接关闭防火墙而不补齐 Pod/Service 网段和 API Server 的规则。
+
 Proxmox 是单节点 PVE 8.4.0 宿主机（48 逻辑 CPU、约 64 GiB 内存）。核验时约 56.3 GiB 已使用、约 9.5 GiB 空闲；在调度新的 Flink JobManager/TaskManager 前必须设置 `requests` 和 `limits`，并先释放资源或扩容，不能按空闲 CPU 盲目部署。
 
 | VMID | Proxmox 名称 | K3s 节点 | vCPU | 内存 | 系统盘 | 状态 |
