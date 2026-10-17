@@ -18,6 +18,29 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <!-- Supports the selectable JDK 17/21/25 CI toolchains. -->
+        <lombok.version>1.18.48</lombok.version>
     </properties>
+
+    <build>
+        <plugins>
+            <!-- JDK 23+ no longer discovers annotation processors implicitly. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <!-- 3.8.1 keeps compatibility with the repository's Maven 3.5.x users. -->
+                <version>3.8.1</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
