@@ -1,6 +1,8 @@
 # K3s 部署包模板
 
-本目录随 `Build K3s Deployment Bundle` 工作流打包，不会在 GitHub Actions 中连接或修改 K3s 集群。
+`Proxmox K3s Flink Image` 工作流会先编译所有 Maven 模块，再将两个 Flink
+作业及其运行时依赖写入镜像并导出 tar；它不会在 GitHub Actions 中连接或修改
+内网 K3s 集群，也不会执行 Maven 的 `package` 阶段。
 
 部署前必须遵守 [K3s 部署文档](../../docs/k3s-deployment.md) 中的资源门禁：Proxmox VM `107`（`ubuntu26-build`）必须为 `stopped`。然后在目标集群执行：
 

@@ -2,7 +2,7 @@
 
 ## 结论与范围
 
-本仓库不是 HTTP 微服务，而是由 `realtime_dw`、`rt_rule_mk` 两个 Flink 1.16.1 作业模块、一个 Spark 批处理模块和 Redis 演示模块组成。仓库当前没有 Dockerfile、Kubernetes 清单、Helm Chart 或可直接部署的 fat JAR。
+本仓库不是 HTTP 微服务，而是由 `realtime_dw`、`rt_rule_mk` 两个 Flink 1.16.1 作业模块、一个 Spark 批处理模块和 Redis 演示模块组成。`deploy/k3s/` 提供 Flink 作业镜像 Dockerfile、Kubernetes 起步清单和镜像构建脚本；项目仍没有可直接部署的 fat JAR 或完整的 Helm Chart。
 
 第一阶段建议把 **Flink 计算作业放入 K3s**，继续将 MySQL、Kafka、Redis、HBase、Doris 等状态服务放在已有的单机 Docker Compose/独立 VM 中。这样能先验证 K3s、镜像、作业调度和状态持久化；不要一次迁移所有大数据状态服务。项目源码中多处将服务地址写为 `doitedu`（Kafka `9092`、Redis `6379`、MySQL `3306`、ZooKeeper `2181`、Doris `8030`），迁移状态服务前必须先把这些地址改为配置项。
 
@@ -179,17 +179,18 @@ kubectl -n doit run dns-test --rm -it --restart=Never \
 
 ## 构建作业镜像
 
-先在 CI 或专用构建机打包。当前 POM 没有 shade/assembly 插件，因此 `mvn package` 生成的是普通 JAR，不能假定它已经包含所有第三方依赖。镜像构建必须显式复制运行时依赖，或先为对应模块补充并验证可复现的 fat-JAR 构建。
+`k3s` 分支推送时，`Proxmox K3s Flink Image` GitHub Actions 会编译全部 Maven 模块，随后从 `target/classes` 创建作业 JAR 并显式复制运行时依赖。它**不执行** Maven 的 `package` 阶段；当前 POM 没有 shade/assembly 插件，普通 Maven JAR 也不能假定包含第三方依赖。工作流会导出 `deploy/k3s/output/flink-jobs-<run-number>.tar` 作为 Artifact。
 
 ```bash
-# 先选择一个作业模块和一个入口类，不要同时运行所有 Demo。
-mvn -pl realtime_dw -am clean package -DskipTests
-mvn -pl realtime_dw dependency:copy-dependencies \
-  -DincludeScope=runtime \
-  -DoutputDirectory=realtime_dw/target/dependency
+# 本地复现 CI 的镜像构建（不调用 Maven package）。
+mvn -DskipTests clean compile
+IMAGE_TAG=local SAVE_TAR=true bash deploy/k3s/build-k3s-image.sh
+
+# 将 CI Artifact 下载到可能运行 Flink Pod 的每个 K3s 节点后导入。
+sudo k3s ctr images import flink-jobs-<run-number>.tar
 ```
 
-镜像应基于经过验证的 Flink 1.16.1 / Java 17 基础镜像，将应用 JAR 和所需依赖放到 `/opt/flink/usrlib/`；不要使用 `latest` 标签。镜像推送到 K3s 节点可拉取的私有仓库，并使用不可变 tag（例如 Git commit SHA）。部署前确认 JAR 中只有一个明确的入口类，例如：
+镜像保留官方 `apache/flink:1.16.1-scala_2.12-java11` 的 Flink 运行时和入口脚本，并安装校验过的 Temurin Java 17 JRE，因为项目作业编译目标为 Java 17。应用 JAR 和运行时依赖位于 `/opt/flink/usrlib/`；不要使用 `latest` 标签。部署前确认 JAR 中只有一个明确的入口类，例如：
 
 ```text
 cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim

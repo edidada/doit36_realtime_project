@@ -1,6 +1,23 @@
-ARG FLINK_IMAGE=flink:1.16.1-scala_2.12-java17
+ARG FLINK_IMAGE=apache/flink:1.16.1-scala_2.12-java11
 FROM ${FLINK_IMAGE}
+
+# Flink 1.16.1 was published with a Java 11 image; a Java 17 variant does
+# not exist.  The two job modules are compiled for Java 17, so replace the
+# bundled JRE while retaining the official Flink 1.16.1 entrypoint and setup.
+USER root
+ARG TEMURIN_JRE_VERSION=17.0.17_10
+ARG TEMURIN_JRE_TAG=17.0.17%2B10
+ARG TEMURIN_JRE_SHA256=1c607fb19f153b23a7d62ff980eb55cff1a7d47ce565bbc44d14947c93bd33c9
+RUN set -eux; \
+    wget -O /tmp/temurin-jre.tar.gz "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-${TEMURIN_JRE_TAG}/OpenJDK17U-jre_x64_linux_hotspot_${TEMURIN_JRE_VERSION}.tar.gz"; \
+    echo "${TEMURIN_JRE_SHA256}  /tmp/temurin-jre.tar.gz" | sha256sum -c -; \
+    rm -rf "${JAVA_HOME}"; \
+    mkdir -p "${JAVA_HOME}"; \
+    tar --extract --file /tmp/temurin-jre.tar.gz --directory "${JAVA_HOME}" --strip-components=1 --no-same-owner; \
+    rm -f /tmp/temurin-jre.tar.gz "${JAVA_HOME}/src.zip"; \
+    java --version
 
 # Both modules are placed below usrlib. The FlinkDeployment template selects
 # the exact JAR through its jarURI.
-COPY usrlib/ /opt/flink/usrlib/
+COPY --chown=flink:flink usrlib/ /opt/flink/usrlib/
+USER flink
