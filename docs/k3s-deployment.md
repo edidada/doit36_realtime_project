@@ -32,6 +32,37 @@ Proxmox 是单节点 PVE 8.4.0 宿主机（48 逻辑 CPU、约 64 GiB 内存）�
 | 103 | `work3` | `k3s-worker2` / `192.168.31.251` | 4 | 10240 MiB | 64 GiB | running |
 | 104 | `work4` | `k3s-worker3` / `192.168.31.88` | 4 | 10240 MiB | 64 GiB | running |
 
+### Flink 启动的硬性资源门禁
+
+VM `107`（`ubuntu26-build`）是 **Ubuntu 26 构建机，不是 K3s 节点**。其配置为 12 vCPU、24576 MiB 内存和 1 TiB 磁盘；核验时处于 `running` 状态。它与 Flink 不能并行运行：**任何新的 FlinkDeployment 创建、恢复或扩容之前，VM 107 必须已经完全关机（`status: stopped`）**。这是为了给 K3s/Flink 释放宿主机资源，不能用降低 Flink 的资源配额来绕过该约束。
+
+在 Proxmox 宿主机上执行以下步骤。先使用优雅关机；除非已确认 VM 无 I/O 且紧急处置需要，否则不要使用强制 `qm stop`：
+
+```bash
+# 1. 部署前检查。若输出不是 "status: stopped"，不得启动 Flink。
+qm status 107
+
+# 2. 仅在仍为 running 时执行一次优雅关机。
+qm shutdown 107
+
+# 3. 等待并复查；直到得到 "status: stopped" 才能继续。
+qm status 107
+```
+
+在执行 `kubectl apply -f <flink-deployment.yaml>` 前，部署人员或自动化流程必须执行下面的门禁；返回非零即终止发布：
+
+```bash
+ssh -o BatchMode=yes -i ~/.ssh/id_ed25519_pve root@192.168.31.171 \
+  'test "$(qm status 107)" = "status: stopped"'
+```
+
+Flink 作业停止、savepoint 已确认且资源回收完成后，是否重新启动构建机必须由运维人员显式决定：
+
+```bash
+# 仅在确实需要恢复 Ubuntu 构建机时执行；不应由 Flink 部署脚本自动执行。
+qm start 107
+```
+
 不要把密码、私钥或 Kubeconfig 提交到本仓库。建议创建专用运维用户并安装其公钥：
 
 ```bash
@@ -253,7 +284,7 @@ kubectl -n doit get svc
 kubectl -n doit logs <jobmanager-pod> --all-containers
 ```
 
-验收至少包括：Pod 均为 Ready、Flink 作业为 `RUNNING`、Kafka consumer lag 不持续增长、数据可写入目标 MySQL/HBase/Doris、Redis 示例能连通、checkpoint 连续完成且 savepoint 能恢复。版本升级前先创建 savepoint；回滚时恢复上一个不可变镜像 tag 和相应 savepoint，不能只重启 Pod 后假定状态仍在。
+验收前的第一个门禁是 VM `107` 必须为 `stopped`。随后确认 Pod 均为 Ready、Flink 作业为 `RUNNING`、Kafka consumer lag 不持续增长、数据可写入目标 MySQL/HBase/Doris、Redis 示例能连通、checkpoint 连续完成且 savepoint 能恢复。版本升级前先创建 savepoint；回滚时恢复上一个不可变镜像 tag 和相应 savepoint，不能只重启 Pod 后假定状态仍在。
 
 ## 后续改造清单
 
