@@ -10,7 +10,7 @@
 
 ## 当前访问状态
 
-`192.168.31.171:22` 的 Proxmox 宿主机仍无法使用默认密钥或 `id_rsa_proxmon` 以 `wdidada`/`root` 登录，因此 Proxmox 层的 VMID、资源和网络配置尚未核验。
+Proxmox 宿主机 `192.168.31.171:22` 已通过 `~/.ssh/id_ed25519_pve` 以 `root` 免密登录；`wdidada` 未被该宿主机授权。密钥指纹为 `SHA256:QzVeFC0dkyf5ta/e6rpdGsgHYq1TcY8v00c76cXmeKE`。日常运行应另建受限的运维账户，避免常态以 root 操作宿主机。
 
 K3s 节点已在 2026-10-17 通过当日生成的 `~/.ssh/id_ed25519` 完成免密验证；`wdidada` 与 `root` 均可登录。昨天生成的 `id_rsa_proxmon` 不被这些节点接受。生产日常操作应使用受限的 `wdidada` 账户配合 `sudo`，不要常态使用 root。
 
@@ -22,6 +22,15 @@ K3s 节点已在 2026-10-17 通过当日生成的 `~/.ssh/id_ed25519` 完成免�
 | `k3s-worker3` | `192.168.31.88` | worker | Ready |
 
 集群运行 K3s `v1.35.4+k3s1`、CentOS Stream 9 和 containerd `2.2.3-k3s1`。`kube-system` 核心组件均在运行，现有工作负载位于 `galaxy-mall`、`middleware` 和 `shorturl` 命名空间；本项目必须使用独立的 `doit` 命名空间，不能修改已有资源。
+
+Proxmox 是单节点 PVE 8.4.0 宿主机（48 逻辑 CPU、约 64 GiB 内存）。核验时约 56.3 GiB 已使用、约 9.5 GiB 空闲；在调度新的 Flink JobManager/TaskManager 前必须设置 `requests` 和 `limits`，并先释放资源或扩容，不能按空闲 CPU 盲目部署。
+
+| VMID | Proxmox 名称 | K3s 节点 | vCPU | 内存 | 系统盘 | 状态 |
+| --- | --- | --- | ---: | ---: | ---: | --- |
+| 100 | `wdidada` | `k3s-master` / `192.168.31.77` | 4 | 9048 MiB | 64 GiB | running |
+| 101 | `VM 101` | `k3s-worker1` / `192.168.31.211` | 4 | 8048 MiB | 64 GiB | running |
+| 103 | `work3` | `k3s-worker2` / `192.168.31.251` | 4 | 10240 MiB | 64 GiB | running |
+| 104 | `work4` | `k3s-worker3` / `192.168.31.88` | 4 | 10240 MiB | 64 GiB | running |
 
 不要把密码、私钥或 Kubeconfig 提交到本仓库。建议创建专用运维用户并安装其公钥：
 
@@ -66,7 +75,7 @@ df -hT
 ## 推荐拓扑
 
 ```text
-Proxmox 宿主机（192.168.31.171，待核验）
+Proxmox 宿主机（192.168.31.171，PVE 8.4.0，单节点）
 └── K3s 集群
     ├── k3s-master（192.168.31.77，control-plane）
     ├── k3s-worker1（192.168.31.211）
