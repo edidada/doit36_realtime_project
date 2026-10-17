@@ -179,7 +179,7 @@ kubectl -n doit run dns-test --rm -it --restart=Never \
 
 ## 构建作业镜像
 
-`k3s` 分支推送时，`Proxmox K3s Flink Image` GitHub Actions 会编译全部 Maven 模块，随后从 `target/classes` 创建作业 JAR 并显式复制运行时依赖。它**不执行** Maven 的 `package` 阶段；当前 POM 没有 shade/assembly 插件，普通 Maven JAR 也不能假定包含第三方依赖。工作流会导出 `deploy/k3s/output/flink-jobs-<run-number>.tar` 作为 Artifact。
+`k3s` 分支推送时，`Proxmox K3s Flink Image` GitHub Actions 会编译全部 Maven 模块，随后从 `target/classes` 创建作业 JAR 并显式复制运行时依赖。它使用 Podman 构建镜像并导出 tar，**不执行** Maven 的 `package` 阶段；当前 POM 没有 shade/assembly 插件，普通 Maven JAR 也不能假定包含第三方依赖。工作流会导出 `deploy/k3s/output/flink-jobs-<run-number>.tar` 作为 Artifact。
 
 ```bash
 # 本地复现 CI 的镜像构建（不调用 Maven package）。

@@ -33,6 +33,9 @@ jobs:
       - name: Show runner disk space
         run: df -h
 
+      - name: Show Podman version
+        run: podman version
+
       # Validates every Maven module without creating Maven package artifacts.
       - name: Compile all Maven modules
         run: mvn --batch-mode --no-transfer-progress --show-version -DskipTests clean compile
@@ -53,7 +56,7 @@ jobs:
           du -sh deploy/k3s/output/
 
       - name: List local image
-        run: docker images | grep '^doit36/' || true
+        run: podman images | grep 'doit36/' || true
 
       - name: Upload K3s image tar
         uses: actions/upload-artifact@v4

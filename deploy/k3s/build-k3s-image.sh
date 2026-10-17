@@ -42,7 +42,7 @@ for module in "${modules[@]}"; do
 done
 
 echo "building ${IMAGE_REF}"
-docker build \
+podman build \
   --file "${ROOT_DIR}/deploy/k3s/Dockerfile.flink-job" \
   --tag "${IMAGE_REF}" \
   "${BUILD_DIR}"
@@ -50,7 +50,7 @@ docker build \
 if [[ "${SAVE_TAR}" == "true" ]]; then
   tar_path="${OUTPUT_DIR}/${IMAGE_NAME}-${IMAGE_TAG}.tar"
   echo "saving ${IMAGE_REF} to ${tar_path}"
-  docker save --output "${tar_path}" "${IMAGE_REF}"
+  podman save --output "${tar_path}" "${IMAGE_REF}"
 fi
 
 cat <<EOF
