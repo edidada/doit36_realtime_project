@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/k3s.yml'
       - 'deploy/k3s/**'
+      - 'scripts/**'
       - 'docs/k3s-deployment.md'
       - 'pom.xml'
       - '**/pom.xml'
@@ -13,11 +14,13 @@ on:
   workflow_dispatch:
     inputs:
       runner_os:
-        description: 'Linux runner OS（K3s 镜像构建仅支持 Linux runner）'
+        description: '构建平台；默认同时验证 Linux 和 Intel macOS，Windows 不参与'
         required: true
-        default: ubuntu-24.04
+        default: both
         type: choice
         options:
+          - both
+          - macos-15-intel
           - ubuntu-22.04
           - ubuntu-24.04
           - ubuntu-26.04
@@ -36,10 +39,16 @@ permissions:
 
 jobs:
   build-image:
-    name: K3s image (${{ inputs.runner_os || 'ubuntu-24.04' }}, JDK ${{ inputs.java_version || '17' }})
-    # Pushes use a pinned, stable default. workflow_dispatch can choose any
-    # supported Ubuntu version and LTS JDK above 17.
-    runs-on: ${{ inputs.runner_os || 'ubuntu-24.04' }}
+    name: K3s image (${{ matrix.os }}, JDK ${{ inputs.java_version || '17' }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJSON((inputs.runner_os == '' || inputs.runner_os == 'both') && '["ubuntu-24.04","macos-15-intel"]' || format('["{0}"]', inputs.runner_os)) }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - uses: actions/checkout@v4
@@ -54,20 +63,38 @@ jobs:
       - name: Show runner disk space
         run: df -h
 
-      - name: Show Podman version
-        run: podman version
+      - name: Install Linux build and container runtime dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config libseccomp-dev podman
+          # The AppArmor profile for /usr/bin/podman does not cover our binary.
+          if [[ -e /proc/sys/kernel/apparmor_restrict_unprivileged_userns ]]; then
+            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          fi
+          # Ubuntu 22.04 ships a CNI-based runtime; newer images use Netavark.
+          if [[ '${{ matrix.os }}' == ubuntu-22.04 ]]; then
+            mkdir -p "$RUNNER_TEMP/doit36-containers"
+            printf '[network]\nnetwork_backend = "cni"\n' > "$RUNNER_TEMP/doit36-containers/containers.conf"
+            echo "CONTAINERS_CONF=$RUNNER_TEMP/doit36-containers/containers.conf" >> "$GITHUB_ENV"
+          fi
 
-      # Validates every Maven module without creating Maven package artifacts.
-      - name: Compile all Maven modules
-        run: mvn --batch-mode --no-transfer-progress --show-version -DskipTests clean compile
+      - name: Install macOS QEMU
+        if: runner.os == 'macOS'
+        run: brew list qemu >/dev/null 2>&1 || brew install qemu
 
-      - name: Build Flink image and export tar
+      - name: Download and compile Podman 4.9.5
+        run: bash scripts/build-podman.sh
+
+      - name: Build Flink image with compiled Podman and export tar
         env:
           IMAGE_NAMESPACE: doit36
-          IMAGE_TAG: ${{ github.run_number }}-${{ inputs.runner_os || 'ubuntu-24.04' }}-jdk${{ inputs.java_version || '17' }}
+          IMAGE_TAG: ${{ github.run_number }}-${{ matrix.os }}-jdk${{ inputs.java_version || '17' }}
           RUNTIME_JDK: ${{ inputs.java_version || '17' }}
-          SAVE_TAR: 'true'
-        run: bash deploy/k3s/build-k3s-image.sh
+          IMAGE_PLATFORM: linux/amd64
+          PODMAN_MACHINE_IMAGE: https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/39.20240322.3.0/x86_64/fedora-coreos-39.20240322.3.0-qemu.x86_64.qcow2.xz
+          INIT_PODMAN_MACHINE: ${{ runner.os == 'macOS' && 'true' || 'false' }}
+        run: bash scripts/build-image.sh
 
       - name: List exported image tar
         run: |
@@ -78,11 +105,24 @@ jobs:
           du -sh deploy/k3s/output/
 
       - name: List local image
-        run: podman images | grep 'doit36/' || true
+        env:
+          CONTAINERS_MACHINE_PROVIDER: qemu
+          CONTAINER_CONNECTION: ${{ runner.os == 'macOS' && 'doit36-build' || '' }}
+        run: .artifacts/podman-build/bin/podman images --filter reference='docker.io/doit36/*'
 
       - name: Upload K3s image tar
         uses: actions/upload-artifact@v4
         with:
-          name: k3s-flink-image-${{ github.run_number }}-${{ inputs.runner_os || 'ubuntu-24.04' }}-jdk${{ inputs.java_version || '17' }}
+          name: k3s-flink-image-${{ github.run_number }}-${{ matrix.os }}-jdk${{ inputs.java_version || '17' }}
           path: deploy/k3s/output/*.tar
           if-no-files-found: error
+
+      - name: Stop CI Podman machine
+        if: always() && runner.os == 'macOS'
+        env:
+          CONTAINERS_MACHINE_PROVIDER: qemu
+        run: |
+          if [[ -x .artifacts/podman-build/bin/podman ]] && \
+             .artifacts/podman-build/bin/podman machine inspect doit36-build >/dev/null 2>&1; then
+            .artifacts/podman-build/bin/podman machine stop doit36-build
+          fi

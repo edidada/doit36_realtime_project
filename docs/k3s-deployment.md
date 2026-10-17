@@ -263,14 +263,14 @@ JSON 文件滚动提交行为见 [Flink 1.16 文件系统连接器文档](https:
 
 `k3s` 分支推送时，`Proxmox K3s Flink Image` GitHub Actions 会编译全部 Maven 模块，随后从 `target/classes` 创建作业 JAR 并显式复制运行时依赖。它使用 Podman 构建镜像并导出 tar，**不执行** Maven 的 `package` 阶段；当前 POM 没有 shade/assembly 插件，普通 Maven JAR 也不能假定包含第三方依赖。
 
-推送默认在 `ubuntu-24.04` 上使用 Temurin 17 构建。手动点击 **Run workflow** 时可选择 Ubuntu `22.04`、`24.04`、`26.04` 及 Temurin LTS JDK `17`、`21`、`25`；所选 JDK 同时用于 Maven 编译环境和最终镜像运行时。Artifact 命名为 `k3s-flink-image-<run-number>-<runner-os>-jdk<version>`，其中包含 `flink-jobs-<run-number>-<runner-os>-jdk<version>.tar`。K3s 只能运行 Linux 容器，因此工作流不支持 Windows 或 macOS runner。
+推送默认分别在 `ubuntu-24.04` 和 `macos-15-intel` 上使用 Temurin 17 构建。工作流依次调用 `scripts/build-podman.sh` 下载并编译固定的 Podman 4.9.5，再调用 `scripts/build-image.sh`，显式用编译出的 Podman 构建和导出 docker-archive。手动点击 **Run workflow** 时可选择同时运行两个平台，或单选 Ubuntu `22.04`、`24.04`、`26.04`、Intel macOS 及 Temurin LTS JDK `17`、`21`、`25`；所选 JDK 同时用于 Maven 编译环境和最终镜像运行时。Artifact 命名为 `k3s-flink-image-<run-number>-<runner-os>-jdk<version>`，其中包含 `flink-jobs-<run-number>-<runner-os>-jdk<version>.tar`。镜像统一面向 `linux/amd64`；macOS runner 通过 QEMU Linux 虚拟机构建，Windows 不参与。当前 macOS 12.7 本地使用方法见 [scripts/README.md](../scripts/README.md)。
 
 为让“编译整个项目”也能在高版本 JDK 下通过，`batch_jobs` 使用 Scala `2.12.21`（保持 Scala 2.12 二进制兼容），并使用新版 Scala Maven Plugin；不要将其降回仅支持 Java 17 的 Scala 2.12.12。
 
 ```bash
 # 本地复现 CI 的镜像构建（不调用 Maven package）。
-mvn -DskipTests clean compile
-IMAGE_TAG=local SAVE_TAR=true bash deploy/k3s/build-k3s-image.sh
+bash scripts/build-podman.sh
+IMAGE_TAG=local bash scripts/build-image.sh
 
 # 将 CI Artifact 下载到可能运行 Flink Pod 的每个 K3s 节点后导入。
 sudo k3s ctr images import flink-jobs-<run-number>.tar

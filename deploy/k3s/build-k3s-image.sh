@@ -5,13 +5,23 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "${ROOT_DIR}"
 
 IMAGE_NAMESPACE="${IMAGE_NAMESPACE:-doit36}"
+# Native Linux Podman otherwise tags an unqualified image under localhost/,
+# while K3s resolves the deployment's doit36/... reference under docker.io/.
+case "${IMAGE_NAMESPACE%%/*}" in
+  *.*|*:*|localhost) ;;
+  *) IMAGE_NAMESPACE="docker.io/${IMAGE_NAMESPACE}" ;;
+esac
 IMAGE_TAG="${IMAGE_TAG:-local}"
 IMAGE_NAME="${IMAGE_NAME:-flink-jobs}"
 IMAGE_REF="${IMAGE_NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}"
 RUNTIME_JDK="${RUNTIME_JDK:-17}"
+TEMURIN_IMAGE="${TEMURIN_IMAGE:-docker.io/library/eclipse-temurin:${RUNTIME_JDK}-jre-jammy}"
+FLINK_IMAGE="${FLINK_IMAGE:-docker.io/apache/flink:1.16.1-scala_2.12-java11}"
 OUTPUT_DIR="${OUTPUT_DIR:-${ROOT_DIR}/deploy/k3s/output}"
 BUILD_DIR="${BUILD_DIR:-${ROOT_DIR}/deploy/k3s/.image-build}"
 SAVE_TAR="${SAVE_TAR:-true}"
+PODMAN_BIN="${PODMAN_BIN:-podman}"
+IMAGE_PLATFORM="${IMAGE_PLATFORM:-linux/amd64}"
 
 modules=(realtime_dw rt_rule_mk)
 
@@ -51,8 +61,11 @@ for module in "${modules[@]}"; do
 done
 
 echo "building ${IMAGE_REF}"
-podman build \
+"${PODMAN_BIN}" build \
+  --platform "${IMAGE_PLATFORM}" \
   --build-arg "RUNTIME_JDK=${RUNTIME_JDK}" \
+  --build-arg "TEMURIN_IMAGE=${TEMURIN_IMAGE}" \
+  --build-arg "FLINK_IMAGE=${FLINK_IMAGE}" \
   --file "${ROOT_DIR}/deploy/k3s/Dockerfile.flink-job" \
   --tag "${IMAGE_REF}" \
   "${BUILD_DIR}"
@@ -60,7 +73,7 @@ podman build \
 if [[ "${SAVE_TAR}" == "true" ]]; then
   tar_path="${OUTPUT_DIR}/${IMAGE_NAME}-${IMAGE_TAG}.tar"
   echo "saving ${IMAGE_REF} to ${tar_path}"
-  podman save --output "${tar_path}" "${IMAGE_REF}"
+  "${PODMAN_BIN}" save --format docker-archive --output "${tar_path}" "${IMAGE_REF}"
 fi
 
 cat <<EOF

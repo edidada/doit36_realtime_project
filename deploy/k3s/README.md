@@ -4,6 +4,10 @@
 作业及其运行时依赖写入镜像并通过 Podman 导出 tar；它不会在 GitHub Actions 中连接或修改
 内网 K3s 集群，也不会执行 Maven 的 `package` 阶段。
 
+工作流依次调用 `scripts/build-podman.sh` 和 `scripts/build-image.sh`，
+从源码编译固定 Podman 4.9.5，再用该二进制构建并导出镜像。
+本机 macOS 12.7 和 Linux 的依赖、命令及配置见 [脚本说明](../../scripts/README.md)。
+
 部署前必须遵守 [K3s 部署文档](../../docs/k3s-deployment.md) 中的资源门禁：Proxmox VM `107`（`ubuntu26-build`）必须为 `stopped`。然后在目标集群执行：
 
 ```bash
@@ -11,7 +15,7 @@ kubectl apply -f namespace.yaml
 kubectl -n doit apply -f flink-state-pvc.yaml
 ```
 
-`flink-deployment.yaml.tpl` 是模板，必须将 `<IMAGE_TAG>` 替换为 GitHub Actions 的完整镜像 tag。推送使用 `run-number-ubuntu-24.04-jdk17`；手动运行可选择 Ubuntu `22.04`、`24.04`、`26.04` 和 Temurin LTS JDK `17`、`21`、`25`。`k3s.yml` 会构建 `doit36/flink-jobs:<IMAGE_TAG>`，并导出 `deploy/k3s/output/flink-jobs-<IMAGE_TAG>.tar`。将该 tar 复制到可能运行 Flink Pod 的节点后执行：
+`flink-deployment.yaml.tpl` 是模板，必须将 `<IMAGE_TAG>` 替换为 GitHub Actions 的完整镜像 tag。推送默认分别在 `ubuntu-24.04` 和 `macos-15-intel` 构建，tag 为 `run-number-<runner-os>-jdk17`；手动运行可选择单个平台或同时运行，以及 Temurin LTS JDK `17`、`21`、`25`。`k3s.yml` 会构建 `doit36/flink-jobs:<IMAGE_TAG>`，并导出 `deploy/k3s/output/flink-jobs-<IMAGE_TAG>.tar`。将该 tar 复制到可能运行 Flink Pod 的节点后执行：
 
 ```bash
 sudo k3s ctr images import flink-jobs-<IMAGE_TAG>.tar

@@ -1,6 +1,7 @@
 ARG RUNTIME_JDK=17
-ARG FLINK_IMAGE=apache/flink:1.16.1-scala_2.12-java11
-FROM eclipse-temurin:${RUNTIME_JDK}-jre-jammy AS temurin-jre
+ARG TEMURIN_IMAGE=docker.io/library/eclipse-temurin:${RUNTIME_JDK}-jre-jammy
+ARG FLINK_IMAGE=docker.io/apache/flink:1.16.1-scala_2.12-java11
+FROM ${TEMURIN_IMAGE} AS temurin-jre
 
 FROM ${FLINK_IMAGE}
 
