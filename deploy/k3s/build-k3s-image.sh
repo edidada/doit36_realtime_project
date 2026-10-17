@@ -8,11 +8,20 @@ IMAGE_NAMESPACE="${IMAGE_NAMESPACE:-doit36}"
 IMAGE_TAG="${IMAGE_TAG:-local}"
 IMAGE_NAME="${IMAGE_NAME:-flink-jobs}"
 IMAGE_REF="${IMAGE_NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}"
+RUNTIME_JDK="${RUNTIME_JDK:-17}"
 OUTPUT_DIR="${OUTPUT_DIR:-${ROOT_DIR}/deploy/k3s/output}"
 BUILD_DIR="${BUILD_DIR:-${ROOT_DIR}/deploy/k3s/.image-build}"
 SAVE_TAR="${SAVE_TAR:-true}"
 
 modules=(realtime_dw rt_rule_mk)
+
+case "${RUNTIME_JDK}" in
+  17|21|25) ;;
+  *)
+    echo "unsupported RUNTIME_JDK=${RUNTIME_JDK}; supported LTS versions: 17, 21, 25" >&2
+    exit 2
+    ;;
+esac
 
 rm -rf "${BUILD_DIR}"
 mkdir -p "${BUILD_DIR}/usrlib" "${OUTPUT_DIR}"
@@ -43,6 +52,7 @@ done
 
 echo "building ${IMAGE_REF}"
 podman build \
+  --build-arg "RUNTIME_JDK=${RUNTIME_JDK}" \
   --file "${ROOT_DIR}/deploy/k3s/Dockerfile.flink-job" \
   --tag "${IMAGE_REF}" \
   "${BUILD_DIR}"

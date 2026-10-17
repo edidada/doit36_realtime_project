@@ -10,24 +10,45 @@ on:
       - 'pom.xml'
       - '**/pom.xml'
       - '**/src/**'
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      runner_os:
+        description: 'Linux runner OS（K3s 镜像构建仅支持 Linux runner）'
+        required: true
+        default: ubuntu-24.04
+        type: choice
+        options:
+          - ubuntu-22.04
+          - ubuntu-24.04
+          - ubuntu-26.04
+      java_version:
+        description: 'Temurin LTS JDK version; used for both build and image runtime'
+        required: true
+        default: '17'
+        type: choice
+        options:
+          - '17'
+          - '21'
+          - '25'
 
 permissions:
   contents: read
 
 jobs:
   build-image:
-    name: Compile and export K3s image tar
-    runs-on: ubuntu-latest
+    name: K3s image (${{ inputs.runner_os || 'ubuntu-24.04' }}, JDK ${{ inputs.java_version || '17' }})
+    # Pushes use a pinned, stable default. workflow_dispatch can choose any
+    # supported Ubuntu version and LTS JDK above 17.
+    runs-on: ${{ inputs.runner_os || 'ubuntu-24.04' }}
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - name: Set up Temurin JDK ${{ inputs.java_version || '17' }}
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: ${{ inputs.java_version || '17' }}
           cache: maven
 
       - name: Show runner disk space
@@ -43,7 +64,8 @@ jobs:
       - name: Build Flink image and export tar
         env:
           IMAGE_NAMESPACE: doit36
-          IMAGE_TAG: ${{ github.run_number }}
+          IMAGE_TAG: ${{ github.run_number }}-${{ inputs.runner_os || 'ubuntu-24.04' }}-jdk${{ inputs.java_version || '17' }}
+          RUNTIME_JDK: ${{ inputs.java_version || '17' }}
           SAVE_TAR: 'true'
         run: bash deploy/k3s/build-k3s-image.sh
 
@@ -61,6 +83,6 @@ jobs:
       - name: Upload K3s image tar
         uses: actions/upload-artifact@v4
         with:
-          name: k3s-flink-image-${{ github.run_number }}
+          name: k3s-flink-image-${{ github.run_number }}-${{ inputs.runner_os || 'ubuntu-24.04' }}-jdk${{ inputs.java_version || '17' }}
           path: deploy/k3s/output/*.tar
           if-no-files-found: error

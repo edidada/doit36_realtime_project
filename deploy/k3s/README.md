@@ -11,7 +11,7 @@ kubectl apply -f namespace.yaml
 kubectl -n doit apply -f flink-state-pvc.yaml
 ```
 
-`flink-deployment.yaml.tpl` 是模板，必须将 `<IMAGE_TAG>` 替换为 GitHub Actions 的运行编号。`k3s.yml` 会构建 `doit36/flink-jobs:<IMAGE_TAG>`，并导出 `deploy/k3s/output/flink-jobs-<IMAGE_TAG>.tar`。将该 tar 复制到可能运行 Flink Pod 的节点后执行：
+`flink-deployment.yaml.tpl` 是模板，必须将 `<IMAGE_TAG>` 替换为 GitHub Actions 的完整镜像 tag。推送使用 `run-number-ubuntu-24.04-jdk17`；手动运行可选择 Ubuntu `22.04`、`24.04`、`26.04` 和 Temurin LTS JDK `17`、`21`、`25`。`k3s.yml` 会构建 `doit36/flink-jobs:<IMAGE_TAG>`，并导出 `deploy/k3s/output/flink-jobs-<IMAGE_TAG>.tar`。将该 tar 复制到可能运行 Flink Pod 的节点后执行：
 
 ```bash
 sudo k3s ctr images import flink-jobs-<IMAGE_TAG>.tar

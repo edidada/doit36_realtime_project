@@ -179,7 +179,9 @@ kubectl -n doit run dns-test --rm -it --restart=Never \
 
 ## 构建作业镜像
 
-`k3s` 分支推送时，`Proxmox K3s Flink Image` GitHub Actions 会编译全部 Maven 模块，随后从 `target/classes` 创建作业 JAR 并显式复制运行时依赖。它使用 Podman 构建镜像并导出 tar，**不执行** Maven 的 `package` 阶段；当前 POM 没有 shade/assembly 插件，普通 Maven JAR 也不能假定包含第三方依赖。工作流会导出 `deploy/k3s/output/flink-jobs-<run-number>.tar` 作为 Artifact。
+`k3s` 分支推送时，`Proxmox K3s Flink Image` GitHub Actions 会编译全部 Maven 模块，随后从 `target/classes` 创建作业 JAR 并显式复制运行时依赖。它使用 Podman 构建镜像并导出 tar，**不执行** Maven 的 `package` 阶段；当前 POM 没有 shade/assembly 插件，普通 Maven JAR 也不能假定包含第三方依赖。
+
+推送默认在 `ubuntu-24.04` 上使用 Temurin 17 构建。手动点击 **Run workflow** 时可选择 Ubuntu `22.04`、`24.04`、`26.04` 及 Temurin LTS JDK `17`、`21`、`25`；所选 JDK 同时用于 Maven 编译环境和最终镜像运行时。Artifact 命名为 `k3s-flink-image-<run-number>-<runner-os>-jdk<version>`，其中包含 `flink-jobs-<run-number>-<runner-os>-jdk<version>.tar`。K3s 只能运行 Linux 容器，因此工作流不支持 Windows 或 macOS runner。
 
 ```bash
 # 本地复现 CI 的镜像构建（不调用 Maven package）。
@@ -190,7 +192,7 @@ IMAGE_TAG=local SAVE_TAR=true bash deploy/k3s/build-k3s-image.sh
 sudo k3s ctr images import flink-jobs-<run-number>.tar
 ```
 
-镜像保留官方 `apache/flink:1.16.1-scala_2.12-java11` 的 Flink 运行时和入口脚本，并安装校验过的 Temurin Java 17 JRE，因为项目作业编译目标为 Java 17。应用 JAR 和运行时依赖位于 `/opt/flink/usrlib/`；不要使用 `latest` 标签。部署前确认 JAR 中只有一个明确的入口类，例如：
+镜像保留官方 `apache/flink:1.16.1-scala_2.12-java11` 的 Flink 运行时和入口脚本，并以多阶段构建加入所选的 Temurin LTS JRE。项目作业目标字节码保持 Java 17，选择 JDK 21 或 25 用于兼容性验证时不会自动提高项目的 `maven.compiler.target`。应用 JAR 和运行时依赖位于 `/opt/flink/usrlib/`；不要使用 `latest` 标签。部署前确认 JAR 中只有一个明确的入口类，例如：
 
 ```text
 cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim
