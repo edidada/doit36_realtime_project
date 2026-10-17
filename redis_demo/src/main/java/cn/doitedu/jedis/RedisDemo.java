@@ -12,7 +12,11 @@ public class RedisDemo {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         // 构造客户端对象
-        Jedis jedis = new Jedis("doitedu", 6379);
+        Jedis jedis = new Jedis(System.getenv().getOrDefault("REDIS_HOST", "doitedu"),
+                Integer.parseInt(System.getenv().getOrDefault("REDIS_PORT", "6379")));
+        String password = System.getenv().getOrDefault("REDIS_PASSWORD", "");
+        if (!password.isEmpty()) jedis.auth(password);
+        jedis.select(Integer.parseInt(System.getenv().getOrDefault("REDIS_DATABASE", "0")));
 
 
         // 调用api发送请求，获取结果

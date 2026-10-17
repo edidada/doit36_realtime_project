@@ -1,5 +1,6 @@
 package cn.doitedu;
 
+import cn.doitedu.rtdw.utils.RuntimeConfig;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
@@ -33,7 +34,7 @@ public class Http {
         client.start();
         // HttpGet get = new HttpGet();
 
-        post = new HttpPost("http://doitedu:8081/api/post/simwords");
+        post = new HttpPost(RuntimeConfig.value("SIMWORDS_URL", "http://doitedu:8081/api/post/simwords"));
         post.addHeader("Content-type","application/json; charset=utf-8");
         post.addHeader("Accept", "application/json");
 

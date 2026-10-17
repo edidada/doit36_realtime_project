@@ -12,7 +12,7 @@ public class TestDiaoyong {
 
     public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
-        String code = FileUtils.readFileToString(new File("d:/a.groovy"), "utf-8");
+        String code = FileUtils.readFileToString(new File(args.length > 0 ? args[0] : System.getenv().getOrDefault("GROOVY_SCRIPT", "d:/a.groovy")), "utf-8");
 
         GroovyClassLoader groovyClassLoader = new GroovyClassLoader();
         Class aClass = groovyClassLoader.parseClass(code); // 编译  和 加载

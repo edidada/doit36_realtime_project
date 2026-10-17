@@ -1,5 +1,6 @@
 package cn.doitedu.rtdw.data_etl;
 
+import cn.doitedu.rtdw.utils.RuntimeConfig;
 import cn.doitedu.rtdw.utils.CommonSql;
 import cn.doitedu.rtdw.utils.TimeRound;
 import org.apache.flink.configuration.Configuration;
@@ -53,10 +54,10 @@ public class EtlJob04_InteractiveEventsOverview {
                         + "    act_count         BIGINT            "
                         + " ) WITH (                               "
                         + "    'connector' = 'doris',              "
-                        + "    'fenodes' = 'doitedu:8030',         "
+                        + "    'fenodes' = '" + RuntimeConfig.sql("DORIS_FENODES", "doitedu:8030") + "',         "
                         + "    'table.identifier' = 'dws.mall_evts_overview_agg',  "
-                        + "    'username' = 'root',                "
-                        + "    'password' = '',                    "
+                        + "    'username' = '" + RuntimeConfig.sql("DORIS_USERNAME", "root") + "' ,                "
+                        + "    'password' = '" + RuntimeConfig.sql("DORIS_PASSWORD", "") + "' ,                    "
                         + "    'sink.label-prefix' = 'doris_tl" + System.currentTimeMillis() + "')"
         );
 

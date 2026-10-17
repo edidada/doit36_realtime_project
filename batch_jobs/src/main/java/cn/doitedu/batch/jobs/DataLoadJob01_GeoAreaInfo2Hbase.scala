@@ -28,7 +28,7 @@ object DataLoadJob01_GeoAreaInfo2Hbase {
     val tableName = "dim_geo_area"
 
     // hbase集群所连的zookeeper配置信息
-    sc.hadoopConfiguration.set("hbase.zookeeper.quorum", "doitedu")
+    sc.hadoopConfiguration.set("hbase.zookeeper.quorum", sys.env.getOrElse("HBASE_ZOOKEEPER_QUORUM", "doitedu:2181"))
     sc.hadoopConfiguration.set("hbase.zookeeper.property.clientPort", "2181")
     // 为sparkContext设置outputformat为hbase的TableOutputFormat
     sc.hadoopConfiguration.set(TableOutputFormat.OUTPUT_TABLE, tableName)
@@ -40,9 +40,9 @@ object DataLoadJob01_GeoAreaInfo2Hbase {
     job.setOutputFormatClass(classOf[TableOutputFormat[ImmutableBytesWritable]])
 
     val props = new Properties()
-    props.setProperty("user", "root")
-    props.setProperty("password", "root")
-    val df = spark.read.jdbc("jdbc:mysql://doitedu:3306/realtimedw", "t_md_areas", props)
+    props.setProperty("user", sys.env.getOrElse("MYSQL_USERNAME", "root"))
+    props.setProperty("password", sys.env.getOrElse("MYSQL_PASSWORD", "root"))
+    val df = spark.read.jdbc("jdbc:mysql://" + sys.env.getOrElse("MYSQL_HOST", "doitedu") + ":" + sys.env.getOrElse("MYSQL_PORT", "3306") + "/realtimedw", "t_md_areas", props)
 
     df.createTempView("t")
 

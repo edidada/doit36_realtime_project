@@ -1,5 +1,6 @@
 package cn.doitedu.rtmk.demo9;
 
+import cn.doitedu.rtmk.utils.RuntimeConfig;
 import cn.doitedu.rtmk.beans.EventBean;
 import cn.doitedu.rtmk.demo5.RuleCalculator;
 import com.alibaba.fastjson.JSON;
@@ -33,7 +34,7 @@ public class RuleModel005Calculator implements RuleCalculator {
 
         valueState = runtimeContext.getState(new ValueStateDescriptor<>("value", Integer.class));
 
-        jedis = new Jedis("doitedu", 6379);
+        jedis = RuntimeConfig.redis();
 
         resMessage = new JSONObject();
         resMessage.put("ruleId",ruleId);

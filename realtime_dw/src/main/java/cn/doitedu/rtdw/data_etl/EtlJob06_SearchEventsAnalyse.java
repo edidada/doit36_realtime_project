@@ -1,5 +1,6 @@
 package cn.doitedu.rtdw.data_etl;
 
+import cn.doitedu.rtdw.utils.RuntimeConfig;
 import cn.doitedu.rtdw.beans.EventBean;
 import cn.doitedu.rtdw.beans.SearchBean;
 import com.alibaba.fastjson.JSON;
@@ -55,7 +56,7 @@ public class EtlJob06_SearchEventsAnalyse {
          * 一、 读 kafka中的日志明细数据
          */
         KafkaSource<String> source = KafkaSource.<String>builder()
-                .setBootstrapServers("doitedu:9092")
+                .setBootstrapServers(RuntimeConfig.value("KAFKA_BOOTSTRAP_SERVERS", "doitedu:9092"))
                 .setStartingOffsets(OffsetsInitializer.latest())
                 .setGroupId("gpac01" + System.currentTimeMillis())
                 .setValueOnlyDeserializer(new SimpleStringSchema())
@@ -103,7 +104,7 @@ public class EtlJob06_SearchEventsAnalyse {
                             public void open(Configuration parameters) throws Exception {
                                 client = HttpClientBuilder.create().build();
 
-                                post = new HttpPost("http://doitedu:8081/api/post/simwords");
+                                post = new HttpPost(RuntimeConfig.value("SIMWORDS_URL", "http://doitedu:8081/api/post/simwords"));
                                 post.addHeader("Content-type", "application/json; charset=utf-8");
                                 post.addHeader("Accept", "application/json");
 
@@ -195,10 +196,10 @@ public class EtlJob06_SearchEventsAnalyse {
                         + "     click_item_count      INT      "
                         + " ) WITH (                               "
                         + "    'connector' = 'doris',              "
-                        + "    'fenodes' = 'doitedu:8030',         "
+                        + "    'fenodes' = '" + RuntimeConfig.sql("DORIS_FENODES", "doitedu:8030") + "',         "
                         + "    'table.identifier' = 'dws.search_ana_agg',  "
-                        + "    'username' = 'root',                "
-                        + "    'password' = '',                    "
+                        + "    'username' = '" + RuntimeConfig.sql("DORIS_USERNAME", "root") + "' ,                "
+                        + "    'password' = '" + RuntimeConfig.sql("DORIS_PASSWORD", "") + "' ,                    "
                         + "    'sink.label-prefix' = 'doris_tl" + System.currentTimeMillis()+"')");
 
         tenv.executeSql(

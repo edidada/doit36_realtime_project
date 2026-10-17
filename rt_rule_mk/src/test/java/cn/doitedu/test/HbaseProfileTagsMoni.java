@@ -1,5 +1,6 @@
 package cn.doitedu.test;
 
+import cn.doitedu.rtmk.utils.RuntimeConfig;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -18,7 +19,7 @@ public class HbaseProfileTagsMoni {
     public static void main(String[] args) throws IOException {
 
         Configuration conf = HBaseConfiguration.create();
-        conf.set("hbase.zookeeper.quorum", "doitedu:2181");
+        conf.set("hbase.zookeeper.quorum", RuntimeConfig.value("HBASE_ZOOKEEPER_QUORUM", "doitedu:2181"));
         Connection hbaseConn = ConnectionFactory.createConnection(conf);
         Table tagTable = hbaseConn.getTable(TableName.valueOf("user_profile_tags"));
 

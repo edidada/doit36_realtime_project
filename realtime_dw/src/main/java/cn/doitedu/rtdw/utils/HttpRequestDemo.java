@@ -18,7 +18,7 @@ public class HttpRequestDemo {
 
         HttpClient client = HttpClientBuilder.create().build();
 
-        HttpPost post = new HttpPost("http://doitedu:8081/api/post/simwords");
+        HttpPost post = new HttpPost(RuntimeConfig.value("SIMWORDS_URL", "http://doitedu:8081/api/post/simwords"));
         post.addHeader("Content-type","application/json; charset=utf-8");
         post.addHeader("Accept","application/json");
 

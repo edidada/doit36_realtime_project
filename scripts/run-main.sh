@@ -11,6 +11,19 @@ main="$2"
 shift 2
 case "$module" in realtime_dw|rt_rule_mk|redis_demo|batch_jobs) ;; *) echo 'Unknown module' >&2; exit 2 ;; esac
 cd "$ROOT_DIR"
+# Optional private JSON profile, loaded without shell evaluation or credential output.
+if [[ -n "${MAIN_ENV_JSON:-}" ]]; then
+  exec python3 - "$ROOT_DIR/scripts/run-main.sh" "$module" "$main" "$@" <<'PYENV'
+import json, os, sys
+with open(os.environ['MAIN_ENV_JSON']) as profile:
+    settings = json.load(profile)
+if not isinstance(settings, dict) or not all(isinstance(k, str) and isinstance(v, str) for k, v in settings.items()):
+    raise SystemExit('MAIN_ENV_JSON must contain a JSON object of string environment values')
+os.environ.update(settings)
+os.environ.pop('MAIN_ENV_JSON', None)
+os.execvp('bash', ['bash'] + sys.argv[1:])
+PYENV
+fi
 java_bin="${JAVA_HOME:+${JAVA_HOME}/bin/}java"
 if [[ "$("$java_bin" -XshowSettings:properties -version 2>&1 | sed -n 's/.*java.specification.version = //p')" != 17 ]]; then
   echo 'Set JAVA_HOME to a JDK 17 installation.' >&2

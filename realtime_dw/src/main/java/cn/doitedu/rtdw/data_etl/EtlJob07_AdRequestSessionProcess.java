@@ -1,5 +1,6 @@
 package cn.doitedu.rtdw.data_etl;
 
+import cn.doitedu.rtdw.utils.RuntimeConfig;
 import cn.doitedu.rtdw.utils.CommonSql;
 import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
@@ -74,7 +75,7 @@ public class EtlJob07_AdRequestSessionProcess {
                 ") WITH (                             " +
                 " 'connector' = 'hbase-2.2',          " +
                 " 'table-name' = 'ad_features',       " +
-                " 'zookeeper.quorum' = 'doitedu:2181' " +
+                " 'zookeeper.quorum' = '" + RuntimeConfig.sql("HBASE_ZOOKEEPER_QUORUM", "doitedu:2181") + "' " +
                 ")");
 
         // 创建kafka映射表，用于写入最终结果数据
@@ -91,7 +92,7 @@ public class EtlJob07_AdRequestSessionProcess {
                         + " ) WITH (                                             "
                         + "  'connector' = 'kafka',                              "
                         + "  'topic' = 'show-click-features',                     "
-                        + "  'properties.bootstrap.servers' = 'doitedu:9092',    "
+                        + "  'properties.bootstrap.servers' = '" + RuntimeConfig.sql("KAFKA_BOOTSTRAP_SERVERS", "doitedu:9092") + "',    "
                         + "  'properties.group.id' = 'testGroup',                "
                         + "  'scan.startup.mode' = 'latest-offset',            "
                         + "  'value.format'='json',                              "

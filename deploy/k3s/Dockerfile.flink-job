@@ -1,13 +1,12 @@
 ARG RUNTIME_JDK=17
 ARG TEMURIN_IMAGE=docker.io/library/eclipse-temurin:${RUNTIME_JDK}-jre-jammy
-ARG FLINK_IMAGE=docker.io/apache/flink:1.16.1-scala_2.12-java11
+ARG FLINK_IMAGE=docker.io/apache/flink:1.19.3-scala_2.12-java17
 FROM ${TEMURIN_IMAGE} AS temurin-jre
 
 FROM ${FLINK_IMAGE}
 
-# Flink 1.16.1 was published with a Java 11 image.  Keep its official
-# entrypoint and setup, but replace its bundled JRE with the selected Temurin
-# LTS runtime so it matches the JDK used to compile the jobs in CI.
+# Keep the official Flink 1.19.3 entrypoint and install the selected Temurin
+# runtime. The validated runtime is Java 17; other CI JDKs are build options.
 USER root
 RUN rm -rf "${JAVA_HOME}"
 COPY --from=temurin-jre /opt/java/openjdk /opt/java/openjdk

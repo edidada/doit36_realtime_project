@@ -1,5 +1,6 @@
 package cn.doitedu.rtdw.data_etl;
 
+import cn.doitedu.rtdw.utils.RuntimeConfig;
 import cn.doitedu.rtdw.beans.VideoAggBean;
 import cn.doitedu.rtdw.beans.VideoWideBean;
 import cn.doitedu.rtdw.utils.CommonSql;
@@ -52,7 +53,7 @@ public class EtlJob05_VideoEventsAgg {
                 ") WITH (                             " +
                 " 'connector' = 'hbase-2.2',          " +
                 " 'table-name' = 'dim_video_info',     " +
-                " 'zookeeper.quorum' = 'doitedu:2181' " +
+                " 'zookeeper.quorum' = '" + RuntimeConfig.sql("HBASE_ZOOKEEPER_QUORUM", "doitedu:2181") + "' " +
                 ")");
 
         tenv.executeSql(
@@ -187,10 +188,10 @@ public class EtlJob05_VideoEventsAgg {
                         + "     play_end_time    BIGINT        "
                         + " ) WITH (                               "
                         + "    'connector' = 'doris',              "
-                        + "    'fenodes' = 'doitedu:8030',         "
+                        + "    'fenodes' = '" + RuntimeConfig.sql("DORIS_FENODES", "doitedu:8030") + "',         "
                         + "    'table.identifier' = 'dws.video_events_agg01',  "
-                        + "    'username' = 'root',                "
-                        + "    'password' = '',                    "
+                        + "    'username' = '" + RuntimeConfig.sql("DORIS_USERNAME", "root") + "' ,                "
+                        + "    'password' = '" + RuntimeConfig.sql("DORIS_PASSWORD", "") + "' ,                    "
                         + "    'sink.label-prefix' = 'doris_tl" + System.currentTimeMillis() + "')"
         );
 

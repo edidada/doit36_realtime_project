@@ -1,5 +1,6 @@
 package cn.doitedu.rtdw.rt_dashboard;
 
+import cn.doitedu.rtdw.utils.RuntimeConfig;
 import cn.doitedu.rtdw.utils.CommonSql;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -52,10 +53,10 @@ public class Promotion01_PVUV {
                         +"   PRIMARY KEY (page_url) NOT ENFORCED             "
                         +" ) WITH (                                          "
                         +"    'connector' = 'jdbc',                          "
-                        +"    'url' = 'jdbc:mysql://doitedu:3306/rtrpt',     "
+                        +"    'url' = '" + RuntimeConfig.jdbcUrl("rtrpt") + "',     "
                         +"    'table-name' = 'dashboard_promotion_abc_pvuv', "
-                        +"    'username' = 'root',                           "
-                        +"    'password' = 'root'                            "
+                        +"    'username' = '" + RuntimeConfig.sql("MYSQL_USERNAME", "root") + "',                           "
+                        +"    'password' = '" + RuntimeConfig.sql("MYSQL_PASSWORD", "root") + "'                            "
                         +" )                                                 "
         );
 
@@ -94,7 +95,7 @@ public class Promotion01_PVUV {
         // 把表转成流
         DataStream<Row> res_view = tenv.toDataStream(tenv.from("res_view"));
 
-        res_view.addSink(new RedisSink("doitedu",6379));
+        res_view.addSink(new RedisSink(RuntimeConfig.value("REDIS_HOST", "doitedu"), RuntimeConfig.port("REDIS_PORT", 6379)));
 
         env.execute();
 
@@ -115,7 +116,7 @@ public class Promotion01_PVUV {
 
         @Override
         public void open(Configuration parameters) throws Exception {
-            jedis = new Jedis(this.host, this.port);
+            jedis = RuntimeConfig.redis();
         }
 
 

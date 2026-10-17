@@ -1,5 +1,8 @@
 package cn.doitedu.rtmk.demo8;
 
+import cn.doitedu.rtmk.utils.RuntimeConfig;
+import org.apache.flink.configuration.Configuration;
+import org.apache.flink.runtime.jobgraph.SavepointConfigOptions;
 import cn.doitedu.rtmk.beans.EventBean;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -29,7 +32,12 @@ import java.time.LocalDateTime;
 
 public class RuleEngineRecovery {
     public static void main(String[] args) throws Exception {
-        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+        Configuration configuration = new Configuration();
+        String savepoint = RuntimeConfig.value("FLINK_SAVEPOINT_PATH", "");
+        if (!savepoint.isEmpty()) {
+            configuration.set(SavepointConfigOptions.SAVEPOINT_PATH, savepoint);
+        }
+        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(configuration);
         // 一些必须参数设置
         env.setStateBackend(new HashMapStateBackend());
         env.enableCheckpointing(5000, CheckpointingMode.EXACTLY_ONCE);
@@ -41,11 +49,11 @@ public class RuleEngineRecovery {
 
         // 读 kafka 数据
         KafkaSource<String> source = KafkaSource.<String>builder()
-                .setBootstrapServers("doitedu:9092")
+                .setBootstrapServers(RuntimeConfig.value("KAFKA_BOOTSTRAP_SERVERS", "doitedu:9092"))
                 .setStartingOffsets(OffsetsInitializer.latest())
-                .setTopics("dwd-events-log")
+                .setTopics(RuntimeConfig.value("KAFKA_INPUT_TOPIC", "dwd-events-log"))
                 .setValueOnlyDeserializer(new SimpleStringSchema())
-                .setGroupId("g01")
+                .setGroupId(RuntimeConfig.value("KAFKA_GROUP_ID", "g01"))
                 .build();
         DataStreamSource<String> ds = env.fromSource(source, WatermarkStrategy.noWatermarks(), "log-source");
         SingleOutputStreamOperator<EventBean> beans = ds.map(json -> JSON.parseObject(json, EventBean.class));
@@ -73,11 +81,11 @@ public class RuleEngineRecovery {
                 "     PRIMARY KEY (id) NOT ENFORCED            " +
                 "     ) WITH (                                 " +
                 "     'connector' = 'mysql-cdc',               " +
-                "     'hostname' = 'doitedu'   ,               " +
-                "     'port' = '3306'          ,               " +
-                "     'username' = 'root'      ,               " +
-                "     'password' = 'root'      ,               " +
-                "     'database-name' = 'rtmk',                " +
+                "     'hostname' = '" + RuntimeConfig.sql("MYSQL_HOST", "doitedu") + "'    ,               " +
+                "     'port' = '" + RuntimeConfig.port("MYSQL_PORT", 3306) + "'           ,               " +
+                "     'username' = '" + RuntimeConfig.sql("MYSQL_USERNAME", "root") + "'       ,               " +
+                "     'password' = '" + RuntimeConfig.sql("MYSQL_PASSWORD", "root") + "'       ,               " +
+                "     'database-name' = '" + RuntimeConfig.sql("MYSQL_RULE_DATABASE", "rtmk") + "',                " +
                 "     'table-name' = 'rule_meta_doit36'        " +
                 ")");
 

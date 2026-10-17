@@ -1,0 +1,6 @@
+2026-10-17T15:30:22+0800 starting_or_resuming saved_bytes=922165248 expected_bytes=1148597972
+2026-10-17T15:30:26+0800 invalid_part_size file=/Users/ibqo/Develop/git/github/java/doit36_realtime_project/.artifacts/k3s-flink-image-7-ubuntu-24.04-jdk21/segments-v2/part-0098 have=9158656 want=8388608
+2026-10-17T15:31:01+0800 starting_or_resuming saved_bytes=922165248 expected_bytes=1148597972
+2026-10-17T15:32:39+0800 saved_bytes=950960128 requests=16 success=1
+2026-10-17T15:34:15+0800 saved_bytes=986308608 requests=16 success=1
+2026-10-17T15:34:16+0800 invalid_part_size file=/Users/ibqo/Develop/git/github/java/doit36_realtime_project/.artifacts/k3s-flink-image-7-ubuntu-24.04-jdk21/segments-v2/part-0101 have=8445952 want=8388608

@@ -1,5 +1,6 @@
 package cn.doitedu;
 
+import cn.doitedu.rtdw.utils.RuntimeConfig;
 import cn.doitedu.rtdw.beans.EventBean;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
@@ -39,7 +40,7 @@ public class EtlAsync {
         env.getCheckpointConfig().setCheckpointStorage(System.getProperty("flink.checkpoints.dir",
                 new java.io.File(System.getProperty("java.io.tmpdir"), "doit36-checkpoints").toURI().toString()));
 
-        DataStreamSource<String> ds = env.socketTextStream("doitedu", 9090);
+        DataStreamSource<String> ds = env.socketTextStream(RuntimeConfig.value("SOCKET_HOST", "doitedu"), RuntimeConfig.port("SOCKET_PORT", 9090));
 
         AsyncFunction<String,String> func = new RichAsyncFunction<String, String>() {
             CloseableHttpAsyncClient client;
@@ -61,7 +62,7 @@ public class EtlAsync {
                 client.start();
                 // HttpGet get = new HttpGet();
 
-                post = new HttpPost("http://doitedu:8081/api/post/simwords");
+                post = new HttpPost(RuntimeConfig.value("SIMWORDS_URL", "http://doitedu:8081/api/post/simwords"));
                 post.addHeader("Content-type","application/json; charset=utf-8");
                 post.addHeader("Accept", "application/json");
 

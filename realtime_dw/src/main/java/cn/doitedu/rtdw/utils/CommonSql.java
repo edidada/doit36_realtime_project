@@ -30,7 +30,7 @@ public class CommonSql {
             + " ) WITH (                                             "
             + "  'connector' = 'kafka',                              "
             + "  'topic' = 'dwd-events-log',                     "
-            + "  'properties.bootstrap.servers' = 'doitedu:9092',    "
+            + "  'properties.bootstrap.servers' = '" + RuntimeConfig.sql("KAFKA_BOOTSTRAP_SERVERS", "doitedu:9092") + "',    "
             + "  'properties.group.id' = 'testGroup',                "
             + "  'scan.startup.mode' = 'latest-offset',            "
             + "  'value.format'='json',                              "

@@ -1,5 +1,6 @@
 package cn.doitedu.rtdw.data_sync;
 
+import cn.doitedu.rtdw.utils.RuntimeConfig;
 import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -31,7 +32,7 @@ public class SyncJob03_AdRequestFeatures2Hbase {
                         + " ) WITH (                                            "
                         + "  'connector' = 'kafka',                             "
                         + "  'topic' = 'ad-request-log',                        "
-                        + "  'properties.bootstrap.servers' = 'doitedu:9092',   "
+                        + "  'properties.bootstrap.servers' = '" + RuntimeConfig.sql("KAFKA_BOOTSTRAP_SERVERS", "doitedu:9092") + "',   "
                         + "  'properties.group.id' = 'goo4',                    "
                         + "  'scan.startup.mode' = 'latest-offset',             "
                         + "  'value.format'='json',                             "
@@ -48,7 +49,7 @@ public class SyncJob03_AdRequestFeatures2Hbase {
                 ") WITH (                             " +
                 " 'connector' = 'hbase-2.2',          " +
                 " 'table-name' = 'ad_features',       " +
-                " 'zookeeper.quorum' = 'doitedu:2181' " +
+                " 'zookeeper.quorum' = '" + RuntimeConfig.sql("HBASE_ZOOKEEPER_QUORUM", "doitedu:2181") + "' " +
                 ")");
 
         // insert语句

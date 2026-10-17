@@ -1,5 +1,6 @@
 package cn.doitedu.rtmk.demo4;
 
+import cn.doitedu.rtmk.utils.RuntimeConfig;
 import cn.doitedu.rtmk.beans.EventBean;
 import com.alibaba.fastjson.JSON;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
@@ -42,11 +43,11 @@ public class ModelBasedRuleEngine {
 
         // 读 kafka 数据
         KafkaSource<String> source = KafkaSource.<String>builder()
-                .setBootstrapServers("doitedu:9092")
+                .setBootstrapServers(RuntimeConfig.value("KAFKA_BOOTSTRAP_SERVERS", "doitedu:9092"))
                 .setStartingOffsets(OffsetsInitializer.latest())
-                .setTopics("dwd-events-log")
+                .setTopics(RuntimeConfig.value("KAFKA_INPUT_TOPIC", "dwd-events-log"))
                 .setValueOnlyDeserializer(new SimpleStringSchema())
-                .setGroupId("g01")
+                .setGroupId(RuntimeConfig.value("KAFKA_GROUP_ID", "g01"))
                 .build();
 
 

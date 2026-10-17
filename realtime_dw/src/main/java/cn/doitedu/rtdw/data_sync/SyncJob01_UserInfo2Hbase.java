@@ -1,5 +1,6 @@
 package cn.doitedu.rtdw.data_sync;
 
+import cn.doitedu.rtdw.utils.RuntimeConfig;
 import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -45,10 +46,10 @@ public class SyncJob01_UserInfo2Hbase {
                 "     PRIMARY KEY (id) NOT ENFORCED            " +
                 "     ) WITH (                                 " +
                 "     'connector' = 'mysql-cdc',               " +
-                "     'hostname' = 'doitedu'   ,               " +
-                "     'port' = '3306'          ,               " +
-                "     'username' = 'root'      ,               " +
-                "     'password' = 'root'      ,               " +
+                "     'hostname' = '" + RuntimeConfig.sql("MYSQL_HOST", "doitedu") + "'    ,               " +
+                "     'port' = '" + RuntimeConfig.port("MYSQL_PORT", 3306) + "'           ,               " +
+                "     'username' = '" + RuntimeConfig.sql("MYSQL_USERNAME", "root") + "'       ,               " +
+                "     'password' = '" + RuntimeConfig.sql("MYSQL_PASSWORD", "root") + "'       ,               " +
                 "     'database-name' = 'realtimedw',          " +
                 "     'table-name' = 'ums_member'              " +
                 ")");
@@ -62,7 +63,7 @@ public class SyncJob01_UserInfo2Hbase {
                 ") WITH (                             " +
                 " 'connector' = 'hbase-2.2',          " +
                 " 'table-name' = 'dim_user_info',     " +
-                " 'zookeeper.quorum' = 'doitedu:2181' " +
+                " 'zookeeper.quorum' = '" + RuntimeConfig.sql("HBASE_ZOOKEEPER_QUORUM", "doitedu:2181") + "' " +
                 ")");
 
         // 写一个insert ... select  from ..  的 sql

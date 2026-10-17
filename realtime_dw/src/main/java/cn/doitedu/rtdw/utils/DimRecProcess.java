@@ -7,7 +7,7 @@ public class DimRecProcess {
 
     public static void main(String[] args) throws IOException {
 
-        BufferedReader br = new BufferedReader(new FileReader("d:/dim_red.csv"));
+        BufferedReader br = new BufferedReader(new FileReader(args.length > 0 ? args[0] : RuntimeConfig.value("DIM_REC_INPUT", "d:/dim_red.csv")));
         br.readLine();
         String line ;
         ArrayList<String> lst = new ArrayList<>();
@@ -26,7 +26,7 @@ public class DimRecProcess {
         br.close();
 
         // 所有命令全部输出
-        BufferedWriter bw = new BufferedWriter(new FileWriter("d:/ok.sh"));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(args.length > 1 ? args[1] : RuntimeConfig.value("DIM_REC_OUTPUT", "d:/ok.sh")));
         for (String cmd : lst) {
             bw.write(cmd);
             bw.newLine();

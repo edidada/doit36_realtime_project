@@ -1,5 +1,6 @@
 package cn.doitedu.rtmk.demo2;
 
+import cn.doitedu.rtmk.utils.RuntimeConfig;
 import cn.doitedu.rtmk.beans.EventBean;
 import cn.doitedu.rtmk.demo3.Rule001Calculator;
 import cn.doitedu.rtmk.demo3.Rule002Calculator;
@@ -55,11 +56,11 @@ public class MultiRuleEngine {
 
         // 读 kafka 数据
         KafkaSource<String> source = KafkaSource.<String>builder()
-                .setBootstrapServers("doitedu:9092")
+                .setBootstrapServers(RuntimeConfig.value("KAFKA_BOOTSTRAP_SERVERS", "doitedu:9092"))
                 .setStartingOffsets(OffsetsInitializer.latest())
-                .setTopics("dwd-events-log")
+                .setTopics(RuntimeConfig.value("KAFKA_INPUT_TOPIC", "dwd-events-log"))
                 .setValueOnlyDeserializer(new SimpleStringSchema())
-                .setGroupId("g01")
+                .setGroupId(RuntimeConfig.value("KAFKA_GROUP_ID", "g01"))
                 .build();
 
 

@@ -1,5 +1,6 @@
 package cn.doitedu;
 
+import cn.doitedu.rtdw.utils.RuntimeConfig;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -34,7 +35,7 @@ public class WindowTest {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
         env.enableCheckpointing(2000);
         env.setParallelism(1);
-        env.getCheckpointConfig().setCheckpointStorage("hdfs://doitedu:8020/ckpt");
+        env.getCheckpointConfig().setCheckpointStorage(RuntimeConfig.value("FLINK_CHECKPOINT_URI", "hdfs://doitedu:8020/ckpt"));
 
         //
         StreamTableEnvironment tenv = StreamTableEnvironment.create(env);
@@ -49,7 +50,7 @@ public class WindowTest {
                         + " ) WITH (                                            "
                         + "  'connector' = 'kafka',                             "
                         + "  'topic' = 'window-test',                           "
-                        + "  'properties.bootstrap.servers' = 'doitedu:9092',   "
+                        + "  'properties.bootstrap.servers' = '" + RuntimeConfig.sql("KAFKA_BOOTSTRAP_SERVERS", "doitedu:9092") + "',   "
                         + "  'properties.group.id' = 'goo4',                   "
                         + "  'scan.startup.mode' = 'latest-offset',           "
                         + "  'value.format'='json',                             "
@@ -66,7 +67,7 @@ public class WindowTest {
                         + " ) WITH (                                            "
                         + "  'connector' = 'kafka',                             "
                         + "  'topic' = 'window-res',                            "
-                        + "  'properties.bootstrap.servers' = 'doitedu:9092',   "
+                        + "  'properties.bootstrap.servers' = '" + RuntimeConfig.sql("KAFKA_BOOTSTRAP_SERVERS", "doitedu:9092") + "',   "
                         + "  'properties.group.id' = 'goo5',                    "
                         + "  'scan.startup.mode' = 'latest-offset',             "
                         + "  'value.format'='json',                             "

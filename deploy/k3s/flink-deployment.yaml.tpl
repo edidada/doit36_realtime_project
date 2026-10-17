@@ -6,7 +6,7 @@ metadata:
 spec:
   image: doit36/flink-jobs:<IMAGE_TAG>
   imagePullPolicy: IfNotPresent
-  flinkVersion: v1_16
+  flinkVersion: v1_19
   flinkConfiguration:
     taskmanager.numberOfTaskSlots: "2"
     state.checkpoints.dir: file:///flink-data/checkpoints

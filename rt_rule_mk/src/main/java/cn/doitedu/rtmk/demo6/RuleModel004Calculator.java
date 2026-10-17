@@ -1,5 +1,6 @@
 package cn.doitedu.rtmk.demo6;
 
+import cn.doitedu.rtmk.utils.RuntimeConfig;
 import cn.doitedu.rtmk.beans.EventBean;
 import cn.doitedu.rtmk.demo5.RuleCalculator;
 import com.alibaba.fastjson.JSON;
@@ -43,7 +44,7 @@ public class RuleModel004Calculator implements RuleCalculator {
 
         // 构造hbase的查询客户端
         Configuration conf = HBaseConfiguration.create();
-        conf.set("hbase.zookeeper.quorum", "doitedu:2181");
+        conf.set("hbase.zookeeper.quorum", RuntimeConfig.value("HBASE_ZOOKEEPER_QUORUM", "doitedu:2181"));
         Connection hbaseConn = ConnectionFactory.createConnection(conf);
         tagTable = hbaseConn.getTable(TableName.valueOf("user_profile_tags"));
 
