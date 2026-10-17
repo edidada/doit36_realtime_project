@@ -5,3 +5,5 @@ target
 .mvn
 *.iml
 .skill*/
+deploy/k3s/.image-build/
+deploy/k3s/output/

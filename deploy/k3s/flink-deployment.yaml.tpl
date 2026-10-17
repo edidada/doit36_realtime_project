@@ -4,7 +4,8 @@ metadata:
   name: realtime-dw-etl-01
   namespace: doit
 spec:
-  image: <REGISTRY>/doit36-realtime:<IMAGE_TAG>
+  image: doit36/flink-jobs:<IMAGE_TAG>
+  imagePullPolicy: IfNotPresent
   flinkVersion: v1_16
   flinkConfiguration:
     taskmanager.numberOfTaskSlots: "2"
@@ -32,7 +33,7 @@ spec:
       cpu: 2
       memory: "4096m"
   job:
-    jarURI: local:///opt/flink/usrlib/<JAR_FILE>
+    jarURI: local:///opt/flink/usrlib/realtime_dw/realtime_dw-job.jar
     entryClass: cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim
     parallelism: 1
     upgradeMode: stateless

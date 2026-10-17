@@ -1,0 +1,6 @@
+ARG FLINK_IMAGE=flink:1.16.1-scala_2.12-java17
+FROM ${FLINK_IMAGE}
+
+# Both modules are placed below usrlib. The FlinkDeployment template selects
+# the exact JAR through its jarURI.
+COPY usrlib/ /opt/flink/usrlib/

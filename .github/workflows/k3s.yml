@@ -1,16 +1,8 @@
-name: Build K3s Deployment Bundle
+name: Proxmox K3s Flink Image
 
 on:
-  pull_request:
-    paths:
-      - '.github/workflows/k3s.yml'
-      - 'deploy/k3s/**'
-      - 'docs/k3s-deployment.md'
-      - 'pom.xml'
-      - '**/pom.xml'
-      - '**/src/**'
   push:
-    branches: [master, k3s]
+    branches: [k3s]
     paths:
       - '.github/workflows/k3s.yml'
       - 'deploy/k3s/**'
@@ -24,8 +16,8 @@ permissions:
   contents: read
 
 jobs:
-  compile-and-package:
-    name: Compile and package K3s deployment
+  build-image:
+    name: Compile and export K3s image tar
     runs-on: ubuntu-latest
 
     steps:
@@ -38,27 +30,34 @@ jobs:
           java-version: '17'
           cache: maven
 
-      # This validates every Maven module. It intentionally does not run
-      # `mvn package`: the artifact produced below is the K3s deployment bundle.
+      - name: Show runner disk space
+        run: df -h
+
+      # Validates every Maven module without creating Maven package artifacts.
       - name: Compile all Maven modules
         run: mvn --batch-mode --no-transfer-progress --show-version -DskipTests clean compile
 
-      - name: Create K3s deployment archive
-        shell: bash
+      - name: Build Flink image and export tar
+        env:
+          IMAGE_NAMESPACE: doit36
+          IMAGE_TAG: ${{ github.run_number }}
+          SAVE_TAR: 'true'
+        run: bash deploy/k3s/build-k3s-image.sh
+
+      - name: List exported image tar
         run: |
           set -euo pipefail
-          archive_root="doit36-k3s-deployment-${GITHUB_SHA}"
-          rm -rf dist
-          mkdir -p "dist/${archive_root}"
-          cp -R deploy/k3s "dist/${archive_root}/deploy"
-          cp docs/k3s-deployment.md "dist/${archive_root}/"
-          tar -C dist -czf "dist/${archive_root}.tar.gz" "${archive_root}"
-          ls -lh dist/*.tar.gz
-          tar -tzf "dist/${archive_root}.tar.gz"
+          echo '== deploy/k3s/output =='
+          ls -lh deploy/k3s/output/
+          echo '== total size =='
+          du -sh deploy/k3s/output/
 
-      - name: Upload K3s deployment archive
+      - name: List local image
+        run: docker images | grep '^doit36/' || true
+
+      - name: Upload K3s image tar
         uses: actions/upload-artifact@v4
         with:
-          name: k3s-deployment-${{ github.sha }}
-          path: dist/*.tar.gz
+          name: k3s-flink-image-${{ github.run_number }}
+          path: deploy/k3s/output/*.tar
           if-no-files-found: error
