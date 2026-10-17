@@ -25,5 +25,5 @@ public class RuleMeta {
     private LocalDateTime create_time;
     private LocalDateTime update_time;
 
-    private RuleCalculator ruleCalculator;
+    private transient RuleCalculator ruleCalculator;
 }

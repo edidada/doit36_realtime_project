@@ -234,11 +234,11 @@ public class EtlJob05_VideoEventsAgg {
                         + "     ,create_time                                                                      "
                         + "     ,play_start_time                                                                  "
 
-        );
+        ).await();
 
        // TODO  补充状态清理的逻辑
 
 
-        env.execute();
+
     }
 }

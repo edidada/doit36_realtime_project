@@ -40,7 +40,7 @@ public class SyncJob02_VideoInfo2Hbase {
                 "     'port' = '" + RuntimeConfig.port("MYSQL_PORT", 3306) + "'           ,               " +
                 "     'username' = '" + RuntimeConfig.sql("MYSQL_USERNAME", "root") + "'       ,               " +
                 "     'password' = '" + RuntimeConfig.sql("MYSQL_PASSWORD", "root") + "'       ,               " +
-                "     'database-name' = 'realtimedw',          " +
+                "     'database-name' = '" + RuntimeConfig.sql("MYSQL_DATABASE", "realtimedw") + "',          " +
                 "     'table-name' = 'cms_video'               " +
                 ")");
 

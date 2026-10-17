@@ -132,7 +132,7 @@ public class DynamicRuleWithGroovy {
                 .setBootstrapServers(RuntimeConfig.value("KAFKA_BOOTSTRAP_SERVERS", "doitedu:9092"))
                 .setRecordSerializer(KafkaRecordSerializationSchema.builder()
                         .setValueSerializationSchema(new SimpleStringSchema())
-                        .setTopic("rtmk-res")
+                        .setTopic(RuntimeConfig.value("KAFKA_OUTPUT_TOPIC", "rtmk-res"))
                         .build()
                 )
                 .build();

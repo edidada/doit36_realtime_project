@@ -19,7 +19,7 @@ public final class RuntimeConfig {
 
     public static String jdbcUrl(String database) {
         return "jdbc:mysql://" + value("MYSQL_HOST", "doitedu") + ":"
-                + port("MYSQL_PORT", 3306) + "/" + database;
+                + port("MYSQL_PORT", 3306) + "/" + value("MYSQL_DATABASE", database);
     }
     public static redis.clients.jedis.Jedis redis() {
         redis.clients.jedis.Jedis client = new redis.clients.jedis.Jedis(

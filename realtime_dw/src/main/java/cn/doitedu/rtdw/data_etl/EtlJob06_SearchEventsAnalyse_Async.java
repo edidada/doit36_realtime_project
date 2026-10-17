@@ -205,6 +205,11 @@ public class EtlJob06_SearchEventsAnalyse_Async {
             }
 
             @Override
+            public void close() throws Exception {
+                if (client != null) client.close();
+            }
+
+            @Override
             public void asyncInvoke(EventBean eventBean, ResultFuture<SearchBean> resultFuture) throws Exception {
 
                 // 取出搜索词
@@ -338,9 +343,9 @@ public class EtlJob06_SearchEventsAnalyse_Async {
                         +"   keyword,                                                             "
                         +"   split_word,                                                          "
                         +"   similar_word                                                         "
-        );
+        ).await();
 
 
-        env.execute();
+
     }
 }

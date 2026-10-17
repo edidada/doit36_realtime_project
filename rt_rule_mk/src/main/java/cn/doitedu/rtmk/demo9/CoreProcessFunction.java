@@ -2,134 +2,88 @@ package cn.doitedu.rtmk.demo9;
 
 import cn.doitedu.rtmk.beans.EventBean;
 import cn.doitedu.rtmk.demo5.RuleCalculator;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import groovy.lang.GroovyClassLoader;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.flink.api.common.state.BroadcastState;
 import org.apache.flink.api.common.state.MapStateDescriptor;
-import org.apache.flink.api.common.state.ReadOnlyBroadcastState;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.co.KeyedBroadcastProcessFunction;
 import org.apache.flink.util.Collector;
 import org.roaringbitmap.RoaringBitmap;
 
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 import java.util.Map;
 
+/** Checkpoint rule definitions; recreate live clients and keyed state handles on demand. */
 @Slf4j
 public class CoreProcessFunction extends KeyedBroadcastProcessFunction<Integer, EventBean, RuleMeta, String> {
-
-    // 定义一个运算机池
-    //HashMap<Integer, RuleCalculator> ruleCalculators = new HashMap<>();
-
-    // 定义一个运算机池
-    //MapState<Integer, RuleCalculator> calculatorMapState;
+    private static final MapStateDescriptor<Integer, RuleMeta> RULES =
+            new MapStateDescriptor<>("ruleMetaState", Integer.class, RuleMeta.class);
+    private transient Map<Integer, RuleCalculator> calculators;
+    private transient Map<Integer, GroovyClassLoader> loaders;
 
     @Override
-    public void open(Configuration parameters) throws Exception {
-
-        //calculatorMapState = getRuntimeContext().getMapState(new MapStateDescriptor<Integer, RuleCalculator>("caculatorMapState", Integer.class, RuleCalculator.class));
-
+    public void open(Configuration parameters) {
+        calculators = new HashMap<>();
+        loaders = new HashMap<>();
     }
 
     @Override
-    public void processElement(EventBean eventBean, KeyedBroadcastProcessFunction<Integer, EventBean, RuleMeta, String>.ReadOnlyContext ctx, Collector<String> out) throws Exception {
-        // 把eventBean缓存到状态中
-
-
-        // 遍历运算机池(HashMap)，将本次接收到的行为事件，交给每个运算机去处理
-        /* for (RuleCalculator calculator : ruleCalculators.values()) {
-            calculator.calc(eventBean,out);
-        }*/
-
-        // 遍历运算机池(MapState)，将本次接收到的行为事件，交给每个运算机去处理
-        // 此法不可行，MapState在processBroadcastElement方法中不可用
-       /* for (Map.Entry<Integer, RuleCalculator> entry : calculatorMapState.entries()) {
-            RuleCalculator ruleCalculator = entry.getValue();
-            ruleCalculator.calc(eventBean,out);
-        }*/
-
-
-        // 遍历运算机池（广播状态），将本次接收到的行为事件，交给每个运算机去处理
-        MapStateDescriptor<Integer, RuleMeta> mapStateDescriptor = new MapStateDescriptor<>("ruleMetaState", Integer.class, RuleMeta.class);
-        ReadOnlyBroadcastState<Integer, RuleMeta> calculators = ctx.getBroadcastState(mapStateDescriptor);
-
-        for (Map.Entry<Integer, RuleMeta> entry : calculators.immutableEntries()) {
-            RuleMeta ruleMeta = entry.getValue();
-            RuleCalculator ruleCalculator = ruleMeta.getRuleCalculator();
-            ruleCalculator.calc(eventBean, out);
+    public void processElement(EventBean event, ReadOnlyContext ctx, Collector<String> out) throws Exception {
+        for (Map.Entry<Integer, RuleMeta> entry : ctx.getBroadcastState(RULES).immutableEntries()) {
+            RuleMeta rule = entry.getValue();
+            RuleCalculator calculator = calculators.get(entry.getKey());
+            if (calculator == null) {
+                RoaringBitmap crowd = new RoaringBitmap();
+                if (rule.getStatic_crowd() != null && rule.getStatic_crowd().length > 0) {
+                    crowd.deserialize(ByteBuffer.wrap(rule.getStatic_crowd()));
+                }
+                if (rule.getModel_calculator_code() == null || rule.getModel_calculator_code().trim().isEmpty()) {
+                    throw new IllegalArgumentException("Missing Groovy calculator code for rule " + rule.getId());
+                }
+                GroovyClassLoader loader = new GroovyClassLoader(getClass().getClassLoader());
+                try {
+                    Class<?> type = loader.parseClass(rule.getModel_calculator_code());
+                    calculator = (RuleCalculator) type.getDeclaredConstructor().newInstance();
+                    loaders.put(entry.getKey(), loader);
+                } catch (Exception failure) {
+                    loader.close();
+                    throw failure;
+                }
+                // Keyed state must be obtained in the keyed event path, not the broadcast path.
+                calculator.init(getRuntimeContext(), rule.getParam_json(), crowd);
+                calculators.put(entry.getKey(), calculator);
+            }
+            calculator.calc(event, out);
         }
-
-
     }
 
     @Override
-    public void processBroadcastElement(RuleMeta ruleMeta, KeyedBroadcastProcessFunction<Integer, EventBean, RuleMeta, String>.Context ctx, Collector<String> out) throws Exception {
-
-        MapStateDescriptor<Integer, RuleMeta> mapStateDescriptor = new MapStateDescriptor<>("ruleMetaState", Integer.class, RuleMeta.class);
-        BroadcastState<Integer, RuleMeta> broadcastState = ctx.getBroadcastState(mapStateDescriptor);
-
-        int ruleId = ruleMeta.getId();
-        int modelId = ruleMeta.getModel_id();
-
-        // +I : 0 ,  +U :2 , -D : 3
-        int opType = ruleMeta.getOpType();
-        if((opType == 0 || opType ==  2) && ruleMeta.getStatus() == 1){
-            log.info("收到一条新注入的规则定义信息： {}", ruleMeta);
-            addCalculator(ruleMeta, broadcastState, ruleId, modelId);
-        }else if(opType == 3 || (opType == 2 && ruleMeta.getStatus() == 0)) {
-            log.info("移除一条规则,规则id： {}",ruleId);
-            removeCalculator(ruleId,broadcastState);
+    public void processBroadcastElement(RuleMeta rule, Context ctx, Collector<String> out) throws Exception {
+        log.info("收到一条新注入的规则定义信息： {}", rule);
+        RuleCalculator previous = calculators.remove(rule.getId());
+        if (previous instanceof AutoCloseable) ((AutoCloseable) previous).close();
+        GroovyClassLoader loader = loaders.remove(rule.getId());
+        if (loader != null) loader.close();
+        // Ignore UPDATE_BEFORE; the following UPDATE_AFTER contains the new definition.
+        if (rule.getOpType() == 1) return;
+        if (rule.getOpType() == 3 || rule.getStatus() != 1) {
+            ctx.getBroadcastState(RULES).remove(rule.getId());
+        } else {
+            rule.setRuleCalculator(null);
+            ctx.getBroadcastState(RULES).put(rule.getId(), rule);
         }
-
-
     }
 
-    private void addCalculator(RuleMeta ruleMeta, BroadcastState<Integer, RuleMeta> broadcastState, int ruleId, int modelId) throws Exception {
-        // 将元数据中获取到的规则id和模型id，填充到规则参数json中
-        String param_json = ruleMeta.getParam_json();
-        JSONObject jsonObject = JSON.parseObject(param_json);
-        jsonObject.put("ruleId", ruleId);
-        jsonObject.put("modelId", modelId);
-        param_json = jsonObject.toJSONString();
-
-
-        byte[] static_crowd_bytes = ruleMeta.getStatic_crowd();
-
-        // 将静态人群bitmap的序列化结果，反序列化到一个bitmap对象中
-        RoaringBitmap bitmap = RoaringBitmap.bitmapOf();
-        bitmap.deserialize(ByteBuffer.wrap(static_crowd_bytes));
-
-
-        // 取出改规则对应的模型运算机代码
-        String groovyCode = ruleMeta.getModel_calculator_code();
-        // 动态编译加载
-        GroovyClassLoader groovyClassLoader = new GroovyClassLoader();
-        Class aClass = groovyClassLoader.parseClass(groovyCode);
-        // 构建运算机实例
-        RuleCalculator ruleCalculator = (RuleCalculator) aClass.newInstance();
-
-        // 初始化运算机
-        ruleCalculator.init(getRuntimeContext(), param_json, bitmap);
-
-        // 把运算机放入运算机池(HASHMAP)
-        //ruleCalculators.put(ruleId,ruleCalculator);
-
-
-        // ！！！ 在processBroadCast方法中，压根不能使用  keyedState
-        //calculatorMapState.put(ruleId,ruleCalculator);
-
-        // 既然此路不通，我们可以选择换用  broadcastState
-        ruleMeta.setRuleCalculator(ruleCalculator); // 让ruleMeta对象携带上构造好的运算
-
-        // 然后将携带了运算机的ruleMeta对象放入广播状态
-        broadcastState.put(ruleId, ruleMeta);
+    @Override
+    public void close() throws Exception {
+        if (calculators != null) {
+            for (RuleCalculator calculator : calculators.values()) {
+                if (calculator instanceof AutoCloseable) ((AutoCloseable) calculator).close();
+            }
+        }
+        if (loaders != null) {
+            for (GroovyClassLoader loader : loaders.values()) loader.close();
+        }
     }
-
-    private void removeCalculator(int ruleId,BroadcastState<Integer, RuleMeta> broadcastState) throws Exception {
-        broadcastState.remove(ruleId);
-    }
-
-
 }

@@ -1,6 +1,7 @@
 package cn.doitedu.rtmk.demo9.groovy;
 
 import cn.doitedu.rtmk.beans.EventBean;
+import cn.doitedu.rtmk.utils.RuntimeConfig;
 import cn.doitedu.rtmk.demo5.RuleCalculator;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -13,7 +14,7 @@ import redis.clients.jedis.Jedis;
 
 
 
-public class RuleModel005Calculator implements RuleCalculator {
+public class RuleModel005Calculator implements RuleCalculator, AutoCloseable {
     ValueState<Integer> valueState;
     RoaringBitmap staticCrowd;
     JSONObject paramJsonObj;
@@ -29,9 +30,9 @@ public class RuleModel005Calculator implements RuleCalculator {
         paramJsonObj = JSON.parseObject(paramJson);
         ruleId = paramJsonObj.getInteger("ruleId");
 
-        valueState = runtimeContext.getState(new ValueStateDescriptor<>("value", Integer.class));
+        valueState = runtimeContext.getState(new ValueStateDescriptor<>("groovy-rule-" + ruleId + "-value", Integer.class));
 
-        jedis = new Jedis("doitedu", 6379);
+        jedis = RuntimeConfig.redis();
 
         resMessage = new JSONObject();
         resMessage.put("ruleId",ruleId);
@@ -147,5 +148,9 @@ public class RuleModel005Calculator implements RuleCalculator {
 
     }
 
+    @Override
+    void close() {
+        if (jedis != null) jedis.close();
+    }
 }
 

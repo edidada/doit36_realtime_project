@@ -69,6 +69,11 @@ public class EtlAsync {
             }
 
             @Override
+            public void close() throws Exception {
+                if (client != null) client.close();
+            }
+
+            @Override
             public void asyncInvoke(String input, ResultFuture<String> resultFuture) throws Exception {
 
                 // 请求体参数

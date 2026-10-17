@@ -226,9 +226,9 @@ public class EtlJob06_SearchEventsAnalyse {
                         +"   keyword,                                                             "
                         +"   split_word,                                                          "
                         +"   similar_word                                                         "
-        );
+        ).await();
 
 
-        env.execute();
+
     }
 }

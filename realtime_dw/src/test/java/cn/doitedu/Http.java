@@ -31,22 +31,27 @@ public class Http {
                 .setDefaultRequestConfig(cfg)
                 .build();
 
-        client.start();
-        // HttpGet get = new HttpGet();
+        try {
+            client.start();
+            // HttpGet get = new HttpGet();
 
-        post = new HttpPost(RuntimeConfig.value("SIMWORDS_URL", "http://doitedu:8081/api/post/simwords"));
-        post.addHeader("Content-type","application/json; charset=utf-8");
-        post.addHeader("Accept", "application/json");
+            post = new HttpPost(RuntimeConfig.value("SIMWORDS_URL", "http://doitedu:8081/api/post/simwords"));
+            post.addHeader("Content-type","application/json; charset=utf-8");
+            post.addHeader("Accept", "application/json");
 
-        post.setEntity(new StringEntity("{\"origin\":\""+"黑咖啡"+"\"}", StandardCharsets.UTF_8));
-        future = client.execute(post, null);
-        System.out.println(EntityUtils.toString(future.get().getEntity()));
+            post.setEntity(new StringEntity("{\"origin\":\""+"黑咖啡"+"\"}", StandardCharsets.UTF_8));
+            future = client.execute(post, null);
+            System.out.println(EntityUtils.toString(future.get().getEntity()));
 
 
 
-        post.setEntity(new StringEntity("{\"origin\":\""+"无糖苦咖啡"+"\"}", StandardCharsets.UTF_8));
-        future = client.execute(post, null);
-        System.out.println(EntityUtils.toString(future.get().getEntity()));
+            post.setEntity(new StringEntity("{\"origin\":\""+"无糖苦咖啡"+"\"}", StandardCharsets.UTF_8));
+            future = client.execute(post, null);
+            System.out.println(EntityUtils.toString(future.get().getEntity()));
+
+        } finally {
+            client.close();
+        }
 
     }
 

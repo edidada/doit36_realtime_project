@@ -42,7 +42,7 @@ object DataLoadJob01_GeoAreaInfo2Hbase {
     val props = new Properties()
     props.setProperty("user", sys.env.getOrElse("MYSQL_USERNAME", "root"))
     props.setProperty("password", sys.env.getOrElse("MYSQL_PASSWORD", "root"))
-    val df = spark.read.jdbc("jdbc:mysql://" + sys.env.getOrElse("MYSQL_HOST", "doitedu") + ":" + sys.env.getOrElse("MYSQL_PORT", "3306") + "/realtimedw", "t_md_areas", props)
+    val df = spark.read.jdbc("jdbc:mysql://" + sys.env.getOrElse("MYSQL_HOST", "doitedu") + ":" + sys.env.getOrElse("MYSQL_PORT", "3306") + "/" + sys.env.getOrElse("MYSQL_DATABASE", "realtimedw"), "t_md_areas", props)
 
     df.createTempView("t")
 

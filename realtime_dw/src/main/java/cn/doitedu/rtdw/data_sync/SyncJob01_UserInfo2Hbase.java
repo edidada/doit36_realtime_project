@@ -50,7 +50,7 @@ public class SyncJob01_UserInfo2Hbase {
                 "     'port' = '" + RuntimeConfig.port("MYSQL_PORT", 3306) + "'           ,               " +
                 "     'username' = '" + RuntimeConfig.sql("MYSQL_USERNAME", "root") + "'       ,               " +
                 "     'password' = '" + RuntimeConfig.sql("MYSQL_PASSWORD", "root") + "'       ,               " +
-                "     'database-name' = 'realtimedw',          " +
+                "     'database-name' = '" + RuntimeConfig.sql("MYSQL_DATABASE", "realtimedw") + "',          " +
                 "     'table-name' = 'ums_member'              " +
                 ")");
 

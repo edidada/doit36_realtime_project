@@ -153,7 +153,7 @@ public class EtlJob03_PageAccessTimeLong {
                    "select to_date(date_format(to_timestamp_ltz(page_start_time,3),'yyyy-MM-dd')) as dt," +
                         "user_id,device_type,release_channel,session_id,session_cut_id,page_type,page_url,page_start_time,page_end_time " +
                         "from tmp"
-        );
-        env.execute();
+        ).await();
+
     }
 }
