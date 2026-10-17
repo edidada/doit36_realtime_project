@@ -1,0 +1,520 @@
+[INFO] 2026-10-17 18:24:52.668 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Field EventBean#properties will be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:24:53.595 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.ddl.SqlCreateCatalog does not contain a setter for field catalogName
+[INFO] 2026-10-17 18:24:53.597 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class org.apache.flink.sql.parser.ddl.SqlCreateCatalog cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:24:53.618 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.ddl.SqlCreateView does not contain a setter for field viewName
+[INFO] 2026-10-17 18:24:53.620 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class org.apache.flink.sql.parser.ddl.SqlCreateView cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:24:53.633 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.ddl.SqlAlterViewRename does not contain a getter for field newViewIdentifier
+[INFO] 2026-10-17 18:24:53.634 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.ddl.SqlAlterViewRename does not contain a setter for field newViewIdentifier
+[INFO] 2026-10-17 18:24:53.635 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class org.apache.flink.sql.parser.ddl.SqlAlterViewRename cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:24:53.658 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.ddl.SqlAlterViewProperties does not contain a setter for field propertyList
+[INFO] 2026-10-17 18:24:53.659 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class org.apache.flink.sql.parser.ddl.SqlAlterViewProperties cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:24:53.677 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.ddl.SqlAlterViewAs does not contain a setter for field newQuery
+[INFO] 2026-10-17 18:24:53.684 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class org.apache.flink.sql.parser.ddl.SqlAlterViewAs cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:24:53.712 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.ddl.SqlAddPartitions does not contain a setter for field ifPartitionNotExists
+[INFO] 2026-10-17 18:24:53.720 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class org.apache.flink.sql.parser.ddl.SqlAddPartitions cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:24:53.737 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.ddl.SqlDropPartitions does not contain a setter for field ifExists
+[INFO] 2026-10-17 18:24:53.739 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class org.apache.flink.sql.parser.ddl.SqlDropPartitions cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:24:53.759 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.dql.SqlShowPartitions does not contain a getter for field tableIdentifier
+[INFO] 2026-10-17 18:24:53.761 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.dql.SqlShowPartitions does not contain a setter for field tableIdentifier
+[INFO] 2026-10-17 18:24:53.763 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class org.apache.flink.sql.parser.dql.SqlShowPartitions cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:24:53.769 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.dml.SqlTruncateTable does not contain a getter for field tableNameIdentifier
+[INFO] 2026-10-17 18:24:53.770 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.dml.SqlTruncateTable does not contain a setter for field tableNameIdentifier
+[INFO] 2026-10-17 18:24:53.772 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class org.apache.flink.sql.parser.dml.SqlTruncateTable cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:24:53.788 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.dql.SqlShowFunctions does not contain a setter for field requireUser
+[INFO] 2026-10-17 18:24:53.809 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class org.apache.flink.sql.parser.dql.SqlShowFunctions cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:24:53.819 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.dql.SqlShowProcedures does not contain a getter for field databaseName
+[INFO] 2026-10-17 18:24:53.824 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.dql.SqlShowProcedures does not contain a setter for field databaseName
+[INFO] 2026-10-17 18:24:53.825 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class org.apache.flink.sql.parser.dql.SqlShowProcedures cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:24:53.836 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.ddl.SqlReplaceTableAs does not contain a setter for field tableName
+[INFO] 2026-10-17 18:24:53.838 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class org.apache.flink.sql.parser.ddl.SqlReplaceTableAs cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:24:53.853 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class org.apache.flink.sql.parser.dql.SqlShowDatabases does not contain a setter for field preposition
+[INFO] 2026-10-17 18:24:53.860 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class org.apache.flink.sql.parser.dql.SqlShowDatabases cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[WARN] 2026-10-17 18:24:55.645 [main] org.apache.flink.cdc.connectors.mysql.table.MySqlTableSourceFactory - server-time-zone is not set, which might cause data inconsistencies for time-related fields.
+[INFO] 2026-10-17 18:24:55.700 [main] org.apache.flink.cdc.connectors.mysql.utils.OptionUtils - Print mysql-cdc connector configuration:
+[INFO] 2026-10-17 18:24:55.702 [main] org.apache.flink.cdc.connectors.mysql.utils.OptionUtils - hostname = 127.0.0.1
+[INFO] 2026-10-17 18:24:55.705 [main] org.apache.flink.cdc.connectors.mysql.utils.OptionUtils - password = [REDACTED]
+[INFO] 2026-10-17 18:24:55.707 [main] org.apache.flink.cdc.connectors.mysql.utils.OptionUtils - connector = mysql-cdc
+[INFO] 2026-10-17 18:24:55.709 [main] org.apache.flink.cdc.connectors.mysql.utils.OptionUtils - port = 13306
+[INFO] 2026-10-17 18:24:55.711 [main] org.apache.flink.cdc.connectors.mysql.utils.OptionUtils - database-name = doit36_main_audit
+[INFO] 2026-10-17 18:24:55.714 [main] org.apache.flink.cdc.connectors.mysql.utils.OptionUtils - table-name = rule_meta_doit36
+[INFO] 2026-10-17 18:24:55.721 [main] org.apache.flink.cdc.connectors.mysql.utils.OptionUtils - username = root
+[INFO] 2026-10-17 18:25:12.821 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class java.time.LocalDateTime does not contain a getter for field date
+[INFO] 2026-10-17 18:25:12.827 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class java.time.LocalDateTime does not contain a setter for field date
+[INFO] 2026-10-17 18:25:12.829 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class java.time.LocalDateTime cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:25:12.832 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Field RuleMeta#create_time will be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:25:12.837 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class java.time.LocalDateTime does not contain a getter for field date
+[INFO] 2026-10-17 18:25:12.838 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class java.time.LocalDateTime does not contain a setter for field date
+[INFO] 2026-10-17 18:25:12.842 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class java.time.LocalDateTime cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:25:12.843 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Field RuleMeta#update_time will be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:25:12.889 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class java.time.LocalDateTime does not contain a getter for field date
+[INFO] 2026-10-17 18:25:12.891 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class java.time.LocalDateTime does not contain a setter for field date
+[INFO] 2026-10-17 18:25:12.893 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class java.time.LocalDateTime cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:25:12.895 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Field RuleMeta#create_time will be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:25:12.907 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class java.time.LocalDateTime does not contain a getter for field date
+[INFO] 2026-10-17 18:25:12.913 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class java.time.LocalDateTime does not contain a setter for field date
+[INFO] 2026-10-17 18:25:12.916 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class java.time.LocalDateTime cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:25:12.920 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Field RuleMeta#update_time will be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:25:13.028 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class java.time.LocalDateTime does not contain a getter for field date
+[INFO] 2026-10-17 18:25:13.029 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class java.time.LocalDateTime does not contain a setter for field date
+[INFO] 2026-10-17 18:25:13.030 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class java.time.LocalDateTime cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:25:13.030 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Field RuleMeta#create_time will be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:25:13.034 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class java.time.LocalDateTime does not contain a getter for field date
+[INFO] 2026-10-17 18:25:13.036 [main] org.apache.flink.api.java.typeutils.TypeExtractor - class java.time.LocalDateTime does not contain a setter for field date
+[INFO] 2026-10-17 18:25:13.037 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Class class java.time.LocalDateTime cannot be used as a POJO type because not all fields are valid POJO fields, and must be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:25:13.039 [main] org.apache.flink.api.java.typeutils.TypeExtractor - Field RuleMeta#update_time will be processed as GenericType. Please read the Flink documentation on "Data Types & Serialization" for details of the effect on performance and schema evolution.
+[INFO] 2026-10-17 18:25:15.933 [main] org.apache.flink.runtime.taskexecutor.TaskExecutorResourceUtils - The configuration option taskmanager.cpu.cores required for local execution is not set, setting it to the maximal possible value.
+[INFO] 2026-10-17 18:25:15.936 [main] org.apache.flink.runtime.taskexecutor.TaskExecutorResourceUtils - The configuration option taskmanager.memory.task.heap.size required for local execution is not set, setting it to the maximal possible value.
+[INFO] 2026-10-17 18:25:15.937 [main] org.apache.flink.runtime.taskexecutor.TaskExecutorResourceUtils - The configuration option taskmanager.memory.task.off-heap.size required for local execution is not set, setting it to the maximal possible value.
+[INFO] 2026-10-17 18:25:15.945 [main] org.apache.flink.runtime.taskexecutor.TaskExecutorResourceUtils - The configuration option taskmanager.memory.network.min required for local execution is not set, setting it to its default value 64 mb.
+[INFO] 2026-10-17 18:25:15.946 [main] org.apache.flink.runtime.taskexecutor.TaskExecutorResourceUtils - The configuration option taskmanager.memory.network.max required for local execution is not set, setting it to its default value 64 mb.
+[INFO] 2026-10-17 18:25:15.947 [main] org.apache.flink.runtime.taskexecutor.TaskExecutorResourceUtils - The configuration option taskmanager.memory.managed.size required for local execution is not set, setting it to its default value 128 mb.
+[INFO] 2026-10-17 18:25:15.964 [main] org.apache.flink.runtime.minicluster.MiniCluster - Starting Flink Mini Cluster
+[INFO] 2026-10-17 18:25:18.891 [main] org.apache.flink.runtime.minicluster.MiniCluster - Starting Metrics Registry
+[INFO] 2026-10-17 18:25:19.725 [main] org.apache.flink.runtime.metrics.MetricRegistryImpl - No metrics reporter configured, no metrics will be exposed/reported.
+[INFO] 2026-10-17 18:25:19.728 [main] org.apache.flink.runtime.metrics.MetricRegistryImpl - No trace reporter configured, no metrics will be exposed/reported.
+[INFO] 2026-10-17 18:25:19.729 [main] org.apache.flink.runtime.minicluster.MiniCluster - Starting RPC Service(s)
+[INFO] 2026-10-17 18:25:19.918 [main] org.apache.flink.runtime.rpc.pekko.PekkoRpcServiceUtils - Trying to start local actor system
+[INFO] 2026-10-17 18:25:25.400 [flink-pekko.actor.default-dispatcher-4] org.apache.pekko.event.slf4j.Slf4jLogger - Slf4jLogger started
+[INFO] 2026-10-17 18:25:26.745 [main] org.apache.flink.runtime.rpc.pekko.PekkoRpcServiceUtils - Actor system started at pekko://flink
+[INFO] 2026-10-17 18:25:26.860 [main] org.apache.flink.runtime.rpc.pekko.PekkoRpcServiceUtils - Trying to start local actor system
+[INFO] 2026-10-17 18:25:26.978 [flink-metrics-4] org.apache.pekko.event.slf4j.Slf4jLogger - Slf4jLogger started
+[INFO] 2026-10-17 18:25:27.057 [main] org.apache.flink.runtime.rpc.pekko.PekkoRpcServiceUtils - Actor system started at pekko://flink-metrics
+[INFO] 2026-10-17 18:25:27.211 [main] org.apache.flink.runtime.rpc.pekko.PekkoRpcService - Starting RPC endpoint for org.apache.flink.runtime.metrics.dump.MetricQueryService at pekko://flink-metrics/user/rpc/MetricQueryService .
+[INFO] 2026-10-17 18:25:27.493 [main] org.apache.flink.runtime.security.token.DefaultDelegationTokenManager - Loading delegation token providers
+[INFO] 2026-10-17 18:25:27.543 [main] org.apache.flink.runtime.security.token.hadoop.HadoopFSDelegationTokenProvider - Hadoop FS is not available (not packaged with this application): NoClassDefFoundError : "org/apache/hadoop/hdfs/HdfsConfiguration".
+[INFO] 2026-10-17 18:25:27.544 [main] org.apache.flink.runtime.security.token.DefaultDelegationTokenManager - Delegation token provider hadoopfs loaded and initialized
+[INFO] 2026-10-17 18:25:27.567 [main] org.apache.flink.runtime.security.token.DefaultDelegationTokenManager - Delegation token provider hbase loaded and initialized
+[INFO] 2026-10-17 18:25:27.568 [main] org.apache.flink.runtime.security.token.DefaultDelegationTokenManager - Delegation token providers loaded successfully
+[INFO] 2026-10-17 18:25:27.571 [main] org.apache.flink.runtime.security.token.DelegationTokenReceiverRepository - Loading delegation token receivers
+[INFO] 2026-10-17 18:25:27.583 [main] org.apache.flink.runtime.security.token.DelegationTokenReceiverRepository - Delegation token receiver hadoopfs loaded and initialized
+[INFO] 2026-10-17 18:25:27.587 [main] org.apache.flink.runtime.security.token.DelegationTokenReceiverRepository - Delegation token receiver hbase loaded and initialized
+[INFO] 2026-10-17 18:25:27.592 [main] org.apache.flink.runtime.security.token.DelegationTokenReceiverRepository - Delegation token receivers loaded successfully
+[INFO] 2026-10-17 18:25:27.594 [main] org.apache.flink.runtime.security.token.DefaultDelegationTokenManager - Checking provider and receiver instances consistency
+[INFO] 2026-10-17 18:25:27.596 [main] org.apache.flink.runtime.security.token.DefaultDelegationTokenManager - Provider and receiver instances are consistent
+[INFO] 2026-10-17 18:25:27.600 [main] org.apache.flink.runtime.security.token.DefaultDelegationTokenManager - Obtaining delegation tokens
+[INFO] 2026-10-17 18:25:27.624 [main] org.apache.flink.runtime.security.token.DefaultDelegationTokenManager - Delegation tokens obtained successfully
+[WARN] 2026-10-17 18:25:27.630 [main] org.apache.flink.runtime.security.token.DefaultDelegationTokenManager - No tokens obtained so skipping notifications
+[INFO] 2026-10-17 18:25:27.633 [main] org.apache.flink.runtime.security.token.DelegationTokenReceiverRepository - Loading delegation token receivers
+[INFO] 2026-10-17 18:25:27.640 [main] org.apache.flink.runtime.security.token.DelegationTokenReceiverRepository - Delegation token receiver hadoopfs loaded and initialized
+[INFO] 2026-10-17 18:25:27.641 [main] org.apache.flink.runtime.security.token.DelegationTokenReceiverRepository - Delegation token receiver hbase loaded and initialized
+[INFO] 2026-10-17 18:25:27.642 [main] org.apache.flink.runtime.security.token.DelegationTokenReceiverRepository - Delegation token receivers loaded successfully
+[INFO] 2026-10-17 18:25:27.754 [main] org.apache.flink.runtime.blob.BlobServer - Created BLOB server storage directory /var/folders/vk/_xdm46qn66182z1cy9k7qvr80000gn/T/minicluster_a9afd00ca5b3733601a7cc42efc09de2/blobStorage
+[INFO] 2026-10-17 18:25:27.962 [main] org.apache.flink.runtime.blob.BlobServer - Started BLOB server at 0.0.0.0:51849 - max concurrent requests: 50 - max backlog: 1000
+[INFO] 2026-10-17 18:25:28.086 [main] org.apache.flink.runtime.blob.PermanentBlobCache - Created BLOB cache storage directory /var/folders/vk/_xdm46qn66182z1cy9k7qvr80000gn/T/minicluster_a9afd00ca5b3733601a7cc42efc09de2/blobStorage
+[INFO] 2026-10-17 18:25:28.111 [main] org.apache.flink.runtime.blob.TransientBlobCache - Created BLOB cache storage directory /var/folders/vk/_xdm46qn66182z1cy9k7qvr80000gn/T/minicluster_a9afd00ca5b3733601a7cc42efc09de2/blobStorage
+[INFO] 2026-10-17 18:25:28.120 [main] org.apache.flink.runtime.minicluster.MiniCluster - Starting 1 TaskManager(s)
+[INFO] 2026-10-17 18:25:28.155 [main] org.apache.flink.runtime.taskexecutor.TaskManagerRunner - Starting TaskManager with ResourceID: 223bb8dd-9a53-4ed8-809d-406b78c6d24d
+[INFO] 2026-10-17 18:25:28.265 [main] org.apache.flink.runtime.taskexecutor.TaskManagerServices - Temporary file directory '/var/folders/vk/_xdm46qn66182z1cy9k7qvr80000gn/T': total 931 GB, usable 202 GB (21.70% usable)
+[INFO] 2026-10-17 18:25:28.336 [main] org.apache.flink.runtime.io.disk.iomanager.IOManager - Created a new FileChannelManager for spilling of task related data to disk (joins, sorting, ...). Used directories:
+	/var/folders/vk/_xdm46qn66182z1cy9k7qvr80000gn/T/flink-io-c7564b67-0ab1-4d03-bbf2-a771cf3fdb9d
+[INFO] 2026-10-17 18:25:28.443 [main] org.apache.flink.runtime.io.network.NettyShuffleServiceFactory - Created a new FileChannelManager for storing result partitions of BLOCKING shuffles. Used directories:
+	/var/folders/vk/_xdm46qn66182z1cy9k7qvr80000gn/T/flink-netty-shuffle-59fc0094-dca4-465e-bdef-b0f1c3661223
+[INFO] 2026-10-17 18:25:28.854 [main] org.apache.flink.runtime.io.network.buffer.NetworkBufferPool - Allocated 64 MB for network buffer pool (number of memory segments: 2048, bytes per segment: 32768).
+[INFO] 2026-10-17 18:25:29.025 [main] org.apache.flink.runtime.io.network.NettyShuffleEnvironment - Starting the network environment and its components.
+[INFO] 2026-10-17 18:25:29.026 [main] org.apache.flink.runtime.taskexecutor.TaskManagerServices - TaskManager data connection initialized successfully; listening internally on port: -1
+[INFO] 2026-10-17 18:25:29.067 [main] org.apache.flink.runtime.taskexecutor.KvStateService - Starting the kvState service and its components.
+[INFO] 2026-10-17 18:25:29.345 [main] org.apache.flink.configuration.Configuration - Config uses fallback configuration key 'pekko.ask.timeout' instead of key 'taskmanager.slot.timeout'
+[INFO] 2026-10-17 18:25:29.484 [main] org.apache.flink.runtime.rpc.pekko.PekkoRpcService - Starting RPC endpoint for org.apache.flink.runtime.taskexecutor.TaskExecutor at pekko://flink/user/rpc/taskmanager_0 .
+[INFO] 2026-10-17 18:25:29.611 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.taskexecutor.DefaultJobLeaderService - Start job leader service.
+[INFO] 2026-10-17 18:25:29.620 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.filecache.FileCache - User file cache uses directory /var/folders/vk/_xdm46qn66182z1cy9k7qvr80000gn/T/flink-dist-cache-b4a5b9d6-7e60-4151-b05b-fdd6598059b6
+[INFO] 2026-10-17 18:25:30.533 [main] org.apache.flink.runtime.dispatcher.DispatcherRestEndpoint - Starting rest endpoint.
+[WARN] 2026-10-17 18:25:34.630 [main] org.apache.flink.runtime.webmonitor.WebMonitorUtils - Log file environment variable 'log.file' is not set.
+[WARN] 2026-10-17 18:25:34.631 [main] org.apache.flink.runtime.webmonitor.WebMonitorUtils - JobManager log files are unavailable in the web dashboard. Log file location not found in environment variable 'log.file' or configuration key 'web.log.path'.
+[INFO] 2026-10-17 18:25:35.503 [main] org.apache.flink.runtime.dispatcher.DispatcherRestEndpoint - Rest endpoint listening at localhost:51858
+[INFO] 2026-10-17 18:25:35.508 [main] org.apache.flink.runtime.highavailability.nonha.embedded.EmbeddedLeaderService - Proposing leadership to the contender that is registered under component ID 'rest_server'.
+[INFO] 2026-10-17 18:25:35.514 [main] org.apache.flink.runtime.dispatcher.DispatcherRestEndpoint - Web frontend listening at http://localhost:51858.
+[INFO] 2026-10-17 18:25:35.515 [mini-cluster-io-thread-1] org.apache.flink.runtime.dispatcher.DispatcherRestEndpoint - http://localhost:51858 was granted leadership with leaderSessionID=6918aba5-3bb4-4459-9244-b681132f2901
+[INFO] 2026-10-17 18:25:35.516 [mini-cluster-io-thread-1] org.apache.flink.runtime.highavailability.nonha.embedded.EmbeddedLeaderService - Received confirmation of leadership for leader http://localhost:51858 , session=6918aba5-3bb4-4459-9244-b681132f2901
+[INFO] 2026-10-17 18:25:35.553 [main] org.apache.flink.runtime.highavailability.nonha.embedded.EmbeddedLeaderService - Proposing leadership to the contender that is registered under component ID 'dispatcher'.
+[INFO] 2026-10-17 18:25:35.554 [main] org.apache.flink.runtime.resourcemanager.ResourceManagerServiceImpl - Starting resource manager service.
+[INFO] 2026-10-17 18:25:35.555 [main] org.apache.flink.runtime.highavailability.nonha.embedded.EmbeddedLeaderService - Proposing leadership to the contender that is registered under component ID 'resource_manager'.
+[INFO] 2026-10-17 18:25:35.555 [mini-cluster-io-thread-2] org.apache.flink.runtime.dispatcher.runner.DefaultDispatcherRunner - DefaultDispatcherRunner was granted leadership with leader id de57bc01-76e7-4363-990b-07115f3a1b61. Creating new DispatcherLeaderProcess.
+[INFO] 2026-10-17 18:25:35.560 [pool-3-thread-1] org.apache.flink.runtime.resourcemanager.ResourceManagerServiceImpl - Resource manager service is granted leadership with session id 1c77ee5a-81ad-4ef5-88ec-516daaa940ba.
+[INFO] 2026-10-17 18:25:35.574 [mini-cluster-io-thread-2] org.apache.flink.runtime.dispatcher.runner.SessionDispatcherLeaderProcess - Start SessionDispatcherLeaderProcess.
+[INFO] 2026-10-17 18:25:35.578 [main] org.apache.flink.runtime.minicluster.MiniCluster - Flink Mini Cluster started successfully
+[INFO] 2026-10-17 18:25:35.584 [mini-cluster-io-thread-4] org.apache.flink.runtime.dispatcher.runner.SessionDispatcherLeaderProcess - Recover all persisted job graphs that are not finished, yet.
+[INFO] 2026-10-17 18:25:35.585 [mini-cluster-io-thread-4] org.apache.flink.runtime.dispatcher.runner.SessionDispatcherLeaderProcess - Successfully recovered 0 persisted job graphs.
+[INFO] 2026-10-17 18:25:35.615 [pool-3-thread-1] org.apache.flink.runtime.rpc.pekko.PekkoRpcService - Starting RPC endpoint for org.apache.flink.runtime.resourcemanager.StandaloneResourceManager at pekko://flink/user/rpc/resourcemanager_1 .
+[INFO] 2026-10-17 18:25:35.622 [mini-cluster-io-thread-4] org.apache.flink.runtime.rpc.pekko.PekkoRpcService - Starting RPC endpoint for org.apache.flink.runtime.dispatcher.StandaloneDispatcher at pekko://flink/user/rpc/dispatcher_2 .
+[INFO] 2026-10-17 18:25:35.670 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.resourcemanager.StandaloneResourceManager - Starting the resource manager.
+[INFO] 2026-10-17 18:25:35.682 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.resourcemanager.slotmanager.FineGrainedSlotManager - Starting the slot manager.
+[INFO] 2026-10-17 18:25:35.685 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.security.token.DefaultDelegationTokenManager - Starting tokens update task
+[WARN] 2026-10-17 18:25:35.685 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.security.token.DefaultDelegationTokenManager - No tokens obtained so skipping notifications
+[WARN] 2026-10-17 18:25:35.686 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.security.token.DefaultDelegationTokenManager - Tokens update task not started because either no tokens obtained or none of the tokens specified its renewal date
+[INFO] 2026-10-17 18:25:35.688 [mini-cluster-io-thread-2] org.apache.flink.runtime.highavailability.nonha.embedded.EmbeddedLeaderService - Received confirmation of leadership for leader pekko://flink/user/rpc/resourcemanager_1 , session=1c77ee5a-81ad-4ef5-88ec-516daaa940ba
+[INFO] 2026-10-17 18:25:35.691 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.taskexecutor.TaskExecutor - Connecting to ResourceManager pekko://flink/user/rpc/resourcemanager_1(88ec516daaa940ba1c77ee5a81ad4ef5).
+[INFO] 2026-10-17 18:25:35.705 [mini-cluster-io-thread-4] org.apache.flink.runtime.highavailability.nonha.embedded.EmbeddedLeaderService - Received confirmation of leadership for leader pekko://flink/user/rpc/dispatcher_2 , session=de57bc01-76e7-4363-990b-07115f3a1b61
+[INFO] 2026-10-17 18:25:35.786 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.taskexecutor.TaskExecutor - Resolved ResourceManager address, beginning registration
+[INFO] 2026-10-17 18:25:35.827 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.resourcemanager.StandaloneResourceManager - Registering TaskManager with ResourceID 223bb8dd-9a53-4ed8-809d-406b78c6d24d (pekko://flink/user/rpc/taskmanager_0) at ResourceManager
+[INFO] 2026-10-17 18:25:35.831 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.dispatcher.StandaloneDispatcher - Received JobGraph submission 'Flink Streaming Job' (a05a7f85fe46ca9281a7679b1fb2ae8e).
+[INFO] 2026-10-17 18:25:35.835 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.taskexecutor.TaskExecutor - Successful registration at resource manager pekko://flink/user/rpc/resourcemanager_1 under registration id 3cb993b875aea15a26e0d7bfbe78702c.
+[INFO] 2026-10-17 18:25:35.836 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.dispatcher.StandaloneDispatcher - Submitting job 'Flink Streaming Job' (a05a7f85fe46ca9281a7679b1fb2ae8e).
+[INFO] 2026-10-17 18:25:35.853 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.resourcemanager.slotmanager.FineGrainedSlotManager - Registering task executor 223bb8dd-9a53-4ed8-809d-406b78c6d24d under 3cb993b875aea15a26e0d7bfbe78702c at the slot manager.
+[INFO] 2026-10-17 18:25:35.899 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.highavailability.nonha.embedded.EmbeddedLeaderService - Proposing leadership to the contender that is registered under component ID 'job-a05a7f85fe46ca9281a7679b1fb2ae8e'.
+[INFO] 2026-10-17 18:25:35.904 [mini-cluster-io-thread-1] org.apache.flink.runtime.jobmaster.JobMasterServiceLeadershipRunner - JobMasterServiceLeadershipRunner for job a05a7f85fe46ca9281a7679b1fb2ae8e was granted leadership with leader id 496be988-71f5-4ee7-9ae0-8942fc8419b2. Creating new JobMasterServiceProcess.
+[INFO] 2026-10-17 18:25:35.941 [jobmanager-io-thread-1] org.apache.flink.runtime.rpc.pekko.PekkoRpcService - Starting RPC endpoint for org.apache.flink.runtime.jobmaster.JobMaster at pekko://flink/user/rpc/jobmanager_3 .
+[INFO] 2026-10-17 18:25:35.967 [jobmanager-io-thread-1] org.apache.flink.runtime.jobmaster.JobMaster - Initializing job 'Flink Streaming Job' (a05a7f85fe46ca9281a7679b1fb2ae8e).
+[INFO] 2026-10-17 18:25:36.219 [jobmanager-io-thread-1] org.apache.flink.runtime.jobmaster.JobMaster - Using restart back off time strategy ExponentialDelayRestartBackoffTimeStrategy(initialBackoffMS=1000, maxBackoffMS=60000, backoffMultiplier=1.5, resetBackoffThresholdMS=3600000, jitterFactor=0.1, attemptsBeforeResetBackoff=2147483647, currentRestartAttempt=0, nextRestartTimestamp=-2147483648) for Flink Streaming Job (a05a7f85fe46ca9281a7679b1fb2ae8e).
+[INFO] 2026-10-17 18:25:36.466 [jobmanager-io-thread-1] org.apache.flink.runtime.executiongraph.ExecutionGraph - Created execution graph 172a9ddac693f0af755ed932f4f4a77b for job a05a7f85fe46ca9281a7679b1fb2ae8e.
+[INFO] 2026-10-17 18:25:36.615 [jobmanager-io-thread-1] org.apache.flink.runtime.jobmaster.JobMaster - Running initialization on master for job Flink Streaming Job (a05a7f85fe46ca9281a7679b1fb2ae8e).
+[INFO] 2026-10-17 18:25:36.618 [jobmanager-io-thread-1] org.apache.flink.runtime.jobmaster.JobMaster - Successfully ran initialization on master in 2 ms.
+[INFO] 2026-10-17 18:25:37.291 [jobmanager-io-thread-1] org.apache.flink.runtime.scheduler.adapter.DefaultExecutionTopology - Built 1 new pipelined regions in 5 ms, total 1 pipelined regions currently.
+[INFO] 2026-10-17 18:25:37.306 [jobmanager-io-thread-1] org.apache.flink.runtime.jobmaster.JobMaster - Using job/cluster config to configure application-defined state backend: org.apache.flink.runtime.state.hashmap.HashMapStateBackend@6b692653
+[INFO] 2026-10-17 18:25:37.307 [jobmanager-io-thread-1] org.apache.flink.runtime.jobmaster.JobMaster - Using application-defined state backend: org.apache.flink.runtime.state.hashmap.HashMapStateBackend@4effb369
+[INFO] 2026-10-17 18:25:37.307 [jobmanager-io-thread-1] org.apache.flink.runtime.state.StateBackendLoader - State backend loader loads the state backend as HashMapStateBackend
+[INFO] 2026-10-17 18:25:37.311 [jobmanager-io-thread-1] org.apache.flink.runtime.jobmaster.JobMaster - Using job/cluster config to configure application-defined checkpoint storage: org.apache.flink.runtime.state.storage.FileSystemCheckpointStorage@8954e7b4
+[INFO] 2026-10-17 18:25:37.557 [jobmanager-io-thread-1] org.apache.flink.runtime.checkpoint.CheckpointCoordinator - No checkpoint found during restore.
+[INFO] 2026-10-17 18:25:37.683 [jobmanager-io-thread-1] org.apache.flink.runtime.jobmaster.JobMaster - Using failover strategy org.apache.flink.runtime.executiongraph.failover.RestartPipelinedRegionFailoverStrategy@4919ac56 for Flink Streaming Job (a05a7f85fe46ca9281a7679b1fb2ae8e).
+[INFO] 2026-10-17 18:25:37.759 [jobmanager-io-thread-1] org.apache.flink.runtime.highavailability.nonha.embedded.EmbeddedLeaderService - Received confirmation of leadership for leader pekko://flink/user/rpc/jobmanager_3 , session=496be988-71f5-4ee7-9ae0-8942fc8419b2
+[INFO] 2026-10-17 18:25:37.768 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.jobmaster.JobMaster - Starting execution of job 'Flink Streaming Job' (a05a7f85fe46ca9281a7679b1fb2ae8e) under job master id 9ae08942fc8419b2496be98871f54ee7.
+[INFO] 2026-10-17 18:25:37.788 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.source.coordinator.SourceCoordinator - Starting split enumerator for source Source: log-source.
+[INFO] 2026-10-17 18:25:37.818 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.source.coordinator.SourceCoordinator - Starting split enumerator for source Source: rule_meta[1].
+[INFO] 2026-10-17 18:25:37.896 [SourceCoordinator-Source: log-source] org.apache.kafka.clients.admin.AdminClientConfig - AdminClientConfig values:
+	auto.include.jmx.reporter = true
+	bootstrap.servers = [192.168.31.211:9092]
+	client.dns.lookup = use_all_dns_ips
+	client.id = g01-enumerator-admin-client
+	connections.max.idle.ms = 300000
+	default.api.timeout.ms = 60000
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = [REDACTED]
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = [REDACTED]
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = [REDACTED]
+	ssl.truststore.type = JKS
+
+[WARN] 2026-10-17 18:25:38.239 [SourceCoordinator-Source: log-source] org.apache.kafka.clients.admin.AdminClientConfig - These configurations '[key.deserializer, value.deserializer, enable.auto.commit, client.id.prefix, group.id, partition.discovery.interval.ms, auto.offset.reset]' were supplied but are not used yet.
+[INFO] 2026-10-17 18:25:38.248 [SourceCoordinator-Source: log-source] org.apache.kafka.common.utils.AppInfoParser - Kafka version: 3.4.0
+[INFO] 2026-10-17 18:25:38.248 [SourceCoordinator-Source: log-source] org.apache.kafka.common.utils.AppInfoParser - Kafka commitId: 2e1947d240607d53
+[INFO] 2026-10-17 18:25:38.249 [SourceCoordinator-Source: log-source] org.apache.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1792232738241
+[INFO] 2026-10-17 18:25:38.283 [SourceCoordinator-Source: log-source] org.apache.flink.connector.kafka.source.enumerator.KafkaSourceEnumerator - Starting the KafkaSourceEnumerator for consumer group g01 without periodic partition discovery.
+[INFO] 2026-10-17 18:25:38.497 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.cdc.connectors.mysql.source.connection.JdbcConnectionPools - Create and register connection pool root@127.0.0.1:13306
+[INFO] 2026-10-17 18:25:38.550 [flink-pekko.actor.default-dispatcher-6] com.zaxxer.hikari.HikariDataSource - connection-pool-127.0.0.1:13306 - Starting...
+[INFO] 2026-10-17 18:25:41.371 [SourceCoordinator-Source: log-source] org.apache.flink.connector.kafka.source.enumerator.KafkaSourceEnumerator - Discovered new partitions: [dwd-events-log-0]
+[INFO] 2026-10-17 18:25:42.179 [flink-pekko.actor.default-dispatcher-6] com.zaxxer.hikari.HikariDataSource - connection-pool-127.0.0.1:13306 - Start completed.
+[INFO] 2026-10-17 18:25:42.536 [pool-4-thread-1] io.debezium.jdbc.JdbcConnection - Connection gracefully closed
+[INFO] 2026-10-17 18:25:42.539 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.cdc.connectors.mysql.MySqlValidator - MySQL validation passed.
+[INFO] 2026-10-17 18:25:43.245 [pool-5-thread-1] io.debezium.jdbc.JdbcConnection - Connection gracefully closed
+[INFO] 2026-10-17 18:25:43.262 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.jobmaster.JobMaster - Starting scheduling with scheduling strategy [org.apache.flink.runtime.scheduler.strategy.PipelinedRegionSchedulingStrategy]
+[INFO] 2026-10-17 18:25:43.263 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.executiongraph.ExecutionGraph - Job Flink Streaming Job (a05a7f85fe46ca9281a7679b1fb2ae8e) switched from state CREATED to RUNNING.
+[INFO] 2026-10-17 18:25:43.280 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - Read list of available databases
+[INFO] 2026-10-17 18:25:43.296 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - 	 list of available databases is: [doit36_main_audit]
+[INFO] 2026-10-17 18:25:43.305 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - Read list of available tables in each database
+[INFO] 2026-10-17 18:25:43.296 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.executiongraph.ExecutionGraph - Source: log-source -> Map (1/1) (172a9ddac693f0af755ed932f4f4a77b_cbc357ccb763df2852fee8c4fc7d55f2_0_0) switched from CREATED to SCHEDULED.
+[INFO] 2026-10-17 18:25:43.311 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.executiongraph.ExecutionGraph - Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1) (172a9ddac693f0af755ed932f4f4a77b_6cdc5bb954874d922eaee11a8e7b5dd5_0_0) switched from CREATED to SCHEDULED.
+[INFO] 2026-10-17 18:25:43.313 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.executiongraph.ExecutionGraph - Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1) (172a9ddac693f0af755ed932f4f4a77b_9b292e94298dd6ba47492a59dffbd251_0_0) switched from CREATED to SCHEDULED.
+[INFO] 2026-10-17 18:25:43.322 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - 	 'doit36_main_audit.cms_video' is filtered out of table capturing
+[INFO] 2026-10-17 18:25:43.322 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - 	 'doit36_main_audit.dashboard_promotion_abc_pvuv' is filtered out of table capturing
+[INFO] 2026-10-17 18:25:43.323 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - 	 including table 'doit36_main_audit.rule_meta_doit36' for further processing
+[INFO] 2026-10-17 18:25:43.324 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - 	 'doit36_main_audit.t_md_areas' is filtered out of table capturing
+[INFO] 2026-10-17 18:25:43.324 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - 	 'doit36_main_audit.ums_member' is filtered out of table capturing
+[INFO] 2026-10-17 18:25:43.431 [pool-6-thread-1] io.debezium.jdbc.JdbcConnection - Connection gracefully closed
+[INFO] 2026-10-17 18:25:43.439 [snapshot-splitting] org.apache.flink.cdc.connectors.mysql.source.assigners.MySqlSnapshotSplitAssigner - Start splitting table doit36_main_audit.rule_meta_doit36 into chunks...
+[INFO] 2026-10-17 18:25:43.524 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.jobmaster.JobMaster - Connecting to ResourceManager pekko://flink/user/rpc/resourcemanager_1(88ec516daaa940ba1c77ee5a81ad4ef5)
+[INFO] 2026-10-17 18:25:43.580 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.jobmaster.JobMaster - Resolved ResourceManager address, beginning registration
+[INFO] 2026-10-17 18:25:43.585 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.resourcemanager.StandaloneResourceManager - Registering job manager 9ae08942fc8419b2496be98871f54ee7@pekko://flink/user/rpc/jobmanager_3 for job a05a7f85fe46ca9281a7679b1fb2ae8e.
+[INFO] 2026-10-17 18:25:43.682 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.resourcemanager.StandaloneResourceManager - Registered job manager 9ae08942fc8419b2496be98871f54ee7@pekko://flink/user/rpc/jobmanager_3 for job a05a7f85fe46ca9281a7679b1fb2ae8e.
+[INFO] 2026-10-17 18:25:43.704 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.resourcemanager.StandaloneResourceManager - Registering job manager 9ae08942fc8419b2496be98871f54ee7@pekko://flink/user/rpc/jobmanager_3 for job a05a7f85fe46ca9281a7679b1fb2ae8e.
+[INFO] 2026-10-17 18:25:43.728 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.resourcemanager.StandaloneResourceManager - Registered job manager 9ae08942fc8419b2496be98871f54ee7@pekko://flink/user/rpc/jobmanager_3 for job a05a7f85fe46ca9281a7679b1fb2ae8e.
+[INFO] 2026-10-17 18:25:43.776 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.jobmaster.JobMaster - JobManager successfully registered at ResourceManager, leader id: 88ec516daaa940ba1c77ee5a81ad4ef5.
+[INFO] 2026-10-17 18:25:43.793 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.resourcemanager.slotmanager.FineGrainedSlotManager - Received resource requirements from job a05a7f85fe46ca9281a7679b1fb2ae8e: [ResourceRequirement{resourceProfile=ResourceProfile{UNKNOWN}, numberOfRequiredSlots=1}]
+[INFO] 2026-10-17 18:25:43.896 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.resourcemanager.slotmanager.FineGrainedSlotManager - Matching resource requirements against available resources.
+Missing resources:
+	 Job a05a7f85fe46ca9281a7679b1fb2ae8e
+		ResourceRequirement{resourceProfile=ResourceProfile{UNKNOWN}, numberOfRequiredSlots=1}
+Current resources:
+	TaskManager 223bb8dd-9a53-4ed8-809d-406b78c6d24d
+		Available: ResourceProfile{taskHeapMemory=1024.000gb (1099511627776 bytes), taskOffHeapMemory=1024.000gb (1099511627776 bytes), managedMemory=128.000mb (134217728 bytes), networkMemory=64.000mb (67108864 bytes)}
+		Total:     ResourceProfile{taskHeapMemory=1024.000gb (1099511627776 bytes), taskOffHeapMemory=1024.000gb (1099511627776 bytes), managedMemory=128.000mb (134217728 bytes), networkMemory=64.000mb (67108864 bytes)}
+[INFO] 2026-10-17 18:25:43.934 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.resourcemanager.slotmanager.DefaultSlotStatusSyncer - Starting allocation of slot 4247d559c2951243e684a82a7b753661 from 223bb8dd-9a53-4ed8-809d-406b78c6d24d for job a05a7f85fe46ca9281a7679b1fb2ae8e with resource profile ResourceProfile{taskHeapMemory=1024.000gb (1099511627776 bytes), taskOffHeapMemory=1024.000gb (1099511627776 bytes), managedMemory=128.000mb (134217728 bytes), networkMemory=64.000mb (67108864 bytes)}.
+[INFO] 2026-10-17 18:25:43.973 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.taskexecutor.TaskExecutor - Receive slot request 4247d559c2951243e684a82a7b753661 for job a05a7f85fe46ca9281a7679b1fb2ae8e from resource manager with leader id 88ec516daaa940ba1c77ee5a81ad4ef5.
+[INFO] 2026-10-17 18:25:43.986 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.taskexecutor.slot.TaskSlotTableImpl - Allocated slot for 4247d559c2951243e684a82a7b753661 with resources ResourceProfile{taskHeapMemory=1024.000gb (1099511627776 bytes), taskOffHeapMemory=1024.000gb (1099511627776 bytes), managedMemory=128.000mb (134217728 bytes), networkMemory=64.000mb (67108864 bytes)}.
+[INFO] 2026-10-17 18:25:44.013 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.taskexecutor.DefaultJobLeaderService - Add job a05a7f85fe46ca9281a7679b1fb2ae8e for job leader monitoring.
+[INFO] 2026-10-17 18:25:44.027 [mini-cluster-io-thread-2] org.apache.flink.runtime.taskexecutor.DefaultJobLeaderService - Try to register at job manager pekko://flink/user/rpc/jobmanager_3 with leader id 496be988-71f5-4ee7-9ae0-8942fc8419b2.
+[INFO] 2026-10-17 18:25:44.035 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.taskexecutor.DefaultJobLeaderService - Resolved JobManager address, beginning registration
+[INFO] 2026-10-17 18:25:44.063 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.taskexecutor.DefaultJobLeaderService - Successful registration at job manager pekko://flink/user/rpc/jobmanager_3 for job a05a7f85fe46ca9281a7679b1fb2ae8e.
+[INFO] 2026-10-17 18:25:44.067 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.taskexecutor.TaskExecutor - Establish JobManager connection for job a05a7f85fe46ca9281a7679b1fb2ae8e.
+[INFO] 2026-10-17 18:25:44.162 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.taskexecutor.TaskExecutor - Offer reserved slots to the leader of job a05a7f85fe46ca9281a7679b1fb2ae8e.
+[INFO] 2026-10-17 18:25:44.325 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.executiongraph.ExecutionGraph - Source: log-source -> Map (1/1) (172a9ddac693f0af755ed932f4f4a77b_cbc357ccb763df2852fee8c4fc7d55f2_0_0) switched from SCHEDULED to DEPLOYING.
+[INFO] 2026-10-17 18:25:44.330 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.executiongraph.ExecutionGraph - Deploying Source: log-source -> Map (1/1) (attempt #0) with attempt id 172a9ddac693f0af755ed932f4f4a77b_cbc357ccb763df2852fee8c4fc7d55f2_0_0 and vertex id cbc357ccb763df2852fee8c4fc7d55f2_0 to 223bb8dd-9a53-4ed8-809d-406b78c6d24d @ localhost (dataPort=-1) with allocation id 4247d559c2951243e684a82a7b753661
+[INFO] 2026-10-17 18:25:44.367 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.executiongraph.ExecutionGraph - Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1) (172a9ddac693f0af755ed932f4f4a77b_6cdc5bb954874d922eaee11a8e7b5dd5_0_0) switched from SCHEDULED to DEPLOYING.
+[INFO] 2026-10-17 18:25:44.368 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.executiongraph.ExecutionGraph - Deploying Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1) (attempt #0) with attempt id 172a9ddac693f0af755ed932f4f4a77b_6cdc5bb954874d922eaee11a8e7b5dd5_0_0 and vertex id 6cdc5bb954874d922eaee11a8e7b5dd5_0 to 223bb8dd-9a53-4ed8-809d-406b78c6d24d @ localhost (dataPort=-1) with allocation id 4247d559c2951243e684a82a7b753661
+[INFO] 2026-10-17 18:25:44.368 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.taskexecutor.slot.TaskSlotTableImpl - Activate slot 4247d559c2951243e684a82a7b753661.
+[INFO] 2026-10-17 18:25:44.370 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.executiongraph.ExecutionGraph - Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1) (172a9ddac693f0af755ed932f4f4a77b_9b292e94298dd6ba47492a59dffbd251_0_0) switched from SCHEDULED to DEPLOYING.
+[INFO] 2026-10-17 18:25:44.371 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.executiongraph.ExecutionGraph - Deploying Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1) (attempt #0) with attempt id 172a9ddac693f0af755ed932f4f4a77b_9b292e94298dd6ba47492a59dffbd251_0_0 and vertex id 9b292e94298dd6ba47492a59dffbd251_0 to 223bb8dd-9a53-4ed8-809d-406b78c6d24d @ localhost (dataPort=-1) with allocation id 4247d559c2951243e684a82a7b753661
+[INFO] 2026-10-17 18:25:44.443 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.state.TaskExecutorFileMergingManager - Registered new file merging snapshot manager for job a05a7f85fe46ca9281a7679b1fb2ae8e.
+[INFO] 2026-10-17 18:25:44.536 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.state.changelog.StateChangelogStorageLoader - StateChangelogStorageLoader initialized with shortcut names {memory}.
+[INFO] 2026-10-17 18:25:44.538 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.state.changelog.StateChangelogStorageLoader - Creating a changelog storage with name 'memory'.
+[INFO] 2026-10-17 18:25:44.640 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.state.TaskExecutorChannelStateExecutorFactoryManager - Creating the channel state executor factory for job id a05a7f85fe46ca9281a7679b1fb2ae8e
+[INFO] 2026-10-17 18:25:44.751 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.taskexecutor.TaskExecutor - Received task Source: log-source -> Map (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_cbc357ccb763df2852fee8c4fc7d55f2_0_0), deploy into slot with allocation id 4247d559c2951243e684a82a7b753661.
+[INFO] 2026-10-17 18:25:44.754 [Source: log-source -> Map (1/1)#0] org.apache.flink.runtime.taskmanager.Task - Source: log-source -> Map (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_cbc357ccb763df2852fee8c4fc7d55f2_0_0) switched from CREATED to DEPLOYING.
+[INFO] 2026-10-17 18:25:44.762 [Source: log-source -> Map (1/1)#0] org.apache.flink.runtime.taskmanager.Task - Loading JAR files for task Source: log-source -> Map (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_cbc357ccb763df2852fee8c4fc7d55f2_0_0) [DEPLOYING].
+[INFO] 2026-10-17 18:25:44.765 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.taskexecutor.slot.TaskSlotTableImpl - Activate slot 4247d559c2951243e684a82a7b753661.
+[INFO] 2026-10-17 18:25:44.818 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.taskexecutor.TaskExecutor - Received task Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_6cdc5bb954874d922eaee11a8e7b5dd5_0_0), deploy into slot with allocation id 4247d559c2951243e684a82a7b753661.
+[INFO] 2026-10-17 18:25:44.823 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.runtime.taskmanager.Task - Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_6cdc5bb954874d922eaee11a8e7b5dd5_0_0) switched from CREATED to DEPLOYING.
+[INFO] 2026-10-17 18:25:44.825 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.runtime.taskmanager.Task - Loading JAR files for task Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_6cdc5bb954874d922eaee11a8e7b5dd5_0_0) [DEPLOYING].
+[INFO] 2026-10-17 18:25:44.830 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.taskexecutor.slot.TaskSlotTableImpl - Activate slot 4247d559c2951243e684a82a7b753661.
+[INFO] 2026-10-17 18:25:44.909 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.streaming.runtime.tasks.StreamTask - Using job/cluster config to configure application-defined state backend: org.apache.flink.runtime.state.hashmap.HashMapStateBackend@2266fd02
+[INFO] 2026-10-17 18:25:44.910 [Source: log-source -> Map (1/1)#0] org.apache.flink.streaming.runtime.tasks.StreamTask - Using job/cluster config to configure application-defined state backend: org.apache.flink.runtime.state.hashmap.HashMapStateBackend@7487847a
+[INFO] 2026-10-17 18:25:44.910 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.streaming.runtime.tasks.StreamTask - Using application-defined state backend: org.apache.flink.runtime.state.hashmap.HashMapStateBackend@2108e86b
+[INFO] 2026-10-17 18:25:44.910 [Source: log-source -> Map (1/1)#0] org.apache.flink.streaming.runtime.tasks.StreamTask - Using application-defined state backend: org.apache.flink.runtime.state.hashmap.HashMapStateBackend@4516acc2
+[INFO] 2026-10-17 18:25:44.911 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.runtime.state.StateBackendLoader - State backend loader loads the state backend as HashMapStateBackend
+[INFO] 2026-10-17 18:25:44.911 [Source: log-source -> Map (1/1)#0] org.apache.flink.runtime.state.StateBackendLoader - State backend loader loads the state backend as HashMapStateBackend
+[INFO] 2026-10-17 18:25:44.912 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.streaming.runtime.tasks.StreamTask - Using job/cluster config to configure application-defined checkpoint storage: org.apache.flink.runtime.state.storage.FileSystemCheckpointStorage@8954e7b4
+[INFO] 2026-10-17 18:25:44.912 [Source: log-source -> Map (1/1)#0] org.apache.flink.streaming.runtime.tasks.StreamTask - Using job/cluster config to configure application-defined checkpoint storage: org.apache.flink.runtime.state.storage.FileSystemCheckpointStorage@8954e7b4
+[INFO] 2026-10-17 18:25:44.948 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.runtime.taskmanager.Task - Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_6cdc5bb954874d922eaee11a8e7b5dd5_0_0) switched from DEPLOYING to INITIALIZING.
+[INFO] 2026-10-17 18:25:44.948 [Source: log-source -> Map (1/1)#0] org.apache.flink.runtime.taskmanager.Task - Source: log-source -> Map (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_cbc357ccb763df2852fee8c4fc7d55f2_0_0) switched from DEPLOYING to INITIALIZING.
+[INFO] 2026-10-17 18:25:44.954 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.executiongraph.ExecutionGraph - Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1) (172a9ddac693f0af755ed932f4f4a77b_6cdc5bb954874d922eaee11a8e7b5dd5_0_0) switched from DEPLOYING to INITIALIZING.
+[INFO] 2026-10-17 18:25:44.970 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.executiongraph.ExecutionGraph - Source: log-source -> Map (1/1) (172a9ddac693f0af755ed932f4f4a77b_cbc357ccb763df2852fee8c4fc7d55f2_0_0) switched from DEPLOYING to INITIALIZING.
+[INFO] 2026-10-17 18:25:45.051 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.taskexecutor.TaskExecutor - Received task Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_9b292e94298dd6ba47492a59dffbd251_0_0), deploy into slot with allocation id 4247d559c2951243e684a82a7b753661.
+[INFO] 2026-10-17 18:25:45.053 [Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0] org.apache.flink.runtime.taskmanager.Task - Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_9b292e94298dd6ba47492a59dffbd251_0_0) switched from CREATED to DEPLOYING.
+[INFO] 2026-10-17 18:25:45.054 [Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0] org.apache.flink.runtime.taskmanager.Task - Loading JAR files for task Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_9b292e94298dd6ba47492a59dffbd251_0_0) [DEPLOYING].
+[INFO] 2026-10-17 18:25:45.055 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.taskexecutor.slot.TaskSlotTableImpl - Activate slot 4247d559c2951243e684a82a7b753661.
+[INFO] 2026-10-17 18:25:45.061 [Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0] org.apache.flink.streaming.runtime.tasks.StreamTask - Using job/cluster config to configure application-defined state backend: org.apache.flink.runtime.state.hashmap.HashMapStateBackend@38f4107c
+[INFO] 2026-10-17 18:25:45.061 [Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0] org.apache.flink.streaming.runtime.tasks.StreamTask - Using application-defined state backend: org.apache.flink.runtime.state.hashmap.HashMapStateBackend@31e8e008
+[INFO] 2026-10-17 18:25:45.062 [Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0] org.apache.flink.runtime.state.StateBackendLoader - State backend loader loads the state backend as HashMapStateBackend
+[INFO] 2026-10-17 18:25:45.063 [Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0] org.apache.flink.streaming.runtime.tasks.StreamTask - Using job/cluster config to configure application-defined checkpoint storage: org.apache.flink.runtime.state.storage.FileSystemCheckpointStorage@8954e7b4
+[INFO] 2026-10-17 18:25:45.066 [Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0] org.apache.flink.runtime.taskmanager.Task - Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_9b292e94298dd6ba47492a59dffbd251_0_0) switched from DEPLOYING to INITIALIZING.
+[INFO] 2026-10-17 18:25:45.068 [flink-pekko.actor.default-dispatcher-6] org.apache.flink.runtime.executiongraph.ExecutionGraph - Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1) (172a9ddac693f0af755ed932f4f4a77b_9b292e94298dd6ba47492a59dffbd251_0_0) switched from DEPLOYING to INITIALIZING.
+[INFO] 2026-10-17 18:25:45.665 [SourceCoordinator-Source: log-source] org.apache.flink.runtime.source.coordinator.SourceCoordinator - Source Source: log-source registering reader for parallel task 0 (#0) @
+[INFO] 2026-10-17 18:25:45.666 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.runtime.source.coordinator.SourceCoordinator - Source Source: rule_meta[1] registering reader for parallel task 0 (#0) @
+[INFO] 2026-10-17 18:25:45.666 [Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0] org.apache.flink.runtime.state.heap.HeapKeyedStateBackendBuilder - Finished to build heap keyed state-backend.
+[INFO] 2026-10-17 18:25:45.674 [SourceCoordinator-Source: log-source] org.apache.flink.connector.kafka.source.enumerator.KafkaSourceEnumerator - Assigning splits to readers {0=[[Partition: dwd-events-log-0, StartingOffset: 10, StoppingOffset: -9223372036854775808]]}
+[INFO] 2026-10-17 18:25:45.677 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.runtime.source.coordinator.SourceCoordinator - Source Source: rule_meta[1] received split request from parallel task 0 (#0)
+[INFO] 2026-10-17 18:25:45.722 [Source: log-source -> Map (1/1)#0] org.apache.flink.runtime.taskmanager.Task - Source: log-source -> Map (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_cbc357ccb763df2852fee8c4fc7d55f2_0_0) switched from INITIALIZING to RUNNING.
+[INFO] 2026-10-17 18:25:45.722 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.runtime.taskmanager.Task - Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_6cdc5bb954874d922eaee11a8e7b5dd5_0_0) switched from INITIALIZING to RUNNING.
+[INFO] 2026-10-17 18:25:45.728 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.executiongraph.ExecutionGraph - Source: log-source -> Map (1/1) (172a9ddac693f0af755ed932f4f4a77b_cbc357ccb763df2852fee8c4fc7d55f2_0_0) switched from INITIALIZING to RUNNING.
+[INFO] 2026-10-17 18:25:45.731 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.executiongraph.ExecutionGraph - Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1) (172a9ddac693f0af755ed932f4f4a77b_6cdc5bb954874d922eaee11a8e7b5dd5_0_0) switched from INITIALIZING to RUNNING.
+[INFO] 2026-10-17 18:25:45.734 [Source: log-source -> Map (1/1)#0] org.apache.flink.connector.base.source.reader.SourceReaderBase - Adding split(s) to reader: [[Partition: dwd-events-log-0, StartingOffset: 10, StoppingOffset: -9223372036854775808]]
+[INFO] 2026-10-17 18:25:45.844 [Source: log-source -> Map (1/1)#0] org.apache.kafka.clients.consumer.ConsumerConfig - ConsumerConfig values:
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [192.168.31.211:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = g01-0
+	client.rack =
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = g01
+	group.instance.id = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = [REDACTED]
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = [REDACTED]
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = [REDACTED]
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+
+[INFO] 2026-10-17 18:25:45.845 [Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0] org.apache.flink.runtime.state.heap.HeapKeyedStateBackend - Initializing heap keyed state backend with stream factory.
+[INFO] 2026-10-17 18:25:46.022 [Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0] org.apache.flink.runtime.taskmanager.Task - Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0 (172a9ddac693f0af755ed932f4f4a77b_9b292e94298dd6ba47492a59dffbd251_0_0) switched from INITIALIZING to RUNNING.
+[INFO] 2026-10-17 18:25:46.023 [flink-pekko.actor.default-dispatcher-4] org.apache.flink.runtime.executiongraph.ExecutionGraph - Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1) (172a9ddac693f0af755ed932f4f4a77b_9b292e94298dd6ba47492a59dffbd251_0_0) switched from INITIALIZING to RUNNING.
+[WARN] 2026-10-17 18:25:46.134 [Source: log-source -> Map (1/1)#0] org.apache.kafka.clients.consumer.ConsumerConfig - These configurations '[client.id.prefix, partition.discovery.interval.ms]' were supplied but are not used yet.
+[INFO] 2026-10-17 18:25:46.135 [Source: log-source -> Map (1/1)#0] org.apache.kafka.common.utils.AppInfoParser - Kafka version: 3.4.0
+[INFO] 2026-10-17 18:25:46.135 [Source: log-source -> Map (1/1)#0] org.apache.kafka.common.utils.AppInfoParser - Kafka commitId: 2e1947d240607d53
+[INFO] 2026-10-17 18:25:46.135 [Source: log-source -> Map (1/1)#0] org.apache.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1792232746135
+[INFO] 2026-10-17 18:25:46.186 [Source Data Fetcher for Source: log-source -> Map (1/1)#0] org.apache.flink.connector.base.source.reader.fetcher.SplitFetcher - Starting split fetcher 0
+[INFO] 2026-10-17 18:25:46.206 [Source Data Fetcher for Source: log-source -> Map (1/1)#0] org.apache.kafka.clients.consumer.KafkaConsumer - [Consumer clientId=g01-0, groupId=g01] Assigned to partition(s): dwd-events-log-0
+[INFO] 2026-10-17 18:25:46.219 [Source Data Fetcher for Source: log-source -> Map (1/1)#0] org.apache.kafka.clients.consumer.KafkaConsumer - [Consumer clientId=g01-0, groupId=g01] Seeking to offset 10 for partition dwd-events-log-0
+[INFO] 2026-10-17 18:25:46.265 [Source Data Fetcher for Source: log-source -> Map (1/1)#0] org.apache.kafka.clients.Metadata - [Consumer clientId=g01-0, groupId=g01] Resetting the last seen epoch of partition dwd-events-log-0 to 0 since the associated topicId changed from null to Uh4bNQ8mTUmDCUe5yfU5mQ
+[INFO] 2026-10-17 18:25:46.272 [Source Data Fetcher for Source: log-source -> Map (1/1)#0] org.apache.kafka.clients.Metadata - [Consumer clientId=g01-0, groupId=g01] Cluster ID: MkU3OEVBNTcwNTJENDM2Qk
+[INFO] 2026-10-17 18:25:46.510 [Checkpoint Timer] org.apache.flink.runtime.checkpoint.CheckpointCoordinator - Triggering checkpoint 1 (type=CheckpointType{name='Checkpoint', sharingFilesStrategy=FORWARD_BACKWARD}) @ 1792232746455 for job a05a7f85fe46ca9281a7679b1fb2ae8e.
+[INFO] 2026-10-17 18:25:48.319 [snapshot-splitting] org.apache.flink.cdc.connectors.mysql.source.assigners.MySqlSnapshotSplitAssigner - Split table doit36_main_audit.rule_meta_doit36 into 1 chunks, time cost: 4879ms.
+[INFO] 2026-10-17 18:25:48.419 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.enumerator.MySqlSourceEnumerator - The enumerator assigns split MySqlSnapshotSplit{tableId=doit36_main_audit.rule_meta_doit36, splitId='doit36_main_audit.rule_meta_doit36:0', splitKeyType=[`id` INT NOT NULL], splitStart=null, splitEnd=null, highWatermark=null} to subtask 0
+[INFO] 2026-10-17 18:25:48.499 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.reader.MySqlSourceReader - Source reader 0 adds split MySqlSnapshotSplit{tableId=doit36_main_audit.rule_meta_doit36, splitId='doit36_main_audit.rule_meta_doit36:0', splitKeyType=[`id` INT NOT NULL], splitStart=null, splitEnd=null, highWatermark=null}
+[INFO] 2026-10-17 18:25:48.504 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.connector.base.source.reader.SourceReaderBase - Adding split(s) to reader: [MySqlSnapshotSplit{tableId=doit36_main_audit.rule_meta_doit36, splitId='doit36_main_audit.rule_meta_doit36:0', splitKeyType=[`id` INT NOT NULL], splitStart=null, splitEnd=null, highWatermark=null}]
+[INFO] 2026-10-17 18:25:48.514 [Source Data Fetcher for Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.connector.base.source.reader.fetcher.SplitFetcher - Starting split fetcher 0
+[INFO] 2026-10-17 18:25:48.515 [Source Data Fetcher for Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.reader.MySqlSplitReader - Handling split change SplitAddition:[[MySqlSnapshotSplit{tableId=doit36_main_audit.rule_meta_doit36, splitId='doit36_main_audit.rule_meta_doit36:0', splitKeyType=[`id` INT NOT NULL], splitStart=null, splitEnd=null, highWatermark=null}]]
+[WARN] 2026-10-17 18:25:48.527 [Source Data Fetcher for Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] io.debezium.connector.mysql.MySqlConnection - Database configuration option 'serverTimezone' is set but is obsolete, please use 'connectionTimeZone' instead
+[INFO] 2026-10-17 18:25:48.805 [Source Data Fetcher for Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.debezium.task.context.StatefulTaskContext - Starting offset is initialized to {ts_sec=0, file=, pos=0, kind=EARLIEST, row=0, event=0}
+[INFO] 2026-10-17 18:25:48.847 [jobmanager-io-thread-2] org.apache.flink.runtime.checkpoint.CheckpointCoordinator - Completed checkpoint 1 for job a05a7f85fe46ca9281a7679b1fb2ae8e (10931 bytes, checkpointDuration=2364 ms, finalizationTime=27 ms).
+[INFO] 2026-10-17 18:25:48.860 [SourceCoordinator-Source: log-source] org.apache.flink.runtime.source.coordinator.SourceCoordinator - Marking checkpoint 1 as completed for source Source: log-source.
+[INFO] 2026-10-17 18:25:48.860 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.runtime.source.coordinator.SourceCoordinator - Marking checkpoint 1 as completed for source Source: rule_meta[1].
+[INFO] 2026-10-17 18:25:49.205 [debezium-reader-0] org.apache.flink.cdc.connectors.mysql.debezium.task.MySqlSnapshotSplitReadTask - Snapshot step 1 - Determining low watermark {ts_sec=0, file=binlog.000005, pos=72480, kind=SPECIFIC, gtids=, row=0, event=0} for split MySqlSnapshotSplit{tableId=doit36_main_audit.rule_meta_doit36, splitId='doit36_main_audit.rule_meta_doit36:0', splitKeyType=[`id` INT NOT NULL], splitStart=null, splitEnd=null, highWatermark=null}
+[INFO] 2026-10-17 18:25:49.216 [debezium-reader-0] org.apache.flink.cdc.connectors.mysql.debezium.task.MySqlSnapshotSplitReadTask - Snapshot step 2 - Snapshotting data
+[INFO] 2026-10-17 18:25:49.217 [debezium-reader-0] org.apache.flink.cdc.connectors.mysql.debezium.task.MySqlSnapshotSplitReadTask - Exporting data from split 'doit36_main_audit.rule_meta_doit36:0' of table doit36_main_audit.rule_meta_doit36
+[INFO] 2026-10-17 18:25:49.218 [debezium-reader-0] org.apache.flink.cdc.connectors.mysql.debezium.task.MySqlSnapshotSplitReadTask - For split 'doit36_main_audit.rule_meta_doit36:0' of table doit36_main_audit.rule_meta_doit36 using select statement: 'SELECT * FROM `doit36_main_audit`.`rule_meta_doit36`'
+[INFO] 2026-10-17 18:25:49.335 [debezium-reader-0] org.apache.flink.cdc.connectors.mysql.debezium.task.MySqlSnapshotSplitReadTask - Finished exporting 1 records for split 'doit36_main_audit.rule_meta_doit36:0', total duration '00:00:00.118'
+[INFO] 2026-10-17 18:25:49.343 [debezium-reader-0] org.apache.flink.cdc.connectors.mysql.debezium.task.MySqlSnapshotSplitReadTask - Snapshot step 3 - Determining high watermark {ts_sec=0, file=binlog.000005, pos=72480, kind=SPECIFIC, gtids=, row=0, event=0} for split MySqlSnapshotSplit{tableId=doit36_main_audit.rule_meta_doit36, splitId='doit36_main_audit.rule_meta_doit36:0', splitKeyType=[`id` INT NOT NULL], splitStart=null, splitEnd=null, highWatermark=null}
+[INFO] 2026-10-17 18:25:49.732 [pool-9-thread-1] io.debezium.jdbc.JdbcConnection - Connection gracefully closed
+[INFO] 2026-10-17 18:25:49.737 [Source Data Fetcher for Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.connector.base.source.reader.fetcher.SplitFetcher - Finished reading from splits [doit36_main_audit.rule_meta_doit36:0]
+[INFO] 2026-10-17 18:25:51.444 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.connector.base.source.reader.SourceReaderBase - Finished reading split(s) [doit36_main_audit.rule_meta_doit36:0]
+[INFO] 2026-10-17 18:25:51.451 [Checkpoint Timer] org.apache.flink.runtime.checkpoint.CheckpointCoordinator - Triggering checkpoint 2 (type=CheckpointType{name='Checkpoint', sharingFilesStrategy=FORWARD_BACKWARD}) @ 1792232751449 for job a05a7f85fe46ca9281a7679b1fb2ae8e.
+[INFO] 2026-10-17 18:25:51.479 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.enumerator.MySqlSourceEnumerator - The enumerator under INITIAL_ASSIGNING receives finished split offsets FinishedSnapshotSplitsReportEvent{finishedOffsets={doit36_main_audit.rule_meta_doit36:0={ts_sec=0, file=binlog.000005, pos=72480, kind=SPECIFIC, gtids=, row=0, event=0}}} from subtask 0.
+[INFO] 2026-10-17 18:25:51.479 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.connector.base.source.reader.fetcher.SplitFetcherManager - Closing splitFetcher 0 because it is idle.
+[INFO] 2026-10-17 18:25:51.480 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.assigners.AssignerStatus - Assigner status changes from INITIAL_ASSIGNING to INITIAL_ASSIGNING_FINISHED
+[INFO] 2026-10-17 18:25:51.481 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.assigners.MySqlSnapshotSplitAssigner - Snapshot split assigner received all splits finished and the job parallelism is 1, snapshot split assigner is turn into finished status.
+[INFO] 2026-10-17 18:25:51.491 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.runtime.source.coordinator.SourceCoordinator - Source Source: rule_meta[1] received split request from parallel task 0 (#0)
+[INFO] 2026-10-17 18:25:51.496 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.connector.base.source.reader.fetcher.SplitFetcher - Shutting down split fetcher 0
+[INFO] 2026-10-17 18:25:51.498 [Source Data Fetcher for Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.connector.base.source.reader.fetcher.SplitFetcher - Split fetcher 0 exited.
+[INFO] 2026-10-17 18:25:51.597 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.enumerator.MySqlSourceEnumerator - The enumerator assigns split MySqlBinlogSplit{splitId='binlog-split', offset={ts_sec=0, file=binlog.000005, pos=72480, kind=SPECIFIC, gtids=, row=0, event=0}, endOffset={ts_sec=0, file=, pos=-9223372036854775808, kind=NON_STOPPING, row=0, event=0}, isSuspended=false} to subtask 0
+[INFO] 2026-10-17 18:25:51.595 [Co-Process-Broadcast-Keyed -> Sink: Print to Std. Out (1/1)#0] cn.doitedu.rtmk.demo8.CoreProcessFunction - 收到一条新注入的规则定义信息： RuleMeta(opType=0, id=900017, model_id=5, param_json={"modelId":5,"triggerEventId":"item_share","dynamicProfile":[{"tagCompareValue":0,"conditionId":"mainAudit","startTime":"2026-01-01 00:00:00","tagEvent":{"tagEventId":"item_collect","tagEventProp":"item_id","tagEventValues":["p02"]},"endTime":"2027-01-01 00:00:00","tagCompareOp":">"}],"ruleId":900017}, static_crowd=[58, 48, 0, 0, 0, 0, 0, 0], status=1, publisher=深似海的男人, create_time=2026-10-17T16:43:12.730, update_time=2026-10-17T17:32:57.211, ruleCalculator=null)
+[INFO] 2026-10-17 18:25:51.822 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.reader.MySqlSourceReader - Source reader 0 adds split MySqlBinlogSplit{splitId='binlog-split', offset={ts_sec=0, file=binlog.000005, pos=72480, kind=SPECIFIC, gtids=, row=0, event=0}, endOffset={ts_sec=0, file=, pos=-9223372036854775808, kind=NON_STOPPING, row=0, event=0}, isSuspended=false}
+[WARN] 2026-10-17 18:25:51.829 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] io.debezium.connector.mysql.MySqlConnection - Database configuration option 'serverTimezone' is set but is obsolete, please use 'connectionTimeZone' instead
+[INFO] 2026-10-17 18:25:51.832 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - Read list of available databases
+[INFO] 2026-10-17 18:25:51.898 [jobmanager-io-thread-2] org.apache.flink.runtime.checkpoint.CheckpointCoordinator - Completed checkpoint 2 for job a05a7f85fe46ca9281a7679b1fb2ae8e (11438 bytes, checkpointDuration=414 ms, finalizationTime=35 ms).
+[INFO] 2026-10-17 18:25:51.903 [SourceCoordinator-Source: log-source] org.apache.flink.runtime.source.coordinator.SourceCoordinator - Marking checkpoint 2 as completed for source Source: log-source.
+[INFO] 2026-10-17 18:25:51.903 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.runtime.source.coordinator.SourceCoordinator - Marking checkpoint 2 as completed for source Source: rule_meta[1].
+[INFO] 2026-10-17 18:25:51.918 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - 	 list of available databases is: [doit36_main_audit]
+[INFO] 2026-10-17 18:25:51.920 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - Read list of available tables in each database
+[INFO] 2026-10-17 18:25:51.932 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - 	 'doit36_main_audit.cms_video' is filtered out of table capturing
+[INFO] 2026-10-17 18:25:51.933 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - 	 'doit36_main_audit.dashboard_promotion_abc_pvuv' is filtered out of table capturing
+[INFO] 2026-10-17 18:25:51.935 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - 	 including table 'doit36_main_audit.rule_meta_doit36' for further processing
+[INFO] 2026-10-17 18:25:51.938 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - 	 'doit36_main_audit.t_md_areas' is filtered out of table capturing
+[INFO] 2026-10-17 18:25:51.941 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.utils.TableDiscoveryUtils - 	 'doit36_main_audit.ums_member' is filtered out of table capturing
+[INFO] 2026-10-17 18:25:52.059 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.reader.MySqlSourceReader - Source reader 0 discovers table schema for binlog split binlog-split success
+[INFO] 2026-10-17 18:25:52.062 [pool-10-thread-1] io.debezium.jdbc.JdbcConnection - Connection gracefully closed
+[INFO] 2026-10-17 18:25:52.062 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.reader.MySqlSourceReader - Source reader 0 received the binlog split : MySqlBinlogSplit{splitId='binlog-split', offset={ts_sec=0, file=binlog.000005, pos=72480, kind=SPECIFIC, gtids=, row=0, event=0}, endOffset={ts_sec=0, file=, pos=-9223372036854775808, kind=NON_STOPPING, row=0, event=0}, isSuspended=false}.
+[INFO] 2026-10-17 18:25:52.066 [Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.connector.base.source.reader.SourceReaderBase - Adding split(s) to reader: [MySqlBinlogSplit{splitId='binlog-split', offset={ts_sec=0, file=binlog.000005, pos=72480, kind=SPECIFIC, gtids=, row=0, event=0}, endOffset={ts_sec=0, file=, pos=-9223372036854775808, kind=NON_STOPPING, row=0, event=0}, isSuspended=false}]
+[INFO] 2026-10-17 18:25:52.070 [Source Data Fetcher for Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.connector.base.source.reader.fetcher.SplitFetcher - Starting split fetcher 1
+[INFO] 2026-10-17 18:25:52.070 [SourceCoordinator-Source: rule_meta[1]] org.apache.flink.cdc.connectors.mysql.source.enumerator.MySqlSourceEnumerator - The enumerator receives notice from subtask 0 for the binlog split assignment.
+[INFO] 2026-10-17 18:25:52.070 [Source Data Fetcher for Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.source.reader.MySqlSplitReader - Handling split change SplitAddition:[[MySqlBinlogSplit{splitId='binlog-split', offset={ts_sec=0, file=binlog.000005, pos=72480, kind=SPECIFIC, gtids=, row=0, event=0}, endOffset={ts_sec=0, file=, pos=-9223372036854775808, kind=NON_STOPPING, row=0, event=0}, isSuspended=false}]]
+[WARN] 2026-10-17 18:25:52.072 [Source Data Fetcher for Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] io.debezium.connector.mysql.MySqlConnection - Database configuration option 'serverTimezone' is set but is obsolete, please use 'connectionTimeZone' instead
+[INFO] 2026-10-17 18:25:52.159 [Source Data Fetcher for Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.debezium.task.context.StatefulTaskContext - Starting offset is initialized to {ts_sec=0, file=binlog.000005, pos=72480, kind=SPECIFIC, gtids=, row=0, event=0}
+[INFO] 2026-10-17 18:25:52.160 [Source Data Fetcher for Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] io.debezium.connector.mysql.MySqlConnection - Get all known binlogs from MySQL
+[INFO] 2026-10-17 18:25:52.169 [Source Data Fetcher for Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] org.apache.flink.cdc.connectors.mysql.debezium.task.context.StatefulTaskContext - MySQL has the binlog file 'binlog.000005' required by the connector
+[INFO] 2026-10-17 18:25:52.202 [Source Data Fetcher for Source: rule_meta[1] -> ConstraintEnforcer[2] -> TableToDataSteam -> Map (1/1)#0] io.debezium.util.Threads - Requested thread factory for connector MySqlConnector, id = mysql_binlog_source named = binlog-client
+[INFO] 2026-10-17 18:25:52.267 [binlog-reader-0] io.debezium.connector.mysql.MySqlStreamingChangeEventSource - Skip 0 events on streaming start
+[INFO] 2026-10-17 18:25:52.267 [binlog-reader-0] io.debezium.connector.mysql.MySqlStreamingChangeEventSource - Skip 0 rows on streaming start
+[INFO] 2026-10-17 18:25:52.271 [binlog-reader-0] io.debezium.util.Threads - Creating thread debezium-mysqlconnector-mysql_binlog_source-binlog-client
+[INFO] 2026-10-17 18:25:52.288 [blc-127.0.0.1:13306] io.debezium.util.Threads - Creating thread debezium-mysqlconnector-mysql_binlog_source-binlog-client
+[INFO] 2026-10-17 18:25:52.350 [PermanentBlobCache shutdown hook] org.apache.flink.runtime.blob.PermanentBlobCache - Shutting down BLOB cache
+[INFO] 2026-10-17 18:25:52.351 [TaskExecutorStateChangelogStoragesManager shutdown hook] org.apache.flink.runtime.state.TaskExecutorStateChangelogStoragesManager - Shutting down TaskExecutorStateChangelogStoragesManager.
+[INFO] 2026-10-17 18:25:52.352 [TaskExecutorFileMergingManager shutdown hook] org.apache.flink.runtime.state.TaskExecutorFileMergingManager - Shutting down TaskExecutorFileMergingManager.
+[INFO] 2026-10-17 18:25:52.353 [TaskExecutorLocalStateStoresManager shutdown hook] org.apache.flink.runtime.state.TaskExecutorLocalStateStoresManager - Shutting down TaskExecutorLocalStateStoresManager.
+[INFO] 2026-10-17 18:25:52.355 [TransientBlobCache shutdown hook] org.apache.flink.runtime.blob.TransientBlobCache - Shutting down BLOB cache
+[INFO] 2026-10-17 18:25:52.356 [BlobServer shutdown hook] org.apache.flink.runtime.blob.BlobServer - Stopped BLOB server at 0.0.0.0:51849
+[INFO] 2026-10-17 18:25:52.360 [FileChannelManagerImpl-netty-shuffle shutdown hook] org.apache.flink.runtime.io.disk.FileChannelManagerImpl - FileChannelManager removed spill file directory /var/folders/vk/_xdm46qn66182z1cy9k7qvr80000gn/T/flink-netty-shuffle-59fc0094-dca4-465e-bdef-b0f1c3661223
+[INFO] 2026-10-17 18:25:52.364 [FileCache shutdown hook] org.apache.flink.runtime.filecache.FileCache - removed file cache directory /var/folders/vk/_xdm46qn66182z1cy9k7qvr80000gn/T/flink-dist-cache-b4a5b9d6-7e60-4151-b05b-fdd6598059b6
+[INFO] 2026-10-17 18:25:52.368 [FileChannelManagerImpl-io shutdown hook] org.apache.flink.runtime.io.disk.FileChannelManagerImpl - FileChannelManager removed spill file directory /var/folders/vk/_xdm46qn66182z1cy9k7qvr80000gn/T/flink-io-c7564b67-0ab1-4d03-bbf2-a771cf3fdb9d

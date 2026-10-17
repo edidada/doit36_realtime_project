@@ -1,0 +1,82 @@
+{
+  "initial_attempts": [
+    {
+      "module": "realtime_dw",
+      "class": "cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim",
+      "source": "realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob01_UserEventsLogCommonDim.java",
+      "exit_code": 143,
+      "actively_stopped": true,
+      "seconds": 91.1,
+      "log": "logs/validation/cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim.first-attempt.log",
+      "running_observed": false,
+      "completed_checkpoints": 0,
+      "errors": 0,
+      "status": "stopped_after_observation"
+    },
+    {
+      "module": "rt_rule_mk",
+      "class": "cn.doitedu.rtmk.demo3.RuleCalculatorPatternLocal",
+      "source": "rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo3/RuleCalculatorPatternLocal.java",
+      "exit_code": 143,
+      "actively_stopped": true,
+      "seconds": 46.19,
+      "log": "logs/validation/cn.doitedu.rtmk.demo3.RuleCalculatorPatternLocal.first-attempt.log",
+      "running_observed": true,
+      "completed_checkpoints": 2,
+      "errors": 0,
+      "status": "stopped_after_observation"
+    },
+    {
+      "module": "rt_rule_mk",
+      "class": "cn.doitedu.rtmk.demo5.BitmapOptimizedRuleEngineLocal",
+      "source": "rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo5/BitmapOptimizedRuleEngineLocal.java",
+      "exit_code": 143,
+      "actively_stopped": true,
+      "seconds": 31.24,
+      "log": "logs/validation/cn.doitedu.rtmk.demo5.BitmapOptimizedRuleEngineLocal.first-attempt.log",
+      "running_observed": true,
+      "completed_checkpoints": 2,
+      "errors": 0,
+      "status": "stopped_after_observation"
+    },
+    {
+      "module": "realtime_dw",
+      "class": "cn.doitedu.rtdw.data_etl.EtlJob04_InteractiveEventsOverview",
+      "source": "realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob04_InteractiveEventsOverview.java",
+      "exit_code": 143,
+      "actively_stopped": true,
+      "seconds": 90.86,
+      "log": "logs/validation/cn.doitedu.rtdw.data_etl.EtlJob04_InteractiveEventsOverview.first-attempt.log",
+      "running_observed": true,
+      "completed_checkpoints": 1,
+      "errors": 0,
+      "status": "stopped_after_observation"
+    },
+    {
+      "module": "realtime_dw",
+      "class": "cn.doitedu.rtdw.data_etl.EtlJob05_VideoEventsAgg",
+      "source": "realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob05_VideoEventsAgg.java",
+      "exit_code": 143,
+      "actively_stopped": true,
+      "seconds": 90.96,
+      "log": "logs/validation/cn.doitedu.rtdw.data_etl.EtlJob05_VideoEventsAgg.first-attempt.log",
+      "running_observed": true,
+      "completed_checkpoints": 0,
+      "errors": 0,
+      "status": "stopped_after_observation"
+    },
+    {
+      "module": "realtime_dw",
+      "class": "cn.doitedu.rtdw.data_sync.SyncJob01_UserInfo2Hbase",
+      "source": "realtime_dw/src/main/java/cn/doitedu/rtdw/data_sync/SyncJob01_UserInfo2Hbase.java",
+      "exit_code": 143,
+      "actively_stopped": true,
+      "seconds": 91.2,
+      "log": "logs/validation/cn.doitedu.rtdw.data_sync.SyncJob01_UserInfo2Hbase.first-attempt.log",
+      "running_observed": true,
+      "completed_checkpoints": 1,
+      "errors": 0,
+      "status": "stopped_after_observation"
+    }
+  ]
+}

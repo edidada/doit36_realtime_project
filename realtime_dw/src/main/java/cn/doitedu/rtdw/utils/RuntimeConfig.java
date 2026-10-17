@@ -4,8 +4,35 @@ package cn.doitedu.rtdw.utils;
 public final class RuntimeConfig {
     private RuntimeConfig() {}
 
+    // IDEA direct launches also use the local private profile; explicit properties/env win.
+    private static final java.util.Map<String, String> LOCAL_SETTINGS = loadLocalSettings();
+
+    private static java.util.Map<String, String> loadLocalSettings() {
+        String configured = System.getProperty("MAIN_ENV_JSON", System.getenv("MAIN_ENV_JSON"));
+        java.nio.file.Path path = java.nio.file.Paths.get(configured == null || configured.isBlank()
+                ? ".artifacts/main-audit/k3s/runtime-env.json" : configured);
+        if (!java.nio.file.Files.exists(path) && (configured == null || configured.isBlank())) {
+            return java.util.Collections.emptyMap();
+        }
+        try {
+            com.alibaba.fastjson.JSONObject json = com.alibaba.fastjson.JSON.parseObject(
+                    java.nio.file.Files.readString(path));
+            java.util.Map<String, String> settings = new java.util.HashMap<>();
+            if (json == null) throw new IllegalArgumentException("Expected an object");
+            for (String key : json.keySet()) {
+                Object value = json.get(key);
+                if (!(value instanceof String)) throw new IllegalArgumentException("Expected string values");
+                settings.put(key, (String) value);
+            }
+            return settings;
+        } catch (java.io.IOException | RuntimeException e) {
+            throw new IllegalStateException("Cannot load private MAIN_ENV_JSON profile: " + path);
+        }
+    }
+
     public static String value(String name, String fallback) {
         String value = System.getProperty(name, System.getenv(name));
+        if (value == null || value.trim().isEmpty()) value = LOCAL_SETTINGS.get(name);
         return value == null || value.trim().isEmpty() ? fallback : value;
     }
 

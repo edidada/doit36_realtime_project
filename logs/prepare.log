@@ -1,0 +1,126 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO]
+[INFO] doit36_realtime_project                                            [pom]
+[INFO] realtime_dw                                                        [jar]
+[INFO] batch_jobs                                                         [jar]
+[INFO] redis_demo                                                         [jar]
+[INFO] rt_rule_mk                                                         [jar]
+[INFO]
+[INFO] -----------------< cn.doitedu:doit36_realtime_project >-----------------
+[INFO] Building doit36_realtime_project 1.0-SNAPSHOT                      [1/5]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO]
+[INFO] -----------------------< cn.doitedu:realtime_dw >-----------------------
+[INFO] Building realtime_dw 1.0-SNAPSHOT                                  [2/5]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ realtime_dw ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource
+[INFO]
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ realtime_dw ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 24 source files to /Users/ibqo/Develop/git/github/java/doit36_realtime_project/realtime_dw/target/classes
+[INFO] /Users/ibqo/Develop/git/github/java/doit36_realtime_project/realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob04_InteractiveEventsOverview.java: 某些输入文件使用或覆盖了已过时的 API。
+[INFO] /Users/ibqo/Develop/git/github/java/doit36_realtime_project/realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob04_InteractiveEventsOverview.java: 有关详细信息, 请使用 -Xlint:deprecation 重新编译。
+[INFO] /Users/ibqo/Develop/git/github/java/doit36_realtime_project/realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob06_SearchEventsAnalyse_Async.java: /Users/ibqo/Develop/git/github/java/doit36_realtime_project/realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob06_SearchEventsAnalyse_Async.java使用了未经检查或不安全的操作。
+[INFO] /Users/ibqo/Develop/git/github/java/doit36_realtime_project/realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob06_SearchEventsAnalyse_Async.java: 有关详细信息, 请使用 -Xlint:unchecked 重新编译。
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ realtime_dw ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/ibqo/Develop/git/github/java/doit36_realtime_project/realtime_dw/src/test/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ realtime_dw ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 3 source files to /Users/ibqo/Develop/git/github/java/doit36_realtime_project/realtime_dw/target/test-classes
+[INFO] /Users/ibqo/Develop/git/github/java/doit36_realtime_project/realtime_dw/src/test/java/cn/doitedu/EtlAsync.java: 某些输入文件使用或覆盖了已过时的 API。
+[INFO] /Users/ibqo/Develop/git/github/java/doit36_realtime_project/realtime_dw/src/test/java/cn/doitedu/EtlAsync.java: 有关详细信息, 请使用 -Xlint:deprecation 重新编译。
+[INFO] /Users/ibqo/Develop/git/github/java/doit36_realtime_project/realtime_dw/src/test/java/cn/doitedu/EtlAsync.java: /Users/ibqo/Develop/git/github/java/doit36_realtime_project/realtime_dw/src/test/java/cn/doitedu/EtlAsync.java使用了未经检查或不安全的操作。
+[INFO] /Users/ibqo/Develop/git/github/java/doit36_realtime_project/realtime_dw/src/test/java/cn/doitedu/EtlAsync.java: 有关详细信息, 请使用 -Xlint:unchecked 重新编译。
+[INFO]
+[INFO] -----------------------< cn.doitedu:batch_jobs >------------------------
+[INFO] Building batch_jobs 1.0-SNAPSHOT                                   [3/5]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ batch_jobs ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/ibqo/Develop/git/github/java/doit36_realtime_project/batch_jobs/src/main/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ batch_jobs ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- scala-maven-plugin:4.9.2:compile (default) @ batch_jobs ---
+[INFO] Compiler bridge file: /Users/ibqo/.sbt/1.0/zinc/org.scala-sbt/org.scala-sbt-compiler-bridge_2.12-1.10.0-bin_2.12.21__61.0-1.10.0_20240505T232140.jar
+[INFO] compile in 12.1 s
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ batch_jobs ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/ibqo/Develop/git/github/java/doit36_realtime_project/batch_jobs/src/test/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ batch_jobs ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- scala-maven-plugin:4.9.2:testCompile (default) @ batch_jobs ---
+[INFO] compile in 0.0 s
+[INFO] No sources to compile
+[INFO]
+[INFO] -----------------------< cn.doitedu:redis_demo >------------------------
+[INFO] Building redis_demo 1.0-SNAPSHOT                                   [4/5]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ redis_demo ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource
+[INFO]
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ redis_demo ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ redis_demo ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/ibqo/Develop/git/github/java/doit36_realtime_project/redis_demo/src/test/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ redis_demo ---
+[INFO] No sources to compile
+[INFO]
+[INFO] -----------------------< cn.doitedu:rt_rule_mk >------------------------
+[INFO] Building rt_rule_mk 1.0-SNAPSHOT                                   [5/5]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ rt_rule_mk ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource
+[INFO]
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ rt_rule_mk ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 50 source files to /Users/ibqo/Develop/git/github/java/doit36_realtime_project/rt_rule_mk/target/classes
+[INFO] /Users/ibqo/Develop/git/github/java/doit36_realtime_project/rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo5/BitmapOptimizedRuleEngine.java: 某些输入文件使用或覆盖了已过时的 API。
+[INFO] /Users/ibqo/Develop/git/github/java/doit36_realtime_project/rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo5/BitmapOptimizedRuleEngine.java: 有关详细信息, 请使用 -Xlint:deprecation 重新编译。
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ rt_rule_mk ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/ibqo/Develop/git/github/java/doit36_realtime_project/rt_rule_mk/src/test/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ rt_rule_mk ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 4 source files to /Users/ibqo/Develop/git/github/java/doit36_realtime_project/rt_rule_mk/target/test-classes
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for doit36_realtime_project 1.0-SNAPSHOT:
+[INFO]
+[INFO] doit36_realtime_project ............................ SUCCESS [  0.027 s]
+[INFO] realtime_dw ........................................ SUCCESS [ 40.223 s]
+[INFO] batch_jobs ......................................... SUCCESS [ 26.556 s]
+[INFO] redis_demo ......................................... SUCCESS [  0.431 s]
+[INFO] rt_rule_mk ......................................... SUCCESS [ 45.974 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:54 min
+[INFO] Finished at: 2026-10-17T18:23:30+08:00
+[INFO] ------------------------------------------------------------------------
+scripts/java-mains.sh: line 142: module: unbound variable

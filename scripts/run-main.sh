@@ -11,6 +11,10 @@ main="$2"
 shift 2
 case "$module" in realtime_dw|rt_rule_mk|redis_demo|batch_jobs) ;; *) echo 'Unknown module' >&2; exit 2 ;; esac
 cd "$ROOT_DIR"
+# Prefer the local validated profile when no explicit profile was selected.
+if [[ -z "${MAIN_ENV_JSON:-}" && "${MAIN_ENV_LOADED:-false}" != true && -f "$ROOT_DIR/.artifacts/main-audit/k3s/runtime-env.json" ]]; then
+  export MAIN_ENV_JSON="$ROOT_DIR/.artifacts/main-audit/k3s/runtime-env.json"
+fi
 # Optional private JSON profile, loaded without shell evaluation or credential output.
 if [[ -n "${MAIN_ENV_JSON:-}" ]]; then
   exec python3 - "$ROOT_DIR/scripts/run-main.sh" "$module" "$main" "$@" <<'PYENV'
@@ -21,6 +25,7 @@ if not isinstance(settings, dict) or not all(isinstance(k, str) and isinstance(v
     raise SystemExit('MAIN_ENV_JSON must contain a JSON object of string environment values')
 os.environ.update(settings)
 os.environ.pop('MAIN_ENV_JSON', None)
+os.environ['MAIN_ENV_LOADED'] = 'true'
 os.execvp('bash', ['bash'] + sys.argv[1:])
 PYENV
 fi
@@ -34,6 +39,8 @@ if [[ "${SKIP_MAIN_COMPILE:-false}" != true ]]; then
   mvn -B -ntp -q -pl "$module" dependency:build-classpath \
     -Dmdep.includeScope=test -Dmdep.outputFile=target/main-audit-classpath.txt
 fi
+mkdir -p "$ROOT_DIR/logs/runtime"
 classpath="$ROOT_DIR/$module/target/classes:$ROOT_DIR/$module/target/test-classes:$(cat "$module/target/main-audit-classpath.txt")"
 exec "$java_bin" "@$ROOT_DIR/scripts/java17.options" -Xmx768m -XX:ActiveProcessorCount=2 \
+  -Dmain.class="$main" -Dmain.log.dir="$ROOT_DIR/logs/runtime" \
   -cp "$classpath" "$main" "$@"

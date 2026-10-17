@@ -1,0 +1,16 @@
+Picked up JAVA_TOOL_OPTIONS: -XX:TieredStopAtLevel=1
+Exception in thread "main" java.util.concurrent.ExecutionException: java.net.ConnectException: Connection refused
+	at org.apache.http.concurrent.BasicFuture.getResult(BasicFuture.java:71)
+	at org.apache.http.concurrent.BasicFuture.get(BasicFuture.java:84)
+	at org.apache.http.impl.nio.client.FutureWrapper.get(FutureWrapper.java:70)
+	at cn.doitedu.Http.main(Http.java:44)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:684)
+	at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:946)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent(DefaultConnectingIOReactor.java:171)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents(DefaultConnectingIOReactor.java:145)
+	at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:348)
+	at org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute(PoolingNHttpClientConnectionManager.java:221)
+	at org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run(CloseableHttpAsyncClientBase.java:64)
+	at java.base/java.lang.Thread.run(Thread.java:840)
