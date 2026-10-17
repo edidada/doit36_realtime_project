@@ -44,7 +44,8 @@ public class DynamicRuleManagement {
         // 一些必须参数设置
         env.setStateBackend(new HashMapStateBackend());
         env.enableCheckpointing(5000, CheckpointingMode.EXACTLY_ONCE);
-        env.getCheckpointConfig().setCheckpointStorage("file:/d:/ckpt");
+        env.getCheckpointConfig().setCheckpointStorage(System.getProperty("flink.checkpoints.dir",
+                new java.io.File(System.getProperty("java.io.tmpdir"), "doit36-checkpoints").toURI().toString()));
         env.setParallelism(1);
 
         StreamTableEnvironment tenv = StreamTableEnvironment.create(env);

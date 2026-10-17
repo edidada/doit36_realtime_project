@@ -45,7 +45,8 @@ public class EtlJob06_SearchEventsAnalyse {
         // 一些必须参数设置
         env.setStateBackend(new HashMapStateBackend());
         env.enableCheckpointing(5000, CheckpointingMode.EXACTLY_ONCE);
-        env.getCheckpointConfig().setCheckpointStorage("file:/d:/ckpt");
+        env.getCheckpointConfig().setCheckpointStorage(System.getProperty("flink.checkpoints.dir",
+                new java.io.File(System.getProperty("java.io.tmpdir"), "doit36-checkpoints").toURI().toString()));
 
         // 构造table编程环境
         StreamTableEnvironment tenv = StreamTableEnvironment.create(env);

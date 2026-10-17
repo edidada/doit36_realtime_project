@@ -15,12 +15,17 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <flink.version>1.16.1</flink.version>
         <hadoop.version>3.3.2</hadoop.version>
     </properties>
 
 
     <dependencies>
+        <!-- Kafka and CDC mark the engine connector API as provided. -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-base</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -28,50 +33,26 @@
             <version>${flink.version}</version>
         </dependency>
 
-        <!--<dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-streaming-java_2.12</artifactId>
-            <version>${flink.version}</version>
-        </dependency>-->
-
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-java</artifactId>
             <version>${flink.version}</version>
         </dependency>
-
-
-        <!-- flinkSql 需要的依赖 -->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-planner_2.12</artifactId>
             <version>${flink.version}</version>
         </dependency>
-
-        <!-- flinksql本地运行需要的依赖 -->
-        <!--<dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-clients_2.12</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
--->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-clients</artifactId>
             <version>${flink.version}</version>
         </dependency>
 
-
-        <!--<dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-kafka_2.12</artifactId>
-            <version>${flink.version}</version>
-        </dependency>-->
-
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka</artifactId>
-            <version>${flink.version}</version>
+            <version>${flink.kafka.version}</version>
         </dependency>
 
 
@@ -80,25 +61,11 @@
             <artifactId>flink-json</artifactId>
             <version>${flink.version}</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-statebackend-rocksdb -->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-statebackend-rocksdb</artifactId>
             <version>${flink.version}</version>
         </dependency>
-
-
-        <!-- 日志配置说明（2026-10-11，与 rt_rule_mk 同步处理）：
-             flink-doris-connector-1.14_2.12:1.1.0 这个 fat jar 内部自带一份 SLF4J 绑定
-             （org/slf4j/impl/StaticLoggerBinder，即 log4j-slf4j-impl → Log4j2），
-             藏在 jar 里用 <exclusion> 排不掉，再引 slf4j-log4j12 就必然报
-             "Class path contains multiple SLF4J bindings"。
-             做法：删掉 slf4j-log4j12，只保留 doris 那一份绑定；同时显式引入完整的
-             log4j-api / log4j-core（必须声明在 doris 依赖之前）——doris 里 shade 的 log4j-core
-             插件注册表被 log4j-web 覆盖坏了（Console appender / %d %msg 等转换器全丢），
-             不覆盖就会出现"日志不输出 + StatusLogger Unrecognized conversion specifier"。
-             配置见 src/main/resources/log4j2.xml；log4j:log4j(1.x) 保留给 hadoop 系老代码兜底。 -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -108,6 +75,11 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
+            <version>2.17.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
             <version>2.17.2</version>
         </dependency>
 
@@ -133,44 +105,27 @@
 
 
         <dependency>
-            <groupId>com.ververica</groupId>
-            <artifactId>flink-connector-mysql-cdc</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-
-        <!--<dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-hbase-2.2_2.11</artifactId>
-            <version>${flink.version}</version>
-        </dependency>-->
+            <artifactId>flink-connector-mysql-cdc</artifactId>
+            <version>${flink.cdc.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-hbase-2.2</artifactId>
-            <version>${flink.version}</version>
+            <version>${flink.hbase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-hdfs-client</artifactId>
+            <version>${hadoop.version}</version>
         </dependency>
 
-        <!-- HBase connector 运行时依赖 Hadoop 的 Writable、Configuration 等基础类。 -->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
             <version>${hadoop.version}</version>
-        </dependency>
-
-
-        <!--<dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-hdfs</artifactId>
-            <version>3.3.2</version>
-        </dependency>-->
-
-
-        <dependency>
-            <groupId>org.apache.doris</groupId>
-            <artifactId>flink-doris-connector-1.14_2.12</artifactId>
-            <version>1.1.0</version>
             <exclusions>
-                <!-- 它 pom 里声明了 slf4j-log4j12(1.7.9)，是第二个 SLF4J 绑定，排掉 -->
                 <exclusion>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-log4j12</artifactId>
@@ -178,16 +133,23 @@
             </exclusions>
         </dependency>
 
-        <!--<dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-jdbc_2.11</artifactId>
-            <version>${flink.version}</version>
-        </dependency>-->
+
+        <dependency>
+            <groupId>org.apache.doris</groupId>
+            <artifactId>flink-doris-connector-1.19</artifactId>
+            <version>${flink.doris.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-jdbc</artifactId>
-            <version>${flink.version}</version>
+            <version>${flink.jdbc.version}</version>
         </dependency>
 
 
@@ -198,25 +160,11 @@
             <scope>compile</scope>
         </dependency>
 
-
-        <!--<dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-runtime-web_2.12</artifactId>
-            <version>${flink.version}</version>
-        </dependency>-->
-
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-runtime-web</artifactId>
             <version>${flink.version}</version>
         </dependency>
-
-
-        <!--<dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-cep_2.12</artifactId>
-            <version>${flink.version}</version>
-        </dependency>-->
 
         <dependency>
             <groupId>org.apache.flink</groupId>

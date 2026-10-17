@@ -27,7 +27,8 @@ public class EtlJob03_PageAccessTimeLong {
         // 构建编程环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.enableCheckpointing(2000);
-        env.getCheckpointConfig().setCheckpointStorage("file:/d:/ckpt");
+        env.getCheckpointConfig().setCheckpointStorage(System.getProperty("flink.checkpoints.dir",
+                new java.io.File(System.getProperty("java.io.tmpdir"), "doit36-checkpoints").toURI().toString()));
 
         StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 

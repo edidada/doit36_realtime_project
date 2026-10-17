@@ -5,7 +5,10 @@ target
 .mvn
 *.iml
 .skill*/
+
+# Local execution logs, dependency caches and image archives
+.artifacts/
+
+# Local container image build context and exported archives
 deploy/k3s/.image-build/
 deploy/k3s/output/
-# Local build archives, verification evidence and deployment credentials.
-.artifacts/
