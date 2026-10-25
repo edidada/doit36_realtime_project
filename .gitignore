@@ -5,3 +5,6 @@ target
 .mvn
 *.iml
 .skill*/
+
+# Local execution logs, dependency caches and image archives
+.artifacts/

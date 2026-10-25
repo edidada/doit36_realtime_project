@@ -29,6 +29,8 @@ public class EtlJob01_UserEventsLogCommonDim {
         // 一些必须参数设置
         env.setStateBackend(new EmbeddedRocksDBStateBackend());
         env.enableCheckpointing(5000, CheckpointingMode.EXACTLY_ONCE);
+        env.getCheckpointConfig().setCheckpointStorage(System.getProperty("flink.checkpoints.dir",
+                new java.io.File(System.getProperty("java.io.tmpdir"), "doit36-checkpoints").toURI().toString()));
         env.getCheckpointConfig().setCheckpointStorage(checkpointUri);
 
         // 构造table编程环境
@@ -107,7 +109,7 @@ public class EtlJob01_UserEventsLogCommonDim {
         tenv.executeSql(
                 "CREATE TEMPORARY VIEW wide_view AS  " +
                         // flink-1.16.0增强的新特性：lookup查询支持延迟重试
-                        "SELECT  /*+ LOOKUP('table'='ums_member_hbase_source', 'retry-predicate'='lookup_miss', 'retry-strategy'='fixed_delay', 'fixed-delay'='5s','max-attempts'='3') */" +
+                        "SELECT  /*+ LOOKUP('table'='u', 'retry-predicate'='lookup_miss', 'retry-strategy'='fixed_delay', 'fixed-delay'='5s','max-attempts'='3') */" +
                         "u.f.id as user_id,e.username,e.session_id,e.eventId as event_id,e.eventTime as event_time,e.lat,e.lng," +
                         "e.release_channel,e.device_type,e.properties," +
                         "u.f.phone as register_phone,u.f.status as user_status,u.f.create_time as register_time," +
