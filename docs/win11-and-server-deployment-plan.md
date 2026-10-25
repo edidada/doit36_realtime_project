@@ -1,5 +1,7 @@
 # Win11 ThinkBook + 二手企业服务器运行规划
 
+> 本文是“单台二手服务器”的规划。R630 Proxmox/K3s 现场已经存在本项目的运行链路，其实际工作负载、风险边界和 Kafka 收敛方案见 [K3s 实际部署与中间件收敛](k3s-r630-actual-deployment-and-middleware-consolidation.md)；不要将本文的 Docker Compose 规划误认为 K3s 已部署清单。
+
 ## 目标与边界
 
 目标是在一台 Win11 ThinkBook 2024 上开发、调试和提交作业，在一台二手企业服务器上运行本项目依赖的中间件、Flink/Spark 作业及测试数据。

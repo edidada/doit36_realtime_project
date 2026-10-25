@@ -1,0 +1,116 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: realtime-dw
+  labels:
+    app.kubernetes.io/name: realtime-dw
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: flink
+  namespace: realtime-dw
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: flink
+  namespace: realtime-dw
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/log", "services", "configmaps", "events"]
+    verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: flink
+  namespace: realtime-dw
+subjects:
+  - kind: ServiceAccount
+    name: flink
+    namespace: realtime-dw
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: flink
+---
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: realtime-dw-etl-01
+  namespace: realtime-dw
+spec:
+  image: docker.io/doit36/flink-jobs:mac12-podman495-20261017-1230
+  imagePullPolicy: Never
+  serviceAccount: flink
+  flinkVersion: v1_16
+  flinkConfiguration:
+    classloader.parent-first-patterns.additional: org.codehaus.janino.;org.codehaus.commons.compiler.
+    env.java.opts: >-
+      --add-exports=java.base/sun.net.util=ALL-UNNAMED
+      --add-exports=java.rmi/sun.rmi.registry=ALL-UNNAMED
+      --add-exports=java.security.jgss/sun.security.krb5=ALL-UNNAMED
+      --add-opens=java.base/java.lang=ALL-UNNAMED
+      --add-opens=java.base/java.util=ALL-UNNAMED
+      --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED
+      --add-opens=java.base/java.nio=ALL-UNNAMED
+      --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+      --add-opens=java.base/java.io=ALL-UNNAMED
+      --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+    state.checkpoints.dir: file:///flink-data/checkpoints
+    state.savepoints.dir: file:///flink-data/savepoints
+    taskmanager.numberOfTaskSlots: "2"
+  jobManager:
+    resource: {cpu: 1, memory: 2048m}
+  taskManager:
+    resource: {cpu: 2, memory: 4096m}
+  job:
+    jarURI: local:///opt/flink/usrlib/realtime_dw/realtime_dw-job.jar
+    entryClass: cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim
+    parallelism: 1
+    state: running
+    upgradeMode: stateless
+  podTemplate:
+    spec:
+      nodeSelector: {kubernetes.io/hostname: k3s-worker3}
+      securityContext: {fsGroup: 9999}
+      containers:
+        - name: flink-main-container
+          startupProbe:
+            exec: {command: ["/bin/sh", "-ec", "test -d /opt/flink"]}
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 30
+          env:
+            - {name: KAFKA_BOOTSTRAP_SERVERS, value: kafka.middleware.svc.cluster.local:9092}
+            - {name: HBASE_ZOOKEEPER_QUORUM, value: business-hbase.middleware.svc.cluster.local:2181}
+            - {name: DORIS_FENODES, value: business-doris-fe.middleware.svc.cluster.local:8030}
+            - {name: DORIS_USERNAME, value: doit_etl}
+            - {name: FLINK_CHECKPOINT_URI, value: file:///flink-data/checkpoints}
+            - name: DORIS_PASSWORD
+              valueFrom: {secretKeyRef: {name: business-doris-auth, key: password}}
+          volumeMounts:
+            - {name: flink-state, mountPath: /flink-data}
+            - {name: job-libs, mountPath: /opt/flink/usrlib}
+      initContainers:
+        - name: prepare-flink-state
+          image: docker.io/doit36/flink-jobs:mac12-podman495-20261017-1230
+          imagePullPolicy: Never
+          command: ["/bin/sh", "-ec", "mkdir -p /flink-data/checkpoints /flink-data/savepoints; chown -R 9999:9999 /flink-data"]
+          securityContext: {runAsUser: 0}
+          volumeMounts: [{name: flink-state, mountPath: /flink-data}]
+        - name: prepare-job-libs
+          image: docker.io/doit36/flink-jobs:mac12-podman495-20261017-1230
+          imagePullPolicy: Never
+          command: ["/bin/sh", "-ec", "mkdir -p /job-libs/realtime_dw; for f in /opt/flink/usrlib/realtime_dw/*.jar; do case \"$f\" in */flink-table-planner_*.jar|*/realtime_dw-job.jar) continue;; esac; cp \"$f\" /job-libs/realtime_dw/; done; cp /business/business-etl.jar /job-libs/realtime_dw/realtime_dw-job.jar"]
+          volumeMounts:
+            - {name: job-libs, mountPath: /job-libs}
+            - {name: business-job, mountPath: /business, readOnly: true}
+      volumes:
+        - {name: flink-state, persistentVolumeClaim: {claimName: flink-state}}
+        - {name: job-libs, emptyDir: {}}
+        - {name: business-job, configMap: {name: business-etl-job}}
