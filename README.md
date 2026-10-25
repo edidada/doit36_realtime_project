@@ -1,5 +1,5 @@
-# doit36_realtime_project
-
+# realtime-dw
+多易教育实时数仓36期项目课代码
 ## 1. 项目介绍
 
 本项目是多易大数据的Java实时项目，主要包含以下模块：
@@ -22,7 +22,7 @@
 ## 2. 项目环境
 
 ### 开发环境要求
-- **Java**: 17+ (当前环境: OpenJDK 11.0.21，项目配置为Java 8)
+- **Java**: JDK 17（根 POM 已固定 `maven.compiler.source/target` 为 17）
 - **Maven**: 3.6.1+
 - **Scala**: 2.12.12 (用于batch_jobs模块)
 
@@ -85,7 +85,7 @@
 
 ```xml
 <groupId>cn.doitedu</groupId>
-<artifactId>doit36_realtime_project</artifactId>
+<artifactId>realtime-dw</artifactId>
 <version>1.0-SNAPSHOT</version>
 <packaging>pom</packaging>
 ```
@@ -237,7 +237,7 @@ mvn test -Dtest=TestClassName
 
 ## 项目结构
 ```
-doit36_realtime_project/
+realtime-dw/
 ├── realtime_dw/              # 实时数仓模块
 │   ├── src/main/java/cn/doitedu/rtdw/
 │   │   ├── beans/           # 数据Bean定义
