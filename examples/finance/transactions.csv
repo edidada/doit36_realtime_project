@@ -1,0 +1,6 @@
+trade_id,trade_date,account_id,institution_id,transaction_type,currency,amount_cents
+t001,2026-01-01,account-a,bank-a,PAY,CNY,12500
+t002,2026-01-01,account-a,bank-a,PAY,CNY,-500
+t003,2026-01-01,account-a,bank-a,PAY,USD,2000
+t004,2026-01-31,account-b,bank-a,TRANSFER,CNY,30000
+t005,2026-02-01,account-a,bank-a,PAY,CNY,99999

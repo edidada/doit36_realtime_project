@@ -8,6 +8,10 @@
 - **batch_jobs**: 批处理任务模块，基于Spark进行离线数据处理
 - **redis_demo**: Redis操作示例模块
 - **rt_rule_mk**: 实时规则引擎模块，基于Flink实现动态规则匹配
+- **fin-olap-engine**: 单机 CSV/Parquet 金融交易报表、精确 SUM/COUNT 和 CSV 导出
+- **fin-risk-engine**: 欧式期权 Black-Scholes、Greeks、可复现 Monte Carlo 与历史 VaR/ES
+
+新增模块的使用方法、测试证据和设计完成度见 [金融计算模块交付说明](docs/finance-modules.md)，设计基线为 [maven_module.md](docs/design/maven_module.md)。两个模块可在 Win11/JDK 17 上独立测试，不依赖现有 K3s 中间件。
 
 项目主要功能包括：
 - 实时用户行为日志处理和维度打宽
