@@ -16,3 +16,5 @@
 另外读取了历史 Semgrep 运行 `40171573343` 的 SARIF：其中 17 个阻断项涉及可变 action 标签、现有 hostNetwork/root 容器、Java 反序列化和动态 Groovy。Maven 工作流已固定 action SHA；其余历史安全架构项不属于此次金融模块功能验收，仍需要专项改造。没有通过关闭规则或忽略扫描来掩盖这些项。
 
 新提交的 CI 结果请以关联提交的 GitHub Actions 运行记录为准，历史 CI 不能替代新合并提交的验收。
+
+合并提交 `3eae054` 的 Maven CI `40355736814` 已在 Linux 和 Windows 成功。其镜像运行 `40355737088` 中，Linux 完成镜像构建及约 1.5GiB tar 导出后，列举镜像步骤因设置空 `CONTAINER_CONNECTION` 而误选远端 Podman socket，退出码 125。现已将该步骤拆为 macOS QEMU 连接和 Linux `--remote=false` 本地模式；镜像构建的 Maven 编译错误已不再出现。

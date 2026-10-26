@@ -105,10 +105,15 @@ jobs:
           du -sh deploy/k3s/output/
 
       - name: List local image
-        env:
-          CONTAINERS_MACHINE_PROVIDER: qemu
-          CONTAINER_CONNECTION: ${{ runner.os == 'macOS' && 'doit36-build' || '' }}
-        run: .artifacts/podman-build/bin/podman images --filter reference='docker.io/doit36/*'
+        run: |
+          if [[ "$RUNNER_OS" == macOS ]]; then
+            CONTAINERS_MACHINE_PROVIDER=qemu CONTAINER_CONNECTION=doit36-build \
+              .artifacts/podman-build/bin/podman images --filter reference='docker.io/doit36/*'
+          else
+            # Even an empty CONTAINER_CONNECTION makes Podman 4.9 select remote mode.
+            env -u CONTAINER_CONNECTION -u CONTAINER_HOST \
+              .artifacts/podman-build/bin/podman --remote=false images --filter reference='docker.io/doit36/*'
+          fi
 
       - name: Upload K3s image tar
         uses: actions/upload-artifact@v4
