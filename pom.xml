@@ -13,9 +13,13 @@
         <module>batch_jobs</module>
         <module>redis_demo</module>
         <module>rt_rule_mk</module>
+        <module>fin-olap-engine</module>
+        <module>fin-risk-engine</module>
     </modules>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <!-- Java 17 compatible core and independently released connectors. -->
@@ -25,6 +29,7 @@
         <flink.hbase.version>4.0.0-1.19</flink.hbase.version>
         <flink.cdc.version>3.1.1</flink.cdc.version>
         <flink.doris.version>1.6.1</flink.doris.version>
+        <junit.jupiter.version>5.11.4</junit.jupiter.version>
     </properties>
 
 </project>
