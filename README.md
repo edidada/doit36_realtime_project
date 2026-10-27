@@ -9,7 +9,9 @@
 - **redis_demo**: Redis操作示例模块
 - **rt_rule_mk**: 实时规则引擎模块，基于Flink实现动态规则匹配
 - **fin-olap-engine**: 单机 CSV/Parquet 金融交易报表、精确 SUM/COUNT 和 CSV 导出
-- **fin-risk-engine**: 欧式期权 Black-Scholes、Greeks、可复现 Monte Carlo 与历史 VaR/ES
+- **fin-risk-engine**: 支付/优惠券风控全流程、本地模拟通道与公开 PaySim 数据回放；保留欧式期权、Monte Carlo 与 VaR/ES
+
+支付/优惠券功能从 [Win11 风控手册](docs/payment-coupon-risk-guide.md) 开始；一键验收：`powershell -NoProfile -ExecutionPolicy Bypass -File fin-risk-engine/scripts/demo-test.ps1`，仅需 JDK 17/Maven 和普通 CPU。
 
 新增模块的使用方法、测试证据和设计完成度见 [金融计算模块交付说明](docs/finance-modules.md)，设计基线为 [maven_module.md](docs/design/maven_module.md)。两个模块可在 Win11/JDK 17 上独立测试，不依赖现有 K3s 中间件。
 
