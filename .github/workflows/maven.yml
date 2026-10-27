@@ -47,3 +47,6 @@ jobs:
         cache: maven
     - name: Verify finance modules
       run: mvn -B -ntp -pl fin-olap-engine,fin-risk-engine -am verify
+    - name: Run local payment and coupon acceptance
+      shell: powershell
+      run: ./fin-risk-engine/scripts/demo-test.ps1 -SkipBuild

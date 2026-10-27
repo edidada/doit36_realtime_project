@@ -1,5 +1,7 @@
 # FIN-OLAP / FIN-RISK Maven 模块交付说明
 
+2026-10-27 更新：`fin-risk-engine` 已增加支付/优惠券业务风控、嵌入式持久化、模拟通道和公开数据回放，详见 [独立功能手册](payment-coupon-risk-guide.md)。以下数值定价部分保留原有实现与当时验收范围。
+
 ## 实施范围
 
 用户要求在当前仓库增加两个 Maven module，因此将 [设计基线](design/maven_module.md) 中建议拆为两个仓库的系统，先以 `fin-olap-engine`、`fin-risk-engine` 两个独立 Jar 模块交付。它们不依赖已有 Flink/Spark 模块，继承根 POM 的 JDK 17；本次明确指定 Maven，未另建 Gradle 分支。
