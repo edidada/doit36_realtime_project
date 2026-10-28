@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  2026-10-11: 本工程 SLF4J 绑定唯一来源是 flink-doris-connector fat jar 内嵌的 log4j-slf4j-impl，
-  即 SLF4J -> Log4j2，因此配置文件必须是 log4j2.xml；同目录的 log4j.properties（log4j 1.x 格式）已失效，保留备查。
-  下面按原 log4j.properties 等价迁移：root=INFO/console、cn=INFO/console(additivity=false)、org.apache.hadoop=ERROR
--->
-<configuration status="WARN">
-    <appenders>
-        <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} --> %m%n"/>
+<Configuration status="WARN">
+    <Properties>
+        <!-- Relative to JVM working directory; override with -Drealtime.log.dir=... -->
+        <Property name="logDir">${sys:realtime.log.dir:-logs/runtime}</Property>
+        <Property name="pattern">%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%t] %c - %replace{%msg}{[\r\n]+}{ }%n%throwable</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_ERR">
+            <PatternLayout charset="UTF-8" pattern="${pattern}"/>
         </Console>
-    </appenders>
-
-    <loggers>
-        <Logger name="cn" level="INFO" additivity="false">
-            <appender-ref ref="console"/>
-        </Logger>
-
-        <Logger name="org.apache.hadoop" level="ERROR" additivity="false">
-            <appender-ref ref="console"/>
-        </Logger>
-
-        <Root level="INFO">
-            <appender-ref ref="console"/>
+        <RollingFile name="File" fileName="${logDir}/realtime_dw.log"
+                     filePattern="${logDir}/archive/realtime_dw-%d{yyyy-MM-dd}-%i.log.gz"
+                     createOnDemand="true" append="true" immediateFlush="true">
+            <PatternLayout charset="UTF-8" pattern="${pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="7">
+                <Delete basePath="${logDir}/archive" maxDepth="1">
+                    <IfFileName glob="realtime_dw-*.log.gz"/>
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.test.bigdata" level="INFO"/>
+        <Logger name="org.apache.hadoop" level="ERROR"/>
+        <Root level="WARN">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
         </Root>
-    </loggers>
-</configuration>
+    </Loggers>
+</Configuration>

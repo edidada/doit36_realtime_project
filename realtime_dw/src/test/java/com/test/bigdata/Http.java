@@ -1,5 +1,8 @@
 package com.test.bigdata;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
@@ -14,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public class Http {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Http.class);
 
     public static void main(String[] args) throws ExecutionException, InterruptedException, IOException {
         CloseableHttpAsyncClient client;
@@ -39,13 +43,13 @@ public class Http {
 
         post.setEntity(new StringEntity("{\"origin\":\""+"黑咖啡"+"\"}", StandardCharsets.UTF_8));
         future = client.execute(post, null);
-        System.out.println(EntityUtils.toString(future.get().getEntity()));
+        LOGGER.info("result={}", EntityUtils.toString(future.get().getEntity()));
 
 
 
         post.setEntity(new StringEntity("{\"origin\":\""+"无糖苦咖啡"+"\"}", StandardCharsets.UTF_8));
         future = client.execute(post, null);
-        System.out.println(EntityUtils.toString(future.get().getEntity()));
+        LOGGER.info("result={}", EntityUtils.toString(future.get().getEntity()));
 
     }
 

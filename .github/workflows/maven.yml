@@ -36,6 +36,9 @@ jobs:
       run: ./scripts/check-package-layout.ps1
     - name: Build with Maven
       run: mvn -B -ntp clean verify --file pom.xml
+    - name: Verify Log4j2 runtime and rolling files
+      shell: pwsh
+      run: ./scripts/verify-logging.ps1 -SkipBuild
 
   finance-windows:
     name: Finance modules on Windows (JDK 17)

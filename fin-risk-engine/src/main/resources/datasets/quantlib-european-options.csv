@@ -1,0 +1,9 @@
+case_id,option_type,strike,spot,dividend_yield,risk_free_rate,maturity_years,volatility,expected_value,tolerance
+quantlib-value-01,CALL,65.00,60.00,0.00,0.08,0.25,0.30,2.1334,1.0e-4
+quantlib-value-02,PUT,95.00,100.00,0.05,0.10,0.50,0.20,2.4648,1.0e-4
+quantlib-value-03,PUT,19.00,19.00,0.10,0.10,0.75,0.28,1.7011,1.0e-4
+quantlib-value-04,CALL,19.00,19.00,0.10,0.10,0.75,0.28,1.7011,1.0e-4
+quantlib-value-05,CALL,1.60,1.56,0.08,0.06,0.50,0.12,0.0291,1.0e-4
+quantlib-value-06,PUT,70.00,75.00,0.05,0.10,0.50,0.35,4.0870,1.0e-4
+quantlib-value-07,CALL,100.00,90.00,0.10,0.10,0.10,0.15,0.0205,1.0e-4
+quantlib-value-08,CALL,100.00,100.00,0.10,0.10,0.10,0.15,1.8734,1.0e-4

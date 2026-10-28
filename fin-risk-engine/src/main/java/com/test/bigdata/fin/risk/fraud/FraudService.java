@@ -1,5 +1,8 @@
 package com.test.bigdata.fin.risk.fraud;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.time.Clock;
 import java.util.List;
@@ -11,6 +14,7 @@ import static com.test.bigdata.fin.risk.fraud.Database.*;
 
 /** Application orchestration: trusted features -> decision -> durable intent -> PSP -> reconciliation. */
 public final class FraudService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FraudService.class);
     private final Database database;
     private final Clock clock;
     private final RiskPolicy policy = new RiskPolicy();
@@ -221,7 +225,7 @@ public final class FraudService {
                 if (!result.status().endsWith("PENDING")) { completed++; }
             } catch (RuntimeException failure) {
                 // Fail closed: intent stays durable; the periodic worker will try again.
-                System.err.println("reconciliation failed for " + text(row, "id") + "; intent retained");
+                LOGGER.warn("reconciliation failed for {}; intent retained", text(row, "id"));
             }
         }
         return completed;

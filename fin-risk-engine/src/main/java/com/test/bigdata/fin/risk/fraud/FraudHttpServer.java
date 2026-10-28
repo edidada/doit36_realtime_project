@@ -3,6 +3,8 @@ package com.test.bigdata.fin.risk.fraud;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -17,6 +19,7 @@ import static com.test.bigdata.fin.risk.fraud.Database.*;
 
 /** Loopback-only sandbox API, bounded executor/body sizes, bearer auth and role/ownership checks. */
 public final class FraudHttpServer implements AutoCloseable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FraudHttpServer.class);
     private final FraudService service;
     private final HttpServer server;
     private final ThreadPoolExecutor executor;
@@ -36,7 +39,7 @@ public final class FraudHttpServer implements AutoCloseable {
         server.start();
         recovery.scheduleWithFixedDelay(() -> {
             try { service.reconcile(new Principal("recovery-worker", "ADMIN")); }
-            catch (RuntimeException failure) { System.err.println("risk recovery deferred; database unavailable"); }
+            catch (RuntimeException failure) { LOGGER.warn("risk recovery deferred; database unavailable"); }
         }, 5, 5, TimeUnit.SECONDS);
     }
     public int port() { return server.getAddress().getPort(); }
@@ -97,7 +100,7 @@ public final class FraudHttpServer implements AutoCloseable {
             respond(exchange, 400, Map.of("code", "INVALID_JSON", "message", "Invalid JSON fields or types"));
         } catch (Exception failure) {
             // No approval on errors. Stored intents remain available for recovery.
-            System.err.println("risk request failed: " + failure.getClass().getSimpleName());
+            LOGGER.error("risk request failed: {}", failure.getClass().getSimpleName());
             respond(exchange, 503, Map.of("code", "SERVICE_UNAVAILABLE", "message", "Retry using the same idempotency key"));
         } finally { exchange.close(); }
     }

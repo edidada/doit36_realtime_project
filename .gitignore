@@ -8,3 +8,6 @@ target
 
 # Local execution logs, dependency caches and image archives
 .artifacts/
+
+# Uncurated local/test logs; reviewed verification logs under logs/verification stay trackable.
+**/logs/runtime/

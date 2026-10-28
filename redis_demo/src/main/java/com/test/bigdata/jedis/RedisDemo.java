@@ -1,5 +1,8 @@
 package com.test.bigdata.jedis;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import redis.clients.jedis.Jedis;
 
 import java.io.*;
@@ -8,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RedisDemo {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RedisDemo.class);
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
@@ -19,7 +23,7 @@ public class RedisDemo {
 
         // 测试客户端能否联通
         String ping = jedis.ping();
-        System.out.println(ping);
+        LOGGER.info("result={}", ping);
 
 
         /**
@@ -29,12 +33,12 @@ public class RedisDemo {
         jedis.set("p001","吴亦凡同款摄像机");
         // 取值
         String p001 = jedis.get("p001");
-        System.out.println(p001);
+        LOGGER.info("result={}", p001);
 
         // 删掉一条数据
         jedis.del("p001");
         String res = jedis.get("p001");
-        System.out.println(res);
+        LOGGER.info("result={}", res);
 
 
         // 用普通 key-value结构，放一个java对象
@@ -54,7 +58,7 @@ public class RedisDemo {
         // 反序列化
         ObjectInputStream objInput = new ObjectInputStream(new ByteArrayInputStream(bytes));
         Stu o = (Stu) objInput.readObject();
-        System.out.println(o);
+        LOGGER.info("result={}", o);
 
 
         /**
@@ -69,11 +73,11 @@ public class RedisDemo {
 
         // 取出taoge的所有女朋友
         List<String> taoge = jedis.lrange("taoge", 0, -1);
-        System.out.println(taoge);
+        LOGGER.info("result={}", taoge);
 
         //取出猛哥的第 1个男朋友
         List<String> mengge = jedis.lrange("猛哥", 1, 1);
-        System.out.println(mengge);
+        LOGGER.info("result={}", mengge);
 
 
         /**
@@ -89,7 +93,7 @@ public class RedisDemo {
         jedis.hmset("doit36",students);
 
         Map<String, String> doit36 = jedis.hgetAll("doit36");
-        System.out.println(doit36);
+        LOGGER.info("result={}", doit36);
 
 
     }
