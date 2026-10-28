@@ -203,7 +203,7 @@ kubectl -n doit run dns-test --rm -it --restart=Never \
 
 ## 不使用 doitedu 的独立部署与访问方案
 
-当没有 Kafka、HBase、Doris 时，使用本节的独立验收作业，无需为 `doitedu` 配置 DNS、hosts 或伪造中间件接口。入口为 `cn.doitedu.rtdw.deployment.StandaloneEventsJob`，链路为 **datagen 每秒生成 2 条事件 → SQL 转换 → PVC 上的 JSON 文件**，每 5 秒执行 checkpoint。它验证真实的 Flink 流处理、持久化与 Web UI；**不代表原 ETL 的 Kafka/HBase/Doris 业务链路已经验收**，原入口保持不变。
+当没有 Kafka、HBase、Doris 时，使用本节的独立验收作业，无需为 `doitedu` 配置 DNS、hosts 或伪造中间件接口。入口为 `com.test.bigdata.rtdw.deployment.StandaloneEventsJob`，链路为 **datagen 每秒生成 2 条事件 → SQL 转换 → PVC 上的 JSON 文件**，每 5 秒执行 checkpoint。它验证真实的 Flink 流处理、持久化与 Web UI；**不代表原 ETL 的 Kafka/HBase/Doris 业务链路已经验收**，原入口保持不变。
 
 ### 已准备的运行环境
 
@@ -279,7 +279,7 @@ sudo k3s ctr images import flink-jobs-<run-number>.tar
 镜像保留官方 `apache/flink:1.16.1-scala_2.12-java11` 的 Flink 运行时和入口脚本，并以多阶段构建加入所选的 Temurin LTS JRE。项目作业目标字节码保持 Java 17，选择 JDK 21 或 25 用于兼容性验证时不会自动提高项目的 `maven.compiler.target`。应用 JAR 和运行时依赖位于 `/opt/flink/usrlib/`；不要使用 `latest` 标签。部署前确认 JAR 中只有一个明确的入口类，例如：
 
 ```text
-cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim
+com.test.bigdata.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim
 ```
 
 Flink 基础镜像、运行时 JDK 和连接器版本必须在测试环境一致。项目使用 Flink 1.16.1，不能将作业 JAR 随意部署到其他大版本的 Flink 运行时。
@@ -350,7 +350,7 @@ spec:
       memory: "4096m"
   job:
     jarURI: local:///opt/flink/usrlib/realtime_dw-1.0-SNAPSHOT.jar
-    entryClass: cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim
+    entryClass: com.test.bigdata.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim
     parallelism: 1
     upgradeMode: stateless
     state: running

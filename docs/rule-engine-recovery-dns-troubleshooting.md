@@ -14,7 +14,7 @@ No resolvable bootstrap urls given in bootstrap.servers
 根因不是 Flink 或 Kafka 客户端本身，而是作业实际运行环境无法解析硬编码主机名
 `doitedu`。
 
-`cn.doitedu.rtmk.demo8.RuleEngineRecovery` 至少有两处依赖该主机名：
+`com.test.bigdata.rtmk.demo8.RuleEngineRecovery` 至少有两处依赖该主机名：
 
 | 数据源 | 当前配置 | 代码位置 |
 | --- | --- | --- |

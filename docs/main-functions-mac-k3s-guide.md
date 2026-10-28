@@ -6,7 +6,7 @@
 
 表中 Java 类名可直接传给 `bash scripts/java-mains.sh <完整类名>`。下列包前缀用于拼接完整类名；脚本的 `--commands` 会打印全部完整命令。
 
-### 实时数仓：前缀 `cn.doitedu.rtdw.`
+### 实时数仓：前缀 `com.test.bigdata.rtdw.`
 
 | 类名（接在前缀后） | 功能及测试前提 |
 | --- | --- |
@@ -27,7 +27,7 @@
 | utils.DimRecProcess | CSV 转 HBase shell put 命令，输入和输出文件可用两个命令行参数指定；本身不执行这些 put。 |
 | utils.HttpRequestDemo | 相似词 HTTP POST 最小示例；需要真实接口。 |
 
-### 数仓实验：前缀 `cn.doitedu.`
+### 数仓实验：前缀 `com.test.bigdata.`
 
 | 类名 | 功能及测试前提 |
 | --- | --- |
@@ -35,7 +35,7 @@
 | Http | 相似词 HTTP 请求实验；需要真实接口。 |
 | WindowTest | Kafka、窗口和 checkpoint 实验；Mac 覆盖默认 HDFS 路径，使用可写 file URI。 |
 
-### 规则引擎：前缀 `cn.doitedu.rtmk.`
+### 规则引擎：前缀 `com.test.bigdata.rtmk.`
 
 每一代都保留原入口和 Local 有限输入入口。Local 表示输入方式适合演示，不能推断它完全不访问 HBase、Redis 等外部系统。具体依赖还取决于选用的规则计算器。
 
@@ -65,12 +65,12 @@
 
 | 完整类名 | 功能及测试前提 |
 | --- | --- |
-| cn.doitedu.test.EventsMoni | 向 Kafka 写模拟事件；EVENT_BATCHES=1 可限制批次，KAFKA_OUTPUT_TOPIC 指定测试 topic。 |
-| cn.doitedu.test.HbaseProfileTagsMoni | 向 HBase 写合成用户画像标签；会修改外部数据。 |
-| cn.doitedu.test.HistoryConditionValueMoni | 向 Redis 写历史条件值；选择隔离测试 DB。 |
-| cn.doitedu.jedis.RedisDemo | Jedis 连接与 Redis 操作演示；会访问 Redis。 |
+| com.test.bigdata.test.EventsMoni | 向 Kafka 写模拟事件；EVENT_BATCHES=1 可限制批次，KAFKA_OUTPUT_TOPIC 指定测试 topic。 |
+| com.test.bigdata.test.HbaseProfileTagsMoni | 向 HBase 写合成用户画像标签；会修改外部数据。 |
+| com.test.bigdata.test.HistoryConditionValueMoni | 向 Redis 写历史条件值；选择隔离测试 DB。 |
+| com.test.bigdata.jedis.RedisDemo | Jedis 连接与 Redis 操作演示；会访问 Redis。 |
 
-Scala 入口 `cn.doitedu.batch.jobs.DataLoadJob01_GeoAreaInfo2Hbase` 使用本地 Spark，从 MySQL 的 t_md_areas 读取地域数据、计算 geohash 后写 HBase dim_geo_area。它不在 Java 42 项启动目录中，可使用 `bash scripts/run-main.sh batch_jobs cn.doitedu.batch.jobs.DataLoadJob01_GeoAreaInfo2Hbase`；需事先导出 MySQL/HBase 环境变量。
+Scala 入口 `com.test.bigdata.batch.jobs.DataLoadJob01_GeoAreaInfo2Hbase` 使用本地 Spark，从 MySQL 的 t_md_areas 读取地域数据、计算 geohash 后写 HBase dim_geo_area。它不在 Java 42 项启动目录中，可使用 `bash scripts/run-main.sh batch_jobs com.test.bigdata.batch.jobs.DataLoadJob01_GeoAreaInfo2Hbase`；需事先导出 MySQL/HBase 环境变量。
 
 ## 2. 在 Mac 上测试
 
@@ -125,18 +125,18 @@ ssh -N -o ExitOnForwardFailure=yes \
 
 ```bash
 mkdir -p .artifacts
-bash scripts/java-mains.sh cn.doitedu.rtdw.utils.DimRecProcess \
+bash scripts/java-mains.sh com.test.bigdata.rtdw.utils.DimRecProcess \
   examples/main-inputs/dim_rec.csv .artifacts/dim-rec-commands.sh
-bash scripts/java-mains.sh cn.doitedu.rtmk.demo9.groovy.TestDiaoyong \
+bash scripts/java-mains.sh com.test.bigdata.rtmk.demo9.groovy.TestDiaoyong \
   examples/main-inputs/hello.groovy
 
 # 准备连接、规则和画像后，先运行消费者
 KAFKA_INPUT_TOPIC=main-audit-rules KAFKA_GROUP_ID=manual-rule-check \
-  bash scripts/java-mains.sh cn.doitedu.rtmk.demo8.RuleEngineRecovery
+  bash scripts/java-mains.sh com.test.bigdata.rtmk.demo8.RuleEngineRecovery
 
 # 另一终端写入测试事件；注意私有 JSON 可能覆盖同名变量
 EVENT_BATCHES=1 KAFKA_OUTPUT_TOPIC=main-audit-rules \
-  bash scripts/java-mains.sh cn.doitedu.test.EventsMoni
+  bash scripts/java-mains.sh com.test.bigdata.test.EventsMoni
 ```
 
 ETL 测试顺序：准备 MySQL/HBase/Doris 表 → 维表同步 → ETL01 宽表 → 各聚合或看板 → 发送并核对事件。使用独立 topic、consumer group、目标表和 Redis DB，避免影响已有业务。
@@ -148,7 +148,7 @@ StandaloneEventsJob 设置 `STANDALONE_OUTPUT_URI="file://$PWD/.artifacts/standa
 三个模块的 `src/main/resources/log4j2.xml` 同时配置控制台及 RollingFile。脚本启动时按完整类名输出 `logs/runtime/<类名>.log`，单文件 20 MB 滚动，最多保留 3 个压缩归档。保留并提交日志前检查密码、token 和业务数据。
 
 ```bash
-tail -f logs/runtime/cn.doitedu.rtmk.demo8.RuleEngineRecovery.log
+tail -f logs/runtime/com.test.bigdata.rtmk.demo8.RuleEngineRecovery.log
 python3 scripts/execute-java-mains.py --seconds 90
 ```
 

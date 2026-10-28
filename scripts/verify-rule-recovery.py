@@ -28,7 +28,7 @@ def request(port,path,data=None):
 def start(name,savepoint=None):
  env=dict(environment)
  if savepoint:env['FLINK_SAVEPOINT_PATH']=savepoint
- log=base/(name+'.log');f=log.open('w');p=subprocess.Popen(['bash','scripts/run-main.sh','rt_rule_mk','cn.doitedu.rtmk.demo8.RuleEngineRecovery'],env=env,stdout=f,stderr=subprocess.STDOUT,start_new_session=True);processes.append(p)
+ log=base/(name+'.log');f=log.open('w');p=subprocess.Popen(['bash','scripts/run-main.sh','rt_rule_mk','com.test.bigdata.rtmk.demo8.RuleEngineRecovery'],env=env,stdout=f,stderr=subprocess.STDOUT,start_new_session=True);processes.append(p)
  deadline=time.time()+120
  while time.time()<deadline:
   if p.poll() is not None:raise RuntimeError('Main exited: '+str(p.returncode))
@@ -80,7 +80,7 @@ try:
  p,log,port,jid2=start('recovery-restored',savepoint);produce(user,False);hit(log,user,port,jid2);after=checkpoints(port,jid2)
  assert after['restored']==1 and after['failed']==0,after
  restored_savepoint=stop(p,port,jid2)
- result=dict(main='cn.doitedu.rtmk.demo8.RuleEngineRecovery',flink='1.19.3',user_id=user,initial_job_id=jid,restored_job_id=jid2,checkpoint_before_restore=before,checkpoint_after_restore=after,savepoint=savepoint,restored_savepoint=restored_savepoint,initial_input_events=2,post_restore_input_events=1,both_main_exit_codes=[0,0],verified='Restored broadcast rule metadata and per-user keyed count; trigger alone matched after restore')
+ result=dict(main='com.test.bigdata.rtmk.demo8.RuleEngineRecovery',flink='1.19.3',user_id=user,initial_job_id=jid,restored_job_id=jid2,checkpoint_before_restore=before,checkpoint_after_restore=after,savepoint=savepoint,restored_savepoint=restored_savepoint,initial_input_events=2,post_restore_input_events=1,both_main_exit_codes=[0,0],verified='Restored broadcast rule metadata and per-user keyed count; trigger alone matched after restore')
  (base/'recovery-acceptance.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2),flush=True)
 finally:
  for p in processes:

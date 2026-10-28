@@ -1,0 +1,63 @@
+package com.test.bigdata.rtmk.demo6;
+
+import com.test.bigdata.rtmk.beans.EventBean;
+import com.test.bigdata.rtmk.demo5.RuleCalculator;
+import org.apache.flink.streaming.api.functions.co.KeyedBroadcastProcessFunction;
+import org.apache.flink.util.Collector;
+import org.roaringbitmap.RoaringBitmap;
+
+import java.nio.ByteBuffer;
+import java.util.HashMap;
+
+public class CoreProcessFunction extends KeyedBroadcastProcessFunction<Integer, EventBean, RuleMeta, String> {
+
+    // 定义一个运算机池
+    HashMap<Integer, RuleCalculator> ruleCalculators = new HashMap<>();
+
+    @Override
+    public void processElement(EventBean eventBean, KeyedBroadcastProcessFunction<Integer, EventBean, RuleMeta, String>.ReadOnlyContext ctx, Collector<String> out) throws Exception {
+        // 遍历运算机池，将本次接收到的行为事件，交给每个运算机去处理
+        for (RuleCalculator calculator : ruleCalculators.values()) {
+            calculator.calc(eventBean,out);
+        }
+
+    }
+
+    @Override
+    public void processBroadcastElement(RuleMeta ruleMeta, KeyedBroadcastProcessFunction<Integer, EventBean, RuleMeta, String>.Context ctx, Collector<String> out) throws Exception {
+
+        int ruleId = ruleMeta.getId();
+        int modelId = ruleMeta.getModel_id();
+        String param_json = ruleMeta.getParam_json();
+        byte[] static_crowd_bytes = ruleMeta.getStatic_crowd();
+
+        // 将静态人群bitmap的序列化结果，反序列化到一个bitmap对象中
+        RoaringBitmap bitmap = RoaringBitmap.bitmapOf();
+        bitmap.deserialize(ByteBuffer.wrap(static_crowd_bytes));
+
+        // 根据规则元数据中的规则模型ID，构造对应模型的具体运算机
+        RuleCalculator ruleCalculator = null;
+        switch (modelId) {
+            case 1:
+                ruleCalculator = new RuleModel001Calculator();
+                break;
+            case 2:
+                ruleCalculator = new RuleModel002Calculator();
+                break;
+            case 3:
+                ruleCalculator = new RuleModel003Calculator();
+                break;
+            case 4:
+                ruleCalculator = new RuleModel004Calculator();
+                break;
+            default:
+                break;
+        }
+
+        // 初始化运算机
+        ruleCalculator.init(getRuntimeContext(),param_json,bitmap);
+
+        // 把运算机放入运算机池
+        ruleCalculators.put(ruleId,ruleCalculator);
+    }
+}

@@ -31,8 +31,11 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: Verify package layout
+      shell: pwsh
+      run: ./scripts/check-package-layout.ps1
     - name: Build with Maven
-      run: mvn -B -ntp verify --file pom.xml
+      run: mvn -B -ntp clean verify --file pom.xml
 
   finance-windows:
     name: Finance modules on Windows (JDK 17)

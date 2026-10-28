@@ -98,7 +98,7 @@ spec:
       memory: 4096m
   job:
     jarURI: local:///opt/flink/usrlib/realtime_dw/realtime_dw-job.jar
-    entryClass: cn.doitedu.rtdw.deployment.StandaloneEventsJob
+    entryClass: com.test.bigdata.rtdw.deployment.StandaloneEventsJob
     parallelism: 1
     upgradeMode: stateless
     state: running

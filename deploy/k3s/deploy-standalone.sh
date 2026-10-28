@@ -10,7 +10,7 @@ ssh -o BatchMode=yes -i "$PVE_KEY" "$PVE" 'test "$(qm status 107)" = "status: st
 mvn -pl realtime_dw -am -DskipTests compile
 mkdir -p .artifacts/standalone
 "$JAVA_HOME/bin/jar" cf .artifacts/standalone/standalone-events.jar \
-  -C realtime_dw/target/classes cn/doitedu/rtdw/deployment
+  -C realtime_dw/target/classes com/test/bigdata/rtdw/deployment
 JOB_SHA=$(shasum -a 256 .artifacts/standalone/standalone-events.jar | cut -c1-12)
 JOB_CONFIGMAP="standalone-events-job-$JOB_SHA"
 sed "s/standalone-events-job/$JOB_CONFIGMAP/g" deploy/k3s/flink-standalone.yaml \

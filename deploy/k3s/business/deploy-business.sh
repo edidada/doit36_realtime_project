@@ -8,9 +8,9 @@ ssh -o BatchMode=yes -i "$PVE_KEY" root@192.168.31.171 'test "$(qm status 107)" 
 mvn -pl realtime_dw -am -DskipTests compile
 mkdir -p .artifacts/business
 "$JAVA_HOME/bin/jar" cf .artifacts/business/business-etl.jar \
-  -C realtime_dw/target/classes cn/doitedu/rtdw/data_etl/EtlJob01_UserEventsLogCommonDim.class \
-  -C realtime_dw/target/classes 'cn/doitedu/rtdw/data_etl/EtlJob01_UserEventsLogCommonDim$HashMap2Json.class' \
-  -C realtime_dw/target/classes 'cn/doitedu/rtdw/data_etl/EtlJob01_UserEventsLogCommonDim$GeoHashFunction.class'
+  -C realtime_dw/target/classes com/test/bigdata/rtdw/data_etl/EtlJob01_UserEventsLogCommonDim.class \
+  -C realtime_dw/target/classes 'com/test/bigdata/rtdw/data_etl/EtlJob01_UserEventsLogCommonDim$HashMap2Json.class' \
+  -C realtime_dw/target/classes 'com/test/bigdata/rtdw/data_etl/EtlJob01_UserEventsLogCommonDim$GeoHashFunction.class'
 JOB_SHA=$(shasum -a 256 .artifacts/business/business-etl.jar | cut -c1-12)
 JOB_CONFIGMAP=business-etl-job-$JOB_SHA
 sed "s/business-etl-job/$JOB_CONFIGMAP/g" deploy/k3s/business/flink-business.yaml > .artifacts/business/flink-business.yaml

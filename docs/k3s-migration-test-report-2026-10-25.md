@@ -24,7 +24,7 @@
 2. 两个 sink 改为一个 `StatementSet.execute()` 提交。原实现先后两次 `executeSql(INSERT ...)`，Flink 1.16 会报“同一环境不能多次 execute”，导致 JobManager 退出。
 3. Flink Pod 的启动探针改为适用于 JobManager 和 TaskManager 的本地目录探针；原 HTTP 8081 探针会错误用于 TaskManager。
 
-Maven 聚合工程的 artifactId 与所有子模块 parent 引用也由 `doit36_realtime_project` 更名为 `realtime-dw`；Java 包名 `cn.doitedu` 是课程代码包名，未作不兼容重命名。
+Maven 聚合工程的 artifactId 与所有子模块 parent 引用也由 `doit36_realtime_project` 更名为 `realtime-dw`。本报告记录的是 2026-10-25 的运行结果；2026-10-28 已将课程旧包名统一迁移为 `com.test.bigdata`，文档中的类名和源码链接随之更新，不代表已在集群重新部署验证。
 
 生产作业实际使用的地址为：
 

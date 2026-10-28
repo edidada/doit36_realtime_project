@@ -62,7 +62,7 @@ for entry in audit.discover():
     current = dict(env, KAFKA_GROUP_ID='log4j2-audit-'+str(time.time_ns()))
     if entry['module'] == 'realtime_dw':
         current['KAFKA_INPUT_TOPIC'] = 'main-audit-input'
-    if name == 'cn.doitedu.rtmk.demo6.DynamicRuleManagement':
+    if name == 'com.test.bigdata.rtmk.demo6.DynamicRuleManagement':
         current['MYSQL_RULE_DATABASE'] = 'doit36_main_audit_demo6'
     raw = ROOT/f'.artifacts/main-audit/log4j2-{os.getpid()}.log'
     raw.parent.mkdir(parents=True, exist_ok=True)

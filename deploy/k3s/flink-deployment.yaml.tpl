@@ -34,7 +34,7 @@ spec:
       memory: "4096m"
   job:
     jarURI: local:///opt/flink/usrlib/realtime_dw/realtime_dw-job.jar
-    entryClass: cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim
+    entryClass: com.test.bigdata.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim
     parallelism: 1
     upgradeMode: stateless
     state: running

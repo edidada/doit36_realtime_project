@@ -48,7 +48,7 @@ ssh root@192.168.31.77 'kubectl -n flink-operator get pods'
 ### 实现方式
 
 验证入口为
-`cn.doitedu.rtdw.deployment.StandaloneEventsJob`。它不连接 `doitedu`、
+`com.test.bigdata.rtdw.deployment.StandaloneEventsJob`。它不连接 `doitedu`、
 Kafka、HBase 或 Doris，而是每秒生成两条测试事件，经过 Flink SQL 后写入
 PVC 上的 JSON 文件，并每 5 秒触发 checkpoint。这样可以把“集群、Flink
 运行时、状态卷是否可用”的基础设施验收，与真实业务中间件的可达性分开。

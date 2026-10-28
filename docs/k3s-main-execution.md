@@ -27,7 +27,7 @@
 
 ### 升级后的原 ETL01 main（Flink 1.19.3）
 
-在 Mac 上用 JDK 17 启动原 `cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim`，连接集群真实 Kafka/HBase/Doris。
+在 Mac 上用 JDK 17 启动原 `com.test.bigdata.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim`，连接集群真实 Kafka/HBase/Doris。
 
 为避免与现有作业竞争 consumer group 或重复写入，使用独立输入 `main-audit-input`、输出 `main-audit-output` 和目标表 `dwd.mall_events_wide_main_validation`。没有用 Local 示例替代业务 main。
 
@@ -94,11 +94,11 @@ ssh -N -o ExitOnForwardFailure=yes \
 另一个终端设置上表参数与实际凭据后：
 
 ```bash
-bash scripts/run-main.sh rt_rule_mk cn.doitedu.rtmk.demo8.RuleEngineRecovery
+bash scripts/run-main.sh rt_rule_mk com.test.bigdata.rtmk.demo8.RuleEngineRecovery
 
 # 或用私有 JSON 连接配置（值须为字符串）；不会执行其中的 shell 内容。
 MAIN_ENV_JSON=.artifacts/main-audit/k3s/runtime-env.json \
-  bash scripts/run-main.sh rt_rule_mk cn.doitedu.rtmk.demo8.RuleEngineRecovery
+  bash scripts/run-main.sh rt_rule_mk com.test.bigdata.rtmk.demo8.RuleEngineRecovery
 ```
 
 集成验收脚本为 `scripts/verify-rule-recovery.py`，初始化数据使用 `deploy/k3s/business/init-rule-validation.sql`。需先创建 Kafka `main-audit-rules`，在 MySQL 中执行初始化 SQL，并设置连接环境变量；也可使用权限为 0600 的私有 JSON 环境文件，文件应放在 `.artifacts/` 下。
@@ -114,8 +114,8 @@ python3 scripts/verify-rule-recovery.py \
 
 ```bash
 bash scripts/run-main.sh rt_rule_mk \
-  cn.doitedu.rtmk.demo9.groovy.TestDiaoyong examples/main-inputs/hello.groovy
-bash scripts/run-main.sh realtime_dw cn.doitedu.rtdw.utils.DimRecProcess \
+  com.test.bigdata.rtmk.demo9.groovy.TestDiaoyong examples/main-inputs/hello.groovy
+bash scripts/run-main.sh realtime_dw com.test.bigdata.rtdw.utils.DimRecProcess \
   examples/main-inputs/dim_rec.csv .artifacts/dim-rec-hbase.sh
 ```
 
@@ -141,7 +141,7 @@ Groovy demo9 与 demo8 一样，只把元数据写入广播状态；GroovyClassL
 ```bash
 python3 scripts/verify-flink-mains.py \
   --env-file .artifacts/main-audit/k3s/runtime-env.json \
-  --main cn.doitedu.rtdw.deployment.StandaloneEventsJob
+  --main com.test.bigdata.rtdw.deployment.StandaloneEventsJob
 ```
 
 判定条件：所有 task RUNNING、至少 2 个成功 checkpoint、stop-with-savepoint 成功、main 退出码为 0。首次 checkpoint 可能早于 task 部署完成而中止，记录中保留失败计数及原因；这种启动阶段的 `Not all required tasks are currently running` 单独注明，不冒充 0 失败。其他 checkpoint 错误仍判为失败。超时或 SIGTERM 退出不算通过。运行生命周期通过不代表聚合口径、窗口边界和全部业务输出已验收。
@@ -165,49 +165,49 @@ Standalone 最终验证得到 **2 个已提交文件、30 条 JSON**，`event_ty
 
 | main | 结果 | 退出码 | checkpoint 成功/失败 |
 | --- | --- | --- | --- |
-| [rtdw.data_etl.EtlJob01_UserEventsLogCommonDim](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob01_UserEventsLogCommonDim.java) | 业务链路通过，输入/Kafka/Doris 各 5 | 0 | 6/2 |
-| [rtdw.data_etl.EtlJob02_MallTfcAg01](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob02_MallTfcAg01.java) | 运行生命周期通过 | 0 | 2/0 |
-| [rtdw.data_etl.EtlJob03_PageAccessTimeLong](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob03_PageAccessTimeLong.java) | 运行生命周期通过 | 0 | 2/0 |
-| [rtdw.data_etl.EtlJob04_InteractiveEventsOverview](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob04_InteractiveEventsOverview.java) | 运行生命周期通过 | 0 | 2/0 |
-| [rtdw.data_etl.EtlJob05_VideoEventsAgg](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob05_VideoEventsAgg.java) | 运行生命周期通过 | 0 | 2/5 |
-| [rtdw.data_etl.EtlJob06_SearchEventsAnalyse](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob06_SearchEventsAnalyse.java) | 运行生命周期通过 | 0 | 2/0 |
-| [rtdw.data_etl.EtlJob06_SearchEventsAnalyse_Async](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob06_SearchEventsAnalyse_Async.java) | 运行生命周期通过 | 0 | 2/0 |
-| [rtdw.data_etl.EtlJob07_AdRequestSessionProcess](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob07_AdRequestSessionProcess.java) | 运行生命周期通过 | 0 | 2/0 |
-| [rtdw.data_sync.SyncJob01_UserInfo2Hbase](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_sync/SyncJob01_UserInfo2Hbase.java) | 运行生命周期通过 | 0 | 2/1 |
-| [rtdw.data_sync.SyncJob02_VideoInfo2Hbase](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_sync/SyncJob02_VideoInfo2Hbase.java) | 运行生命周期通过 | 0 | 2/1 |
-| [rtdw.data_sync.SyncJob03_AdRequestFeatures2Hbase](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_sync/SyncJob03_AdRequestFeatures2Hbase.java) | 运行生命周期通过 | 0 | 2/3 |
-| [rtdw.deployment.StandaloneEventsJob](../realtime_dw/src/main/java/cn/doitedu/rtdw/deployment/StandaloneEventsJob.java) | 运行生命周期通过 | 0 | 4/0 |
-| [rtdw.rt_dashboard.Promotion01_PVUV](../realtime_dw/src/main/java/cn/doitedu/rtdw/rt_dashboard/Promotion01_PVUV.java) | 运行生命周期通过 | 0 | 2/0 |
-| [rtdw.rt_dashboard.Promotion01_PVUVLocal](../realtime_dw/src/main/java/cn/doitedu/rtdw/rt_dashboard/Promotion01_PVUVLocal.java) | 通过，有限输入 | 0 | — |
-| [rtdw.utils.DimRecProcess](../realtime_dw/src/main/java/cn/doitedu/rtdw/utils/DimRecProcess.java) | 通过，有限输入 | 0 | — |
-| [rtdw.utils.HttpRequestDemo](../realtime_dw/src/main/java/cn/doitedu/rtdw/utils/HttpRequestDemo.java) | 条件不足：缺少 SIMWORDS_URL 对应的语义 HTTP 服务，仓库未包含服务端 | 未通过 | — |
-| [EtlAsync](../realtime_dw/src/test/java/cn/doitedu/EtlAsync.java) | 条件不足：缺少 SOCKET_HOST:SOCKET_PORT 文本输入及语义 HTTP 服务 | 未通过 | — |
-| [Http](../realtime_dw/src/test/java/cn/doitedu/Http.java) | 条件不足：缺少语义 HTTP 服务；已修复异步客户端未关闭 | 未通过 | — |
-| [WindowTest](../realtime_dw/src/test/java/cn/doitedu/WindowTest.java) | 运行生命周期通过 | 0 | 3/1 |
-| [rtmk.demo1.TargetProductCartMonitor](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo1/TargetProductCartMonitor.java) | 运行生命周期通过 | 0 | 2/0 |
-| [rtmk.demo1.TargetProductCartMonitorLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo1/TargetProductCartMonitorLocal.java) | 通过，有限输入 | 0 | — |
-| [rtmk.demo2.MultiRuleEngine](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo2/MultiRuleEngine.java) | 运行生命周期通过 | 0 | 2/0 |
-| [rtmk.demo2.MultiRuleEngineLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo2/MultiRuleEngineLocal.java) | 通过，有限输入 | 0 | — |
-| [rtmk.demo3.RuleCalculatorPattern](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo3/RuleCalculatorPattern.java) | 运行生命周期通过 | 0 | 2/0 |
-| [rtmk.demo3.RuleCalculatorPatternLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo3/RuleCalculatorPatternLocal.java) | 通过，有限输入 | 0 | — |
-| [rtmk.demo4.ModelBasedRuleEngine](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo4/ModelBasedRuleEngine.java) | 运行生命周期通过 | 0 | 2/1 |
-| [rtmk.demo4.ModelBasedRuleEngineLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo4/ModelBasedRuleEngineLocal.java) | 通过，有限输入 | 0 | — |
-| [rtmk.demo5.BitmapOptimizedRuleEngine](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo5/BitmapOptimizedRuleEngine.java) | 运行生命周期通过 | 0 | 2/2 |
-| [rtmk.demo5.BitmapOptimizedRuleEngineLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo5/BitmapOptimizedRuleEngineLocal.java) | 通过，有限输入 | 0 | — |
-| [rtmk.demo6.DynamicRuleManagement](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo6/DynamicRuleManagement.java) | 运行生命周期通过 | 0 | 2/0 |
-| [rtmk.demo6.DynamicRuleManagementLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo6/DynamicRuleManagementLocal.java) | 通过，有限输入 | 0 | — |
-| [rtmk.demo7.DynamicRuleManagementV2](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo7/DynamicRuleManagementV2.java) | 运行生命周期通过 | 0 | 2/0 |
-| [rtmk.demo7.DynamicRuleManagementV2Local](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo7/DynamicRuleManagementV2Local.java) | 通过，有限输入 | 0 | — |
-| [rtmk.demo8.RuleEngineRecovery](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo8/RuleEngineRecovery.java) | 通过，命中及 savepoint 恢复 | 0 / 0 | 2+2 / 0 |
-| [rtmk.demo8.RuleEngineRecoveryLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo8/RuleEngineRecoveryLocal.java) | 通过，有限输入 | 0 | — |
-| [rtmk.demo9.DynamicRuleWithGroovy](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo9/DynamicRuleWithGroovy.java) | 运行生命周期通过 | 0 | 3/0 |
-| [rtmk.demo9.DynamicRuleWithGroovyLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo9/DynamicRuleWithGroovyLocal.java) | 通过，有限输入 | 0 | — |
-| [rtmk.demo9.groovy.TestDiaoyong](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo9/groovy/TestDiaoyong.java) | 通过，有限输入 | 0 | — |
-| [test.EventsMoni](../rt_rule_mk/src/test/java/cn/doitedu/test/EventsMoni.java) | 通过，有限批次、Kafka ACK | 0 | — |
-| [test.HbaseProfileTagsMoni](../rt_rule_mk/src/test/java/cn/doitedu/test/HbaseProfileTagsMoni.java) | 通过，有限输入 | 0 | — |
-| [test.HistoryConditionValueMoni](../rt_rule_mk/src/test/java/cn/doitedu/test/HistoryConditionValueMoni.java) | 通过，有限输入 | 0 | — |
-| [jedis.RedisDemo](../redis_demo/src/main/java/cn/doitedu/jedis/RedisDemo.java) | 通过，有限输入 | 0 | — |
-| [batch.jobs.DataLoadJob01_GeoAreaInfo2Hbase](../batch_jobs/src/main/java/cn/doitedu/batch/jobs/DataLoadJob01_GeoAreaInfo2Hbase.scala) | 通过，HBase 写入已核对 | 0 | — |
+| [rtdw.data_etl.EtlJob01_UserEventsLogCommonDim](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob01_UserEventsLogCommonDim.java) | 业务链路通过，输入/Kafka/Doris 各 5 | 0 | 6/2 |
+| [rtdw.data_etl.EtlJob02_MallTfcAg01](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob02_MallTfcAg01.java) | 运行生命周期通过 | 0 | 2/0 |
+| [rtdw.data_etl.EtlJob03_PageAccessTimeLong](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob03_PageAccessTimeLong.java) | 运行生命周期通过 | 0 | 2/0 |
+| [rtdw.data_etl.EtlJob04_InteractiveEventsOverview](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob04_InteractiveEventsOverview.java) | 运行生命周期通过 | 0 | 2/0 |
+| [rtdw.data_etl.EtlJob05_VideoEventsAgg](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob05_VideoEventsAgg.java) | 运行生命周期通过 | 0 | 2/5 |
+| [rtdw.data_etl.EtlJob06_SearchEventsAnalyse](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob06_SearchEventsAnalyse.java) | 运行生命周期通过 | 0 | 2/0 |
+| [rtdw.data_etl.EtlJob06_SearchEventsAnalyse_Async](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob06_SearchEventsAnalyse_Async.java) | 运行生命周期通过 | 0 | 2/0 |
+| [rtdw.data_etl.EtlJob07_AdRequestSessionProcess](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob07_AdRequestSessionProcess.java) | 运行生命周期通过 | 0 | 2/0 |
+| [rtdw.data_sync.SyncJob01_UserInfo2Hbase](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_sync/SyncJob01_UserInfo2Hbase.java) | 运行生命周期通过 | 0 | 2/1 |
+| [rtdw.data_sync.SyncJob02_VideoInfo2Hbase](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_sync/SyncJob02_VideoInfo2Hbase.java) | 运行生命周期通过 | 0 | 2/1 |
+| [rtdw.data_sync.SyncJob03_AdRequestFeatures2Hbase](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_sync/SyncJob03_AdRequestFeatures2Hbase.java) | 运行生命周期通过 | 0 | 2/3 |
+| [rtdw.deployment.StandaloneEventsJob](../realtime_dw/src/main/java/com/test/bigdata/rtdw/deployment/StandaloneEventsJob.java) | 运行生命周期通过 | 0 | 4/0 |
+| [rtdw.rt_dashboard.Promotion01_PVUV](../realtime_dw/src/main/java/com/test/bigdata/rtdw/rt_dashboard/Promotion01_PVUV.java) | 运行生命周期通过 | 0 | 2/0 |
+| [rtdw.rt_dashboard.Promotion01_PVUVLocal](../realtime_dw/src/main/java/com/test/bigdata/rtdw/rt_dashboard/Promotion01_PVUVLocal.java) | 通过，有限输入 | 0 | — |
+| [rtdw.utils.DimRecProcess](../realtime_dw/src/main/java/com/test/bigdata/rtdw/utils/DimRecProcess.java) | 通过，有限输入 | 0 | — |
+| [rtdw.utils.HttpRequestDemo](../realtime_dw/src/main/java/com/test/bigdata/rtdw/utils/HttpRequestDemo.java) | 条件不足：缺少 SIMWORDS_URL 对应的语义 HTTP 服务，仓库未包含服务端 | 未通过 | — |
+| [EtlAsync](../realtime_dw/src/test/java/com/test/bigdata/EtlAsync.java) | 条件不足：缺少 SOCKET_HOST:SOCKET_PORT 文本输入及语义 HTTP 服务 | 未通过 | — |
+| [Http](../realtime_dw/src/test/java/com/test/bigdata/Http.java) | 条件不足：缺少语义 HTTP 服务；已修复异步客户端未关闭 | 未通过 | — |
+| [WindowTest](../realtime_dw/src/test/java/com/test/bigdata/WindowTest.java) | 运行生命周期通过 | 0 | 3/1 |
+| [rtmk.demo1.TargetProductCartMonitor](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo1/TargetProductCartMonitor.java) | 运行生命周期通过 | 0 | 2/0 |
+| [rtmk.demo1.TargetProductCartMonitorLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo1/TargetProductCartMonitorLocal.java) | 通过，有限输入 | 0 | — |
+| [rtmk.demo2.MultiRuleEngine](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo2/MultiRuleEngine.java) | 运行生命周期通过 | 0 | 2/0 |
+| [rtmk.demo2.MultiRuleEngineLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo2/MultiRuleEngineLocal.java) | 通过，有限输入 | 0 | — |
+| [rtmk.demo3.RuleCalculatorPattern](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo3/RuleCalculatorPattern.java) | 运行生命周期通过 | 0 | 2/0 |
+| [rtmk.demo3.RuleCalculatorPatternLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo3/RuleCalculatorPatternLocal.java) | 通过，有限输入 | 0 | — |
+| [rtmk.demo4.ModelBasedRuleEngine](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo4/ModelBasedRuleEngine.java) | 运行生命周期通过 | 0 | 2/1 |
+| [rtmk.demo4.ModelBasedRuleEngineLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo4/ModelBasedRuleEngineLocal.java) | 通过，有限输入 | 0 | — |
+| [rtmk.demo5.BitmapOptimizedRuleEngine](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo5/BitmapOptimizedRuleEngine.java) | 运行生命周期通过 | 0 | 2/2 |
+| [rtmk.demo5.BitmapOptimizedRuleEngineLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo5/BitmapOptimizedRuleEngineLocal.java) | 通过，有限输入 | 0 | — |
+| [rtmk.demo6.DynamicRuleManagement](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo6/DynamicRuleManagement.java) | 运行生命周期通过 | 0 | 2/0 |
+| [rtmk.demo6.DynamicRuleManagementLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo6/DynamicRuleManagementLocal.java) | 通过，有限输入 | 0 | — |
+| [rtmk.demo7.DynamicRuleManagementV2](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo7/DynamicRuleManagementV2.java) | 运行生命周期通过 | 0 | 2/0 |
+| [rtmk.demo7.DynamicRuleManagementV2Local](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo7/DynamicRuleManagementV2Local.java) | 通过，有限输入 | 0 | — |
+| [rtmk.demo8.RuleEngineRecovery](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo8/RuleEngineRecovery.java) | 通过，命中及 savepoint 恢复 | 0 / 0 | 2+2 / 0 |
+| [rtmk.demo8.RuleEngineRecoveryLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo8/RuleEngineRecoveryLocal.java) | 通过，有限输入 | 0 | — |
+| [rtmk.demo9.DynamicRuleWithGroovy](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo9/DynamicRuleWithGroovy.java) | 运行生命周期通过 | 0 | 3/0 |
+| [rtmk.demo9.DynamicRuleWithGroovyLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo9/DynamicRuleWithGroovyLocal.java) | 通过，有限输入 | 0 | — |
+| [rtmk.demo9.groovy.TestDiaoyong](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo9/groovy/TestDiaoyong.java) | 通过，有限输入 | 0 | — |
+| [test.EventsMoni](../rt_rule_mk/src/test/java/com/test/bigdata/test/EventsMoni.java) | 通过，有限批次、Kafka ACK | 0 | — |
+| [test.HbaseProfileTagsMoni](../rt_rule_mk/src/test/java/com/test/bigdata/test/HbaseProfileTagsMoni.java) | 通过，有限输入 | 0 | — |
+| [test.HistoryConditionValueMoni](../rt_rule_mk/src/test/java/com/test/bigdata/test/HistoryConditionValueMoni.java) | 通过，有限输入 | 0 | — |
+| [jedis.RedisDemo](../redis_demo/src/main/java/com/test/bigdata/jedis/RedisDemo.java) | 通过，有限输入 | 0 | — |
+| [batch.jobs.DataLoadJob01_GeoAreaInfo2Hbase](../batch_jobs/src/main/java/com/test/bigdata/batch/jobs/DataLoadJob01_GeoAreaInfo2Hbase.scala) | 通过，HBase 写入已核对 | 0 | — |
 
 明细证据：`.artifacts/main-audit/k3s/lifecycle-*/results.json` 与对应 main 日志；有限输入见 `finite/results.json`，Groovy Kafka 命中见 `lifecycle-groovy-final/groovy-kafka-result.log`。业务 ETL、恢复验收见前文。旧的超时/错误日志保留，不作为通过证据。
 

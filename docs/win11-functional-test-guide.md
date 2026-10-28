@@ -14,7 +14,7 @@ Win11 发送测试事件 -> Kafka mall-events-log -> Flink EtlJob01
 ## 1. 适用范围与当前限制
 
 - 已验证的线上归属是：Kafka/HBase/Doris 在 `middleware`，Flink 作业 `realtime-dw-etl-01` 在 `realtime-dw`。详见 [K3s 迁移测试报告](k3s-migration-test-report-2026-10-25.md)。
-- 本次仅以 `cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim` 作为端到端验收作业。它已经支持 `KAFKA_BOOTSTRAP_SERVERS`、`HBASE_ZOOKEEPER_QUORUM`、`DORIS_FENODES`、Doris 账号和 checkpoint 路径的环境变量覆盖。
+- 本次仅以 `com.test.bigdata.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim` 作为端到端验收作业。它已经支持 `KAFKA_BOOTSTRAP_SERVERS`、`HBASE_ZOOKEEPER_QUORUM`、`DORIS_FENODES`、Doris 账号和 checkpoint 路径的环境变量覆盖。
 - `EtlJob02`–`EtlJob07`、大部分 `rt_rule_mk` Demo、Spark 批作业和若干测试类仍硬编码 `doitedu`、MySQL 或 HTTP 服务；在没有先补齐连接参数、建表和初始化数据前，**不要**把它们的连接异常判成代码功能失败。
 - Maven 当前只有 `WindowTest`，Surefire 会发现 0 个断言测试。因此 `mvn test` 是构建门槛，不是端到端功能证明。
 - 当前 Maven Jar 不是可独立运行的 fat Jar；不要使用 README 中旧的 `java -cp xxx.jar 主类` 方式作为生产功能测试。集群作业由镜像中的 Flink 依赖和 `business-etl-job` ConfigMap 中的业务 Jar 共同组成。

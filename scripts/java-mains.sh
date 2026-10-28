@@ -2,7 +2,7 @@
 # 所有 Java main 的命令行执行说明与入口（包括 src/test/java，不包含 Scala）。
 # bash scripts/java-mains.sh --help
 # bash scripts/java-mains.sh --commands   # 打印每个 main 的完整命令，不启动任务
-# bash scripts/java-mains.sh cn.doitedu.rtmk.demo8.RuleEngineRecovery
+# bash scripts/java-mains.sh com.test.bigdata.rtmk.demo8.RuleEngineRecovery
 set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
@@ -23,7 +23,7 @@ usage() {
 
 默认自动读取已有 .artifacts/main-audit/k3s/runtime-env.json；也可显式选择配置：
   export MAIN_ENV_JSON="$PWD/.artifacts/main-audit/k3s/runtime-env.json"
-  KAFKA_INPUT_TOPIC=main-audit-rules bash scripts/java-mains.sh cn.doitedu.rtmk.demo8.RuleEngineRecovery
+  KAFKA_INPUT_TOPIC=main-audit-rules bash scripts/java-mains.sh com.test.bigdata.rtmk.demo8.RuleEngineRecovery
 该 JSON 仅存在于本地，不随 Git 分发；没有此文件时，直接 export 所需环境变量。
 JSON 格式为环境变量名到字符串值的对象；文件内同名变量优先于终端变量。
 
@@ -41,9 +41,9 @@ Kafka broker 返回的地址也必须从本机可达。库、表、规则及画�
 
 本地文件示例：
   mkdir -p .artifacts
-  bash scripts/java-mains.sh cn.doitedu.rtdw.utils.DimRecProcess examples/main-inputs/dim_rec.csv .artifacts/dim-rec-commands.sh
-  bash scripts/java-mains.sh cn.doitedu.rtmk.demo9.groovy.TestDiaoyong examples/main-inputs/hello.groovy
-  EVENT_BATCHES=1 KAFKA_OUTPUT_TOPIC=main-audit-rules bash scripts/java-mains.sh cn.doitedu.test.EventsMoni
+  bash scripts/java-mains.sh com.test.bigdata.rtdw.utils.DimRecProcess examples/main-inputs/dim_rec.csv .artifacts/dim-rec-commands.sh
+  bash scripts/java-mains.sh com.test.bigdata.rtmk.demo9.groovy.TestDiaoyong examples/main-inputs/hello.groovy
+  EVENT_BATCHES=1 KAFKA_OUTPUT_TOPIC=main-audit-rules bash scripts/java-mains.sh com.test.bigdata.test.EventsMoni
 EventsMoni 会真实写 Kafka；HbaseProfileTagsMoni、HistoryConditionValueMoni、RedisDemo
 等会访问或写入外部系统，执行前应选择自己的测试库、topic 和 Redis DB。
 
@@ -53,8 +53,8 @@ EventsMoni 会真实写 Kafka；HbaseProfileTagsMoni、HistoryConditionValueMoni
 Local 命名不代表全部无需中间件，仍以具体代码的连接调用为准。
 
 额外前置条件：
-  HttpRequestDemo、cn.doitedu.Http、搜索 ETL06：SIMWORDS_URL 指向真实语义 HTTP 服务。
-  cn.doitedu.EtlAsync：还需要 SOCKET_HOST / SOCKET_PORT 对应文本 Socket 服务。
+  HttpRequestDemo、com.test.bigdata.Http、搜索 ETL06：SIMWORDS_URL 指向真实语义 HTTP 服务。
+  com.test.bigdata.EtlAsync：还需要 SOCKET_HOST / SOCKET_PORT 对应文本 Socket 服务。
   当前验收环境缺少语义服务和该 Socket 服务，不能仅靠启动命令保证这些业务成功。
   StandaloneEventsJob：STANDALONE_OUTPUT_URI 设置为可写目录的 file URI。
   WindowTest：FLINK_CHECKPOINT_URI 设置为本机可写 file URI，避免课程默认 HDFS 地址。
@@ -71,48 +71,48 @@ HELP
 # 模块 | 完整类名 | 源文件；--commands 为以下每一项生成可复制命令。
 catalog() {
   cat <<'MAINS'
-realtime_dw|cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim|realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob01_UserEventsLogCommonDim.java
-realtime_dw|cn.doitedu.rtdw.data_etl.EtlJob02_MallTfcAg01|realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob02_MallTfcAg01.java
-realtime_dw|cn.doitedu.rtdw.data_etl.EtlJob03_PageAccessTimeLong|realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob03_PageAccessTimeLong.java
-realtime_dw|cn.doitedu.rtdw.data_etl.EtlJob04_InteractiveEventsOverview|realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob04_InteractiveEventsOverview.java
-realtime_dw|cn.doitedu.rtdw.data_etl.EtlJob05_VideoEventsAgg|realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob05_VideoEventsAgg.java
-realtime_dw|cn.doitedu.rtdw.data_etl.EtlJob06_SearchEventsAnalyse|realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob06_SearchEventsAnalyse.java
-realtime_dw|cn.doitedu.rtdw.data_etl.EtlJob06_SearchEventsAnalyse_Async|realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob06_SearchEventsAnalyse_Async.java
-realtime_dw|cn.doitedu.rtdw.data_etl.EtlJob07_AdRequestSessionProcess|realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob07_AdRequestSessionProcess.java
-realtime_dw|cn.doitedu.rtdw.data_sync.SyncJob01_UserInfo2Hbase|realtime_dw/src/main/java/cn/doitedu/rtdw/data_sync/SyncJob01_UserInfo2Hbase.java
-realtime_dw|cn.doitedu.rtdw.data_sync.SyncJob02_VideoInfo2Hbase|realtime_dw/src/main/java/cn/doitedu/rtdw/data_sync/SyncJob02_VideoInfo2Hbase.java
-realtime_dw|cn.doitedu.rtdw.data_sync.SyncJob03_AdRequestFeatures2Hbase|realtime_dw/src/main/java/cn/doitedu/rtdw/data_sync/SyncJob03_AdRequestFeatures2Hbase.java
-realtime_dw|cn.doitedu.rtdw.deployment.StandaloneEventsJob|realtime_dw/src/main/java/cn/doitedu/rtdw/deployment/StandaloneEventsJob.java
-realtime_dw|cn.doitedu.rtdw.rt_dashboard.Promotion01_PVUV|realtime_dw/src/main/java/cn/doitedu/rtdw/rt_dashboard/Promotion01_PVUV.java
-realtime_dw|cn.doitedu.rtdw.rt_dashboard.Promotion01_PVUVLocal|realtime_dw/src/main/java/cn/doitedu/rtdw/rt_dashboard/Promotion01_PVUVLocal.java
-realtime_dw|cn.doitedu.rtdw.utils.DimRecProcess|realtime_dw/src/main/java/cn/doitedu/rtdw/utils/DimRecProcess.java
-realtime_dw|cn.doitedu.rtdw.utils.HttpRequestDemo|realtime_dw/src/main/java/cn/doitedu/rtdw/utils/HttpRequestDemo.java
-realtime_dw|cn.doitedu.EtlAsync|realtime_dw/src/test/java/cn/doitedu/EtlAsync.java
-realtime_dw|cn.doitedu.Http|realtime_dw/src/test/java/cn/doitedu/Http.java
-realtime_dw|cn.doitedu.WindowTest|realtime_dw/src/test/java/cn/doitedu/WindowTest.java
-rt_rule_mk|cn.doitedu.rtmk.demo1.TargetProductCartMonitor|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo1/TargetProductCartMonitor.java
-rt_rule_mk|cn.doitedu.rtmk.demo1.TargetProductCartMonitorLocal|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo1/TargetProductCartMonitorLocal.java
-rt_rule_mk|cn.doitedu.rtmk.demo2.MultiRuleEngine|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo2/MultiRuleEngine.java
-rt_rule_mk|cn.doitedu.rtmk.demo2.MultiRuleEngineLocal|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo2/MultiRuleEngineLocal.java
-rt_rule_mk|cn.doitedu.rtmk.demo3.RuleCalculatorPattern|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo3/RuleCalculatorPattern.java
-rt_rule_mk|cn.doitedu.rtmk.demo3.RuleCalculatorPatternLocal|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo3/RuleCalculatorPatternLocal.java
-rt_rule_mk|cn.doitedu.rtmk.demo4.ModelBasedRuleEngine|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo4/ModelBasedRuleEngine.java
-rt_rule_mk|cn.doitedu.rtmk.demo4.ModelBasedRuleEngineLocal|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo4/ModelBasedRuleEngineLocal.java
-rt_rule_mk|cn.doitedu.rtmk.demo5.BitmapOptimizedRuleEngine|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo5/BitmapOptimizedRuleEngine.java
-rt_rule_mk|cn.doitedu.rtmk.demo5.BitmapOptimizedRuleEngineLocal|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo5/BitmapOptimizedRuleEngineLocal.java
-rt_rule_mk|cn.doitedu.rtmk.demo6.DynamicRuleManagement|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo6/DynamicRuleManagement.java
-rt_rule_mk|cn.doitedu.rtmk.demo6.DynamicRuleManagementLocal|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo6/DynamicRuleManagementLocal.java
-rt_rule_mk|cn.doitedu.rtmk.demo7.DynamicRuleManagementV2|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo7/DynamicRuleManagementV2.java
-rt_rule_mk|cn.doitedu.rtmk.demo7.DynamicRuleManagementV2Local|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo7/DynamicRuleManagementV2Local.java
-rt_rule_mk|cn.doitedu.rtmk.demo8.RuleEngineRecovery|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo8/RuleEngineRecovery.java
-rt_rule_mk|cn.doitedu.rtmk.demo8.RuleEngineRecoveryLocal|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo8/RuleEngineRecoveryLocal.java
-rt_rule_mk|cn.doitedu.rtmk.demo9.DynamicRuleWithGroovy|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo9/DynamicRuleWithGroovy.java
-rt_rule_mk|cn.doitedu.rtmk.demo9.DynamicRuleWithGroovyLocal|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo9/DynamicRuleWithGroovyLocal.java
-rt_rule_mk|cn.doitedu.rtmk.demo9.groovy.TestDiaoyong|rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo9/groovy/TestDiaoyong.java
-rt_rule_mk|cn.doitedu.test.EventsMoni|rt_rule_mk/src/test/java/cn/doitedu/test/EventsMoni.java
-rt_rule_mk|cn.doitedu.test.HbaseProfileTagsMoni|rt_rule_mk/src/test/java/cn/doitedu/test/HbaseProfileTagsMoni.java
-rt_rule_mk|cn.doitedu.test.HistoryConditionValueMoni|rt_rule_mk/src/test/java/cn/doitedu/test/HistoryConditionValueMoni.java
-redis_demo|cn.doitedu.jedis.RedisDemo|redis_demo/src/main/java/cn/doitedu/jedis/RedisDemo.java
+realtime_dw|com.test.bigdata.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim|realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob01_UserEventsLogCommonDim.java
+realtime_dw|com.test.bigdata.rtdw.data_etl.EtlJob02_MallTfcAg01|realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob02_MallTfcAg01.java
+realtime_dw|com.test.bigdata.rtdw.data_etl.EtlJob03_PageAccessTimeLong|realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob03_PageAccessTimeLong.java
+realtime_dw|com.test.bigdata.rtdw.data_etl.EtlJob04_InteractiveEventsOverview|realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob04_InteractiveEventsOverview.java
+realtime_dw|com.test.bigdata.rtdw.data_etl.EtlJob05_VideoEventsAgg|realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob05_VideoEventsAgg.java
+realtime_dw|com.test.bigdata.rtdw.data_etl.EtlJob06_SearchEventsAnalyse|realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob06_SearchEventsAnalyse.java
+realtime_dw|com.test.bigdata.rtdw.data_etl.EtlJob06_SearchEventsAnalyse_Async|realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob06_SearchEventsAnalyse_Async.java
+realtime_dw|com.test.bigdata.rtdw.data_etl.EtlJob07_AdRequestSessionProcess|realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob07_AdRequestSessionProcess.java
+realtime_dw|com.test.bigdata.rtdw.data_sync.SyncJob01_UserInfo2Hbase|realtime_dw/src/main/java/com/test/bigdata/rtdw/data_sync/SyncJob01_UserInfo2Hbase.java
+realtime_dw|com.test.bigdata.rtdw.data_sync.SyncJob02_VideoInfo2Hbase|realtime_dw/src/main/java/com/test/bigdata/rtdw/data_sync/SyncJob02_VideoInfo2Hbase.java
+realtime_dw|com.test.bigdata.rtdw.data_sync.SyncJob03_AdRequestFeatures2Hbase|realtime_dw/src/main/java/com/test/bigdata/rtdw/data_sync/SyncJob03_AdRequestFeatures2Hbase.java
+realtime_dw|com.test.bigdata.rtdw.deployment.StandaloneEventsJob|realtime_dw/src/main/java/com/test/bigdata/rtdw/deployment/StandaloneEventsJob.java
+realtime_dw|com.test.bigdata.rtdw.rt_dashboard.Promotion01_PVUV|realtime_dw/src/main/java/com/test/bigdata/rtdw/rt_dashboard/Promotion01_PVUV.java
+realtime_dw|com.test.bigdata.rtdw.rt_dashboard.Promotion01_PVUVLocal|realtime_dw/src/main/java/com/test/bigdata/rtdw/rt_dashboard/Promotion01_PVUVLocal.java
+realtime_dw|com.test.bigdata.rtdw.utils.DimRecProcess|realtime_dw/src/main/java/com/test/bigdata/rtdw/utils/DimRecProcess.java
+realtime_dw|com.test.bigdata.rtdw.utils.HttpRequestDemo|realtime_dw/src/main/java/com/test/bigdata/rtdw/utils/HttpRequestDemo.java
+realtime_dw|com.test.bigdata.EtlAsync|realtime_dw/src/test/java/com/test/bigdata/EtlAsync.java
+realtime_dw|com.test.bigdata.Http|realtime_dw/src/test/java/com/test/bigdata/Http.java
+realtime_dw|com.test.bigdata.WindowTest|realtime_dw/src/test/java/com/test/bigdata/WindowTest.java
+rt_rule_mk|com.test.bigdata.rtmk.demo1.TargetProductCartMonitor|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo1/TargetProductCartMonitor.java
+rt_rule_mk|com.test.bigdata.rtmk.demo1.TargetProductCartMonitorLocal|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo1/TargetProductCartMonitorLocal.java
+rt_rule_mk|com.test.bigdata.rtmk.demo2.MultiRuleEngine|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo2/MultiRuleEngine.java
+rt_rule_mk|com.test.bigdata.rtmk.demo2.MultiRuleEngineLocal|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo2/MultiRuleEngineLocal.java
+rt_rule_mk|com.test.bigdata.rtmk.demo3.RuleCalculatorPattern|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo3/RuleCalculatorPattern.java
+rt_rule_mk|com.test.bigdata.rtmk.demo3.RuleCalculatorPatternLocal|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo3/RuleCalculatorPatternLocal.java
+rt_rule_mk|com.test.bigdata.rtmk.demo4.ModelBasedRuleEngine|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo4/ModelBasedRuleEngine.java
+rt_rule_mk|com.test.bigdata.rtmk.demo4.ModelBasedRuleEngineLocal|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo4/ModelBasedRuleEngineLocal.java
+rt_rule_mk|com.test.bigdata.rtmk.demo5.BitmapOptimizedRuleEngine|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo5/BitmapOptimizedRuleEngine.java
+rt_rule_mk|com.test.bigdata.rtmk.demo5.BitmapOptimizedRuleEngineLocal|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo5/BitmapOptimizedRuleEngineLocal.java
+rt_rule_mk|com.test.bigdata.rtmk.demo6.DynamicRuleManagement|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo6/DynamicRuleManagement.java
+rt_rule_mk|com.test.bigdata.rtmk.demo6.DynamicRuleManagementLocal|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo6/DynamicRuleManagementLocal.java
+rt_rule_mk|com.test.bigdata.rtmk.demo7.DynamicRuleManagementV2|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo7/DynamicRuleManagementV2.java
+rt_rule_mk|com.test.bigdata.rtmk.demo7.DynamicRuleManagementV2Local|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo7/DynamicRuleManagementV2Local.java
+rt_rule_mk|com.test.bigdata.rtmk.demo8.RuleEngineRecovery|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo8/RuleEngineRecovery.java
+rt_rule_mk|com.test.bigdata.rtmk.demo8.RuleEngineRecoveryLocal|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo8/RuleEngineRecoveryLocal.java
+rt_rule_mk|com.test.bigdata.rtmk.demo9.DynamicRuleWithGroovy|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo9/DynamicRuleWithGroovy.java
+rt_rule_mk|com.test.bigdata.rtmk.demo9.DynamicRuleWithGroovyLocal|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo9/DynamicRuleWithGroovyLocal.java
+rt_rule_mk|com.test.bigdata.rtmk.demo9.groovy.TestDiaoyong|rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo9/groovy/TestDiaoyong.java
+rt_rule_mk|com.test.bigdata.test.EventsMoni|rt_rule_mk/src/test/java/com/test/bigdata/test/EventsMoni.java
+rt_rule_mk|com.test.bigdata.test.HbaseProfileTagsMoni|rt_rule_mk/src/test/java/com/test/bigdata/test/HbaseProfileTagsMoni.java
+rt_rule_mk|com.test.bigdata.test.HistoryConditionValueMoni|rt_rule_mk/src/test/java/com/test/bigdata/test/HistoryConditionValueMoni.java
+redis_demo|com.test.bigdata.jedis.RedisDemo|redis_demo/src/main/java/com/test/bigdata/jedis/RedisDemo.java
 MAINS
 }
 

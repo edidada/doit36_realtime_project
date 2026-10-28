@@ -5,7 +5,7 @@ from pathlib import Path
 root = Path(__file__).resolve().parents[1]
 for name in ('init-rule-validation.sql', 'init-main-validation.sql'):
     print((root / 'deploy/k3s/business' / name).read_text())
-code = (root / 'rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo9/groovy/RuleMode005Calculator.groovy').read_bytes().hex()
+code = (root / 'rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo9/groovy/RuleMode005Calculator.groovy').read_bytes().hex()
 print("UPDATE doit36_main_audit.rule_meta_doit36 SET model_calculator_code="
       "CONVERT(UNHEX('" + code + "') USING utf8mb4) WHERE id=900017;")
 print("""CREATE DATABASE IF NOT EXISTS doit36_main_audit_demo6;
