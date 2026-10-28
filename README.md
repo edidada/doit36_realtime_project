@@ -90,7 +90,7 @@
 项目采用多模块Maven结构，父POM定义了公共配置：
 
 ```xml
-<groupId>cn.doitedu</groupId>
+<groupId>com.test.bigdata</groupId>
 <artifactId>realtime-dw</artifactId>
 <version>1.0-SNAPSHOT</version>
 <packaging>pom</packaging>
@@ -145,57 +145,57 @@ mvn clean package -DskipTests
 #### realtime_dw模块
 ```bash
 # 运行用户行为日志维度打宽作业
-java -cp realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim
+java -cp realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar com.test.bigdata.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim
 
 # 运行实时流量概况多维模型统计
-java -cp realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar cn.doitedu.rtdw.data_etl.EtlJob02_MallTfcAg01
+java -cp realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar com.test.bigdata.rtdw.data_etl.EtlJob02_MallTfcAg01
 
 # 运行页面访问时长分析
-java -cp realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar cn.doitedu.rtdw.data_etl.EtlJob03_PageAccessTimeLong
+java -cp realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar com.test.bigdata.rtdw.data_etl.EtlJob03_PageAccessTimeLong
 
 # 运行搜索事件分析
-java -cp realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar cn.doitedu.rtdw.data_etl.EtlJob06_SearchEventsAnalyse
+java -cp realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar com.test.bigdata.rtdw.data_etl.EtlJob06_SearchEventsAnalyse
 
 # 运行视频事件聚合
-java -cp realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar cn.doitedu.rtdw.data_etl.EtlJob05_VideoEventsAgg
+java -cp realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar com.test.bigdata.rtdw.data_etl.EtlJob05_VideoEventsAgg
 
 # 运行广告请求实时特征工程
-java -cp realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar cn.doitedu.rtdw.data_etl.EtlJob07_AdRequestSessionProcess
+java -cp realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar com.test.bigdata.rtdw.data_etl.EtlJob07_AdRequestSessionProcess
 ```
 
 #### rt_rule_mk模块
 ```bash
 # 运行实时规则引擎Demo
-java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo1.Demo1
-java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo2.MultiRuleEngine
-java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo3.Demo3
-java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo4.Demo4
-java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo5.Demo5
-java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo6.Demo6
-java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo7.Demo7
-java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo8.Demo8
-java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar cn.doitedu.rtmk.demo9.Demo9
+java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar com.test.bigdata.rtmk.demo1.TargetProductCartMonitor
+java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar com.test.bigdata.rtmk.demo2.MultiRuleEngine
+java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar com.test.bigdata.rtmk.demo3.RuleCalculatorPattern
+java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar com.test.bigdata.rtmk.demo4.ModelBasedRuleEngine
+java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar com.test.bigdata.rtmk.demo5.BitmapOptimizedRuleEngine
+java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar com.test.bigdata.rtmk.demo6.DynamicRuleManagement
+java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar com.test.bigdata.rtmk.demo7.DynamicRuleManagementV2
+java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar com.test.bigdata.rtmk.demo8.RuleEngineRecovery
+java -cp rt_rule_mk/target/rt_rule_mk-1.0-SNAPSHOT.jar com.test.bigdata.rtmk.demo9.DynamicRuleWithGroovy
 ```
 
 #### batch_jobs模块
 ```bash
 # 运行批处理作业
-java -cp batch_jobs/target/batch_jobs-1.0-SNAPSHOT.jar cn.doitedu.batch.jobs.DataLoadJob01_GeoAreaInfo2Hbase
+java -cp batch_jobs/target/batch_jobs-1.0-SNAPSHOT.jar com.test.bigdata.batch.jobs.DataLoadJob01_GeoAreaInfo2Hbase
 ```
 
 #### redis_demo模块
 ```bash
 # 运行Redis示例
-java -cp redis_demo/target/redis_demo-1.0-SNAPSHOT.jar cn.doitedu.jedis.RedisDemo
+java -cp redis_demo/target/redis_demo-1.0-SNAPSHOT.jar com.test.bigdata.jedis.RedisDemo
 ```
 
 ### Flink集群运行
 ```bash
 # 提交作业到Flink集群
-flink run -c cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar
+flink run -c com.test.bigdata.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar
 
 # 提交作业并指定并行度
-flink run -p 4 -c cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar
+flink run -p 4 -c com.test.bigdata.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim realtime_dw/target/realtime_dw-1.0-SNAPSHOT.jar
 ```
 
 ## 6. 项目测试
@@ -223,10 +223,10 @@ mvn test -Dtest=TestClassName
 - `x.json`: 其他测试数据
 
 ### 测试类
-- `cn.doitedu.test.EventsMoni`: 事件监控测试
-- `cn.doitedu.test.HbaseProfileTagsMoni`: HBase用户画像标签测试
-- `cn.doitedu.test.HistoryConditionValueMoni`: 历史条件值测试
-- `cn.doitedu.test.MysqlRuleMetaMoni`: MySQL规则元数据测试
+- `com.test.bigdata.test.EventsMoni`: 事件监控测试
+- `com.test.bigdata.test.HbaseProfileTagsMoni`: HBase用户画像标签测试
+- `com.test.bigdata.test.HistoryConditionValueMoni`: 历史条件值测试
+- `com.test.bigdata.test.MysqlRuleMetaMoni`: MySQL规则元数据测试
 
 ### 监控和调试
 - Flink Web UI: `http://localhost:8081` (默认端口)
@@ -245,7 +245,7 @@ mvn test -Dtest=TestClassName
 ```
 realtime-dw/
 ├── realtime_dw/              # 实时数仓模块
-│   ├── src/main/java/cn/doitedu/rtdw/
+│   ├── src/main/java/com/test/bigdata/rtdw/
 │   │   ├── beans/           # 数据Bean定义
 │   │   ├── data_etl/        # ETL作业
 │   │   ├── data_sync/       # 数据同步作业
@@ -253,13 +253,13 @@ realtime-dw/
 │   │   └── utils/           # 工具类
 │   └── pom.xml
 ├── batch_jobs/              # 批处理模块
-│   ├── src/main/java/cn/doitedu/batch/jobs/
+│   ├── src/main/java/com/test/bigdata/batch/jobs/
 │   └── pom.xml
 ├── redis_demo/              # Redis示例模块
-│   ├── src/main/java/cn/doitedu/jedis/
+│   ├── src/main/java/com/test/bigdata/jedis/
 │   └── pom.xml
 ├── rt_rule_mk/              # 实时规则引擎模块
-│   ├── src/main/java/cn/doitedu/rtmk/
+│   ├── src/main/java/com/test/bigdata/rtmk/
 │   │   ├── beans/           # 规则Bean
 │   │   ├── demo1-9/         # 各版本演示
 │   │   └── groovy/          # Groovy规则脚本

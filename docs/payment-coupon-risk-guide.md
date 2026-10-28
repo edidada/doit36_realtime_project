@@ -1,6 +1,6 @@
 # 支付与优惠券风控：Win11 本地全流程
 
-本次在 `fin-risk-engine` 中新增 `cn.doitedu.fin.risk.fraud` 应用；原 Black-Scholes/Monte Carlo 定价代码仍可使用。支付业务风控和金融数值风险是不同领域，分别放在不同包中。
+本次在 `fin-risk-engine` 中新增 `com.test.bigdata.fin.risk.fraud` 应用；原 Black-Scholes/Monte Carlo 定价代码仍可使用。支付业务风控和金融数值风险是不同领域，分别放在不同包中。
 
 实现提供真实 HTTP、数据库事务、并发约束、持久支付意图、模拟扣款/退款、审核、优惠券和恢复任务。只有交易通道与身份/设备/网络资料是本地合成的；不接入真实资金。Win11 + JDK 17 + Maven 即可运行，运行时无需 Redis、Kafka、Docker、GPU、Python 或付费云服务。
 

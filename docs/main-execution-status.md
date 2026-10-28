@@ -1,5 +1,7 @@
 # master 分支全部 main 执行记录（JDK 17）
 
+2026-10-28 维护说明：类名和源码链接已更新至 `com.test.bigdata`。以下仍为原执行日期的历史结果，不代表包名迁移后重新执行全部外部服务作业。
+
 执行日期：2026-10-17（Asia/Shanghai）。分支：`master`，修改基线：`94fccc3`。
 执行机器：macOS 12.7.6 / Intel，Microsoft OpenJDK 17.0.18，Maven 3.6.1。
 
@@ -51,63 +53,63 @@ Flink 1.19 文档说明：从 1.18 引入对 Java 17 的实验性支持；运行
 
 | main（源码） | 结果 / 退出码 | 耗时 | 实际证据及执行条件 |
 | --- | --- | --- | --- |
-| [cn.doitedu.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob01_UserEventsLogCommonDim.java) | 条件不足 / 143 | 23.27s | Kafka bootstrap 地址不可解析；需 K、H、M、D。 |
-| [cn.doitedu.rtdw.data_etl.EtlJob02_MallTfcAg01](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob02_MallTfcAg01.java) | 条件不足 / 1 | 42.82s | Doris FE schema HTTP 请求失败；需 D、K。 |
-| [cn.doitedu.rtdw.data_etl.EtlJob03_PageAccessTimeLong](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob03_PageAccessTimeLong.java) | 条件不足 / 143 | 19.12s | Doris FE schema HTTP 请求失败；需 D、K。 |
-| [cn.doitedu.rtdw.data_etl.EtlJob04_InteractiveEventsOverview](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob04_InteractiveEventsOverview.java) | 条件不足 / 143 | 19.89s | Doris FE schema HTTP 请求失败；需 D、K。 |
-| [cn.doitedu.rtdw.data_etl.EtlJob05_VideoEventsAgg](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob05_VideoEventsAgg.java) | 条件不足 / 143 | 24.33s | Doris FE schema HTTP 请求失败；需 D、K。 |
-| [cn.doitedu.rtdw.data_etl.EtlJob06_SearchEventsAnalyse](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob06_SearchEventsAnalyse.java) | 条件不足 / 143 | 22.74s | Doris FE schema HTTP 请求失败；需 D、K。另需 A（搜索词服务）。 |
-| [cn.doitedu.rtdw.data_etl.EtlJob06_SearchEventsAnalyse_Async](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob06_SearchEventsAnalyse_Async.java) | 条件不足 / 143 | 18.88s | Doris FE schema HTTP 请求失败；需 D、K。另需 A（搜索词服务）。 |
-| [cn.doitedu.rtdw.data_etl.EtlJob07_AdRequestSessionProcess](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_etl/EtlJob07_AdRequestSessionProcess.java) | 条件不足 / 143 | 15.91s | Kafka bootstrap 地址不可解析；需 K、H。 |
-| [cn.doitedu.rtdw.data_sync.SyncJob01_UserInfo2Hbase](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_sync/SyncJob01_UserInfo2Hbase.java) | 条件不足 / 143 | 9.81s | MySQL CDC 初始化 UnknownHostException: doitedu；需 M、H。 |
-| [cn.doitedu.rtdw.data_sync.SyncJob02_VideoInfo2Hbase](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_sync/SyncJob02_VideoInfo2Hbase.java) | 条件不足 / 143 | 9.79s | MySQL CDC 初始化 UnknownHostException: doitedu；需 M、H。 |
-| [cn.doitedu.rtdw.data_sync.SyncJob03_AdRequestFeatures2Hbase](../realtime_dw/src/main/java/cn/doitedu/rtdw/data_sync/SyncJob03_AdRequestFeatures2Hbase.java) | 条件不足 / 143 | 9.04s | Kafka bootstrap 地址不可解析；需 K、H。 |
-| [cn.doitedu.rtdw.rt_dashboard.Promotion01_PVUV](../realtime_dw/src/main/java/cn/doitedu/rtdw/rt_dashboard/Promotion01_PVUV.java) | 条件不足 / 143 | 11.59s | Kafka bootstrap 地址不可解析；需 K。 |
-| [cn.doitedu.rtdw.rt_dashboard.Promotion01_PVUVLocal](../realtime_dw/src/main/java/cn/doitedu/rtdw/rt_dashboard/Promotion01_PVUVLocal.java) | 通过 / 0 | 6.83s | 内置输入处理完成，输出 PVUV统计结果；此 Local 实现是逐事件示例，未验证生产窗口聚合。 |
-| [cn.doitedu.rtdw.utils.DimRecProcess](../realtime_dw/src/main/java/cn/doitedu/rtdw/utils/DimRecProcess.java) | 条件不足 / 1 | 0.26s | FileNotFoundException: d:/dim_red.csv；需输入 CSV，并配置可写输出路径（原为 d:/ok.sh）。 |
-| [cn.doitedu.rtdw.utils.HttpRequestDemo](../realtime_dw/src/main/java/cn/doitedu/rtdw/utils/HttpRequestDemo.java) | 条件不足 / 1 | 1.01s | HTTP 请求 UnknownHostException: doitedu；需 A。 |
-| [cn.doitedu.EtlAsync](../realtime_dw/src/test/java/cn/doitedu/EtlAsync.java) | 条件不足 / 143 | 5.0s | Socket 输入主机 doitedu 无法解析；需 S、A。 |
-| [cn.doitedu.Http](../realtime_dw/src/test/java/cn/doitedu/Http.java) | 条件不足 / 143 | 1.4s | HTTP 请求 UnknownHostException: doitedu；需 A。 |
-| [cn.doitedu.WindowTest](../realtime_dw/src/test/java/cn/doitedu/WindowTest.java) | 条件不足 / 143 | 14.84s | 补齐 HDFS 客户端后 UnknownHostException: doitedu；需 F、K，尚未验证窗口 drain/stop。 |
+| [com.test.bigdata.rtdw.data_etl.EtlJob01_UserEventsLogCommonDim](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob01_UserEventsLogCommonDim.java) | 条件不足 / 143 | 23.27s | Kafka bootstrap 地址不可解析；需 K、H、M、D。 |
+| [com.test.bigdata.rtdw.data_etl.EtlJob02_MallTfcAg01](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob02_MallTfcAg01.java) | 条件不足 / 1 | 42.82s | Doris FE schema HTTP 请求失败；需 D、K。 |
+| [com.test.bigdata.rtdw.data_etl.EtlJob03_PageAccessTimeLong](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob03_PageAccessTimeLong.java) | 条件不足 / 143 | 19.12s | Doris FE schema HTTP 请求失败；需 D、K。 |
+| [com.test.bigdata.rtdw.data_etl.EtlJob04_InteractiveEventsOverview](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob04_InteractiveEventsOverview.java) | 条件不足 / 143 | 19.89s | Doris FE schema HTTP 请求失败；需 D、K。 |
+| [com.test.bigdata.rtdw.data_etl.EtlJob05_VideoEventsAgg](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob05_VideoEventsAgg.java) | 条件不足 / 143 | 24.33s | Doris FE schema HTTP 请求失败；需 D、K。 |
+| [com.test.bigdata.rtdw.data_etl.EtlJob06_SearchEventsAnalyse](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob06_SearchEventsAnalyse.java) | 条件不足 / 143 | 22.74s | Doris FE schema HTTP 请求失败；需 D、K。另需 A（搜索词服务）。 |
+| [com.test.bigdata.rtdw.data_etl.EtlJob06_SearchEventsAnalyse_Async](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob06_SearchEventsAnalyse_Async.java) | 条件不足 / 143 | 18.88s | Doris FE schema HTTP 请求失败；需 D、K。另需 A（搜索词服务）。 |
+| [com.test.bigdata.rtdw.data_etl.EtlJob07_AdRequestSessionProcess](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_etl/EtlJob07_AdRequestSessionProcess.java) | 条件不足 / 143 | 15.91s | Kafka bootstrap 地址不可解析；需 K、H。 |
+| [com.test.bigdata.rtdw.data_sync.SyncJob01_UserInfo2Hbase](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_sync/SyncJob01_UserInfo2Hbase.java) | 条件不足 / 143 | 9.81s | MySQL CDC 初始化 UnknownHostException: doitedu；需 M、H。 |
+| [com.test.bigdata.rtdw.data_sync.SyncJob02_VideoInfo2Hbase](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_sync/SyncJob02_VideoInfo2Hbase.java) | 条件不足 / 143 | 9.79s | MySQL CDC 初始化 UnknownHostException: doitedu；需 M、H。 |
+| [com.test.bigdata.rtdw.data_sync.SyncJob03_AdRequestFeatures2Hbase](../realtime_dw/src/main/java/com/test/bigdata/rtdw/data_sync/SyncJob03_AdRequestFeatures2Hbase.java) | 条件不足 / 143 | 9.04s | Kafka bootstrap 地址不可解析；需 K、H。 |
+| [com.test.bigdata.rtdw.rt_dashboard.Promotion01_PVUV](../realtime_dw/src/main/java/com/test/bigdata/rtdw/rt_dashboard/Promotion01_PVUV.java) | 条件不足 / 143 | 11.59s | Kafka bootstrap 地址不可解析；需 K。 |
+| [com.test.bigdata.rtdw.rt_dashboard.Promotion01_PVUVLocal](../realtime_dw/src/main/java/com/test/bigdata/rtdw/rt_dashboard/Promotion01_PVUVLocal.java) | 通过 / 0 | 6.83s | 内置输入处理完成，输出 PVUV统计结果；此 Local 实现是逐事件示例，未验证生产窗口聚合。 |
+| [com.test.bigdata.rtdw.utils.DimRecProcess](../realtime_dw/src/main/java/com/test/bigdata/rtdw/utils/DimRecProcess.java) | 条件不足 / 1 | 0.26s | FileNotFoundException: d:/dim_red.csv；需输入 CSV，并配置可写输出路径（原为 d:/ok.sh）。 |
+| [com.test.bigdata.rtdw.utils.HttpRequestDemo](../realtime_dw/src/main/java/com/test/bigdata/rtdw/utils/HttpRequestDemo.java) | 条件不足 / 1 | 1.01s | HTTP 请求 UnknownHostException: doitedu；需 A。 |
+| [com.test.bigdata.EtlAsync](../realtime_dw/src/test/java/com/test/bigdata/EtlAsync.java) | 条件不足 / 143 | 5.0s | Socket 输入主机 doitedu 无法解析；需 S、A。 |
+| [com.test.bigdata.Http](../realtime_dw/src/test/java/com/test/bigdata/Http.java) | 条件不足 / 143 | 1.4s | HTTP 请求 UnknownHostException: doitedu；需 A。 |
+| [com.test.bigdata.WindowTest](../realtime_dw/src/test/java/com/test/bigdata/WindowTest.java) | 条件不足 / 143 | 14.84s | 补齐 HDFS 客户端后 UnknownHostException: doitedu；需 F、K，尚未验证窗口 drain/stop。 |
 
 ### rt_rule_mk
 
 | main（源码） | 结果 / 退出码 | 耗时 | 实际证据及执行条件 |
 | --- | --- | --- | --- |
-| [cn.doitedu.rtmk.demo1.TargetProductCartMonitor](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo1/TargetProductCartMonitor.java) | 超时 / 143 | 40.45s | Kafka bootstrap 地址不可解析；需 K。 |
-| [cn.doitedu.rtmk.demo1.TargetProductCartMonitorLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo1/TargetProductCartMonitorLocal.java) | 通过 / 0 | 7.06s | 内置输入处理完成；输出 3 条匹配结果。 |
-| [cn.doitedu.rtmk.demo2.MultiRuleEngine](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo2/MultiRuleEngine.java) | 条件不足 / 143 | 10.32s | Kafka bootstrap 地址不可解析；需 K。 |
-| [cn.doitedu.rtmk.demo2.MultiRuleEngineLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo2/MultiRuleEngineLocal.java) | 通过 / 0 | 10.13s | 内置输入处理完成；输出 1 条匹配结果。 |
-| [cn.doitedu.rtmk.demo3.RuleCalculatorPattern](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo3/RuleCalculatorPattern.java) | 条件不足 / 143 | 5.49s | Kafka bootstrap 地址不可解析；需 K。 |
-| [cn.doitedu.rtmk.demo3.RuleCalculatorPatternLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo3/RuleCalculatorPatternLocal.java) | 通过 / 0 | 10.44s | 内置输入处理完成；输出 1 条匹配结果。 |
-| [cn.doitedu.rtmk.demo4.ModelBasedRuleEngine](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo4/ModelBasedRuleEngine.java) | 条件不足 / 143 | 7.86s | Kafka bootstrap 地址不可解析；需 K。 |
-| [cn.doitedu.rtmk.demo4.ModelBasedRuleEngineLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo4/ModelBasedRuleEngineLocal.java) | 通过 / 0 | 10.89s | 内置输入处理完成；输出 3 条匹配结果。 |
-| [cn.doitedu.rtmk.demo5.BitmapOptimizedRuleEngine](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo5/BitmapOptimizedRuleEngine.java) | 条件不足 / 143 | 5.26s | Kafka bootstrap 地址不可解析；需 K；启用画像/历史规则时另需 H/R。 |
-| [cn.doitedu.rtmk.demo5.BitmapOptimizedRuleEngineLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo5/BitmapOptimizedRuleEngineLocal.java) | 通过 / 0 | 6.58s | 内置输入处理完成；输出 2 条匹配结果。 |
-| [cn.doitedu.rtmk.demo6.DynamicRuleManagement](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo6/DynamicRuleManagement.java) | 条件不足 / 143 | 11.58s | Kafka bootstrap 地址不可解析；需 K；动态规则类还需 M，相关画像/历史规则需 H/R。 |
-| [cn.doitedu.rtmk.demo6.DynamicRuleManagementLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo6/DynamicRuleManagementLocal.java) | 通过 / 0 | 7.09s | 内置输入处理完成；输出 2 条匹配结果。 |
-| [cn.doitedu.rtmk.demo7.DynamicRuleManagementV2](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo7/DynamicRuleManagementV2.java) | 条件不足 / 143 | 10.59s | Kafka bootstrap 地址不可解析；需 K；动态规则类还需 M，相关画像/历史规则需 H/R。 |
-| [cn.doitedu.rtmk.demo7.DynamicRuleManagementV2Local](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo7/DynamicRuleManagementV2Local.java) | 通过 / 0 | 7.6s | 内置输入处理完成；输出 2 条匹配结果。 |
-| [cn.doitedu.rtmk.demo8.RuleEngineRecovery](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo8/RuleEngineRecovery.java) | 条件不足 / 143 | 14.11s | Kafka bootstrap 地址不可解析；需 K；动态规则类还需 M，相关画像/历史规则需 H/R。 |
-| [cn.doitedu.rtmk.demo8.RuleEngineRecoveryLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo8/RuleEngineRecoveryLocal.java) | 通过 / 0 | 6.85s | 内置输入处理完成；输出 2 条匹配结果。 |
-| [cn.doitedu.rtmk.demo9.DynamicRuleWithGroovy](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo9/DynamicRuleWithGroovy.java) | 条件不足 / 143 | 10.33s | Kafka bootstrap 地址不可解析；需 K；动态规则类还需 M，相关画像/历史规则需 H/R。 |
-| [cn.doitedu.rtmk.demo9.DynamicRuleWithGroovyLocal](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo9/DynamicRuleWithGroovyLocal.java) | 通过 / 0 | 6.85s | 内置输入处理完成；输出 2 条匹配结果。 |
-| [cn.doitedu.rtmk.demo9.groovy.TestDiaoyong](../rt_rule_mk/src/main/java/cn/doitedu/rtmk/demo9/groovy/TestDiaoyong.java) | 条件不足 / 1 | 0.77s | FileNotFoundException: d:/a.groovy；需提供实现 HelloInterface 的真实 Groovy 脚本，并将源码路径改为可读位置。 |
-| [cn.doitedu.test.EventsMoni](../rt_rule_mk/src/test/java/cn/doitedu/test/EventsMoni.java) | 条件不足 / 1 | 1.78s | Kafka bootstrap 地址不可解析；需 K。 |
-| [cn.doitedu.test.HbaseProfileTagsMoni](../rt_rule_mk/src/test/java/cn/doitedu/test/HbaseProfileTagsMoni.java) | 条件不足 / 143 | 2.3s | ZooKeeper/HBase 连接 UnknownHostException: doitedu；需 H。 |
-| [cn.doitedu.test.HistoryConditionValueMoni](../rt_rule_mk/src/test/java/cn/doitedu/test/HistoryConditionValueMoni.java) | 条件不足 / 1 | 0.76s | JedisConnectionException，根因为 UnknownHostException: doitedu；需 R。 |
+| [com.test.bigdata.rtmk.demo1.TargetProductCartMonitor](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo1/TargetProductCartMonitor.java) | 超时 / 143 | 40.45s | Kafka bootstrap 地址不可解析；需 K。 |
+| [com.test.bigdata.rtmk.demo1.TargetProductCartMonitorLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo1/TargetProductCartMonitorLocal.java) | 通过 / 0 | 7.06s | 内置输入处理完成；输出 3 条匹配结果。 |
+| [com.test.bigdata.rtmk.demo2.MultiRuleEngine](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo2/MultiRuleEngine.java) | 条件不足 / 143 | 10.32s | Kafka bootstrap 地址不可解析；需 K。 |
+| [com.test.bigdata.rtmk.demo2.MultiRuleEngineLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo2/MultiRuleEngineLocal.java) | 通过 / 0 | 10.13s | 内置输入处理完成；输出 1 条匹配结果。 |
+| [com.test.bigdata.rtmk.demo3.RuleCalculatorPattern](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo3/RuleCalculatorPattern.java) | 条件不足 / 143 | 5.49s | Kafka bootstrap 地址不可解析；需 K。 |
+| [com.test.bigdata.rtmk.demo3.RuleCalculatorPatternLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo3/RuleCalculatorPatternLocal.java) | 通过 / 0 | 10.44s | 内置输入处理完成；输出 1 条匹配结果。 |
+| [com.test.bigdata.rtmk.demo4.ModelBasedRuleEngine](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo4/ModelBasedRuleEngine.java) | 条件不足 / 143 | 7.86s | Kafka bootstrap 地址不可解析；需 K。 |
+| [com.test.bigdata.rtmk.demo4.ModelBasedRuleEngineLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo4/ModelBasedRuleEngineLocal.java) | 通过 / 0 | 10.89s | 内置输入处理完成；输出 3 条匹配结果。 |
+| [com.test.bigdata.rtmk.demo5.BitmapOptimizedRuleEngine](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo5/BitmapOptimizedRuleEngine.java) | 条件不足 / 143 | 5.26s | Kafka bootstrap 地址不可解析；需 K；启用画像/历史规则时另需 H/R。 |
+| [com.test.bigdata.rtmk.demo5.BitmapOptimizedRuleEngineLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo5/BitmapOptimizedRuleEngineLocal.java) | 通过 / 0 | 6.58s | 内置输入处理完成；输出 2 条匹配结果。 |
+| [com.test.bigdata.rtmk.demo6.DynamicRuleManagement](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo6/DynamicRuleManagement.java) | 条件不足 / 143 | 11.58s | Kafka bootstrap 地址不可解析；需 K；动态规则类还需 M，相关画像/历史规则需 H/R。 |
+| [com.test.bigdata.rtmk.demo6.DynamicRuleManagementLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo6/DynamicRuleManagementLocal.java) | 通过 / 0 | 7.09s | 内置输入处理完成；输出 2 条匹配结果。 |
+| [com.test.bigdata.rtmk.demo7.DynamicRuleManagementV2](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo7/DynamicRuleManagementV2.java) | 条件不足 / 143 | 10.59s | Kafka bootstrap 地址不可解析；需 K；动态规则类还需 M，相关画像/历史规则需 H/R。 |
+| [com.test.bigdata.rtmk.demo7.DynamicRuleManagementV2Local](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo7/DynamicRuleManagementV2Local.java) | 通过 / 0 | 7.6s | 内置输入处理完成；输出 2 条匹配结果。 |
+| [com.test.bigdata.rtmk.demo8.RuleEngineRecovery](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo8/RuleEngineRecovery.java) | 条件不足 / 143 | 14.11s | Kafka bootstrap 地址不可解析；需 K；动态规则类还需 M，相关画像/历史规则需 H/R。 |
+| [com.test.bigdata.rtmk.demo8.RuleEngineRecoveryLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo8/RuleEngineRecoveryLocal.java) | 通过 / 0 | 6.85s | 内置输入处理完成；输出 2 条匹配结果。 |
+| [com.test.bigdata.rtmk.demo9.DynamicRuleWithGroovy](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo9/DynamicRuleWithGroovy.java) | 条件不足 / 143 | 10.33s | Kafka bootstrap 地址不可解析；需 K；动态规则类还需 M，相关画像/历史规则需 H/R。 |
+| [com.test.bigdata.rtmk.demo9.DynamicRuleWithGroovyLocal](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo9/DynamicRuleWithGroovyLocal.java) | 通过 / 0 | 6.85s | 内置输入处理完成；输出 2 条匹配结果。 |
+| [com.test.bigdata.rtmk.demo9.groovy.TestDiaoyong](../rt_rule_mk/src/main/java/com/test/bigdata/rtmk/demo9/groovy/TestDiaoyong.java) | 条件不足 / 1 | 0.77s | FileNotFoundException: d:/a.groovy；需提供实现 HelloInterface 的真实 Groovy 脚本，并将源码路径改为可读位置。 |
+| [com.test.bigdata.test.EventsMoni](../rt_rule_mk/src/test/java/com/test/bigdata/test/EventsMoni.java) | 条件不足 / 1 | 1.78s | Kafka bootstrap 地址不可解析；需 K。 |
+| [com.test.bigdata.test.HbaseProfileTagsMoni](../rt_rule_mk/src/test/java/com/test/bigdata/test/HbaseProfileTagsMoni.java) | 条件不足 / 143 | 2.3s | ZooKeeper/HBase 连接 UnknownHostException: doitedu；需 H。 |
+| [com.test.bigdata.test.HistoryConditionValueMoni](../rt_rule_mk/src/test/java/com/test/bigdata/test/HistoryConditionValueMoni.java) | 条件不足 / 1 | 0.76s | JedisConnectionException，根因为 UnknownHostException: doitedu；需 R。 |
 
 ### redis_demo
 
 | main（源码） | 结果 / 退出码 | 耗时 | 实际证据及执行条件 |
 | --- | --- | --- | --- |
-| [cn.doitedu.jedis.RedisDemo](../redis_demo/src/main/java/cn/doitedu/jedis/RedisDemo.java) | 条件不足 / 1 | 5.58s | JedisConnectionException，根因为 UnknownHostException: doitedu；需 R。 |
+| [com.test.bigdata.jedis.RedisDemo](../redis_demo/src/main/java/com/test/bigdata/jedis/RedisDemo.java) | 条件不足 / 1 | 5.58s | JedisConnectionException，根因为 UnknownHostException: doitedu；需 R。 |
 
 ### batch_jobs
 
 | main（源码） | 结果 / 退出码 | 耗时 | 实际证据及执行条件 |
 | --- | --- | --- | --- |
-| [cn.doitedu.batch.jobs.DataLoadJob01_GeoAreaInfo2Hbase](../batch_jobs/src/main/java/cn/doitedu/batch/jobs/DataLoadJob01_GeoAreaInfo2Hbase.scala) | 条件不足 / 1 | 10.73s | Spark 已启动；读取 MySQL 时 CommunicationsException / UnknownHostException: doitedu；需 M、H。 |
+| [com.test.bigdata.batch.jobs.DataLoadJob01_GeoAreaInfo2Hbase](../batch_jobs/src/main/java/com/test/bigdata/batch/jobs/DataLoadJob01_GeoAreaInfo2Hbase.scala) | 条件不足 / 1 | 10.73s | Spark 已启动；读取 MySQL 时 CommunicationsException / UnknownHostException: doitedu；需 M、H。 |
 
 ## 缺失条件与恢复执行方式
 
@@ -141,8 +143,8 @@ mvn -B -ntp -q dependency:build-classpath \
 python3 scripts/audit-mains.py --timeout 45
 
 # 单独执行（默认会先编译对应模块）
-bash scripts/run-main.sh rt_rule_mk cn.doitedu.rtmk.demo8.RuleEngineRecoveryLocal
-bash scripts/run-main.sh rt_rule_mk cn.doitedu.rtmk.demo8.RuleEngineRecovery
+bash scripts/run-main.sh rt_rule_mk com.test.bigdata.rtmk.demo8.RuleEngineRecoveryLocal
+bash scripts/run-main.sh rt_rule_mk com.test.bigdata.rtmk.demo8.RuleEngineRecovery
 ```
 
 Linux 上将 JAVA_HOME 设为实际 JDK 17 路径，其余命令相同。IDE 运行时选择 JDK 17，将 [scripts/java17.options](../scripts/java17.options) 中非注释行复制到 VM options；只升级 Maven 依赖而不配置模块参数，不能保证消除 JDK 17 反射访问异常。这些参数取自 [Flink 1.19.3 官方发行配置的 env.java.opts.all](https://github.com/apache/flink/blob/release-1.19.3/flink-dist/src/main/resources/config.yaml)。
