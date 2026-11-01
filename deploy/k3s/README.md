@@ -1,5 +1,7 @@
 # K3s 部署包模板
 
+> 2026-11-01 当前现场是 `realtime-dw` Namespace、worker3、Flink 1.19.3；下文保留的 `doit`/独立诊断作业命令属于历史方案，不能直接用于更新现有业务。当前带状态发布步骤和真实测试结果见 [最新发布报告](../../docs/k3s-redeploy-2026-11-01.md)。
+
 `Proxmox K3s Flink Image` 工作流会先编译所有 Maven 模块，再将两个 Flink
 作业及其运行时依赖写入镜像并通过 Podman 导出 tar；它不会在 GitHub Actions 中连接或修改
 内网 K3s 集群，也不会执行 Maven 的 `package` 阶段。

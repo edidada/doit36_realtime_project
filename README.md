@@ -3,6 +3,8 @@
 
 [RiskApplication 两行 Maven 运行、公开测试数据及 Log4j2 文件日志说明](docs/log4j2-and-risk-run-guide.md)
 
+[2026-11-01 合并修复、K3s 带状态发布与真实链路测试报告](docs/k3s-redeploy-2026-11-01.md)
+
 ## 1. 项目介绍
 
 本项目是多易大数据的Java实时项目，主要包含以下模块：

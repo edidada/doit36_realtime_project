@@ -1,0 +1,1 @@
+2026-11-01T08:23:47.972+08:00 INFO  [main] com.test.bigdata.fin.risk.fraud.FraudApplication - Risk sandbox API http://127.0.0.1:18088 (CPU only, fake money; use independent operator credential for review)

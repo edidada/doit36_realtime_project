@@ -20,6 +20,12 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
         <!-- Compatibility API only; the obsolete Log4j 1.x implementation is excluded. -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -97,28 +103,6 @@
             <artifactId>flink-statebackend-rocksdb</artifactId>
             <version>${flink.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.17.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.17.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.17.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-1.2-api</artifactId>
-            <version>2.17.2</version>
-        </dependency>
 
 
         <dependency>
@@ -180,8 +164,8 @@
                     <artifactId>slf4j-log4j12</artifactId>
                 </exclusion>
 
-                <exclusion><groupId>log4j</groupId><artifactId>log4j</artifactId></exclusion>
-                <exclusion><groupId>ch.qos.reload4j</groupId><artifactId>reload4j</artifactId></exclusion>
+
+
                 <exclusion><groupId>org.slf4j</groupId><artifactId>slf4j-reload4j</artifactId></exclusion>
             </exclusions>
         </dependency>

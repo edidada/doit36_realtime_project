@@ -1,5 +1,7 @@
 # 原 ETL 的真实业务链路验收
 
+> 2026-11-01：以下为旧部署过程的历史记录，不能照其中 `doit` 命令重建现网。旧 stateless 小 JAR 热替换脚本已退役；当前发布使用 `realtime-dw`、完整 1.19/Java17 镜像和 savepoint，见 [合并修复与发布记录](../../../docs/k3s-redeploy-2026-11-01.md)。
+
 `doitedu` 是课程部署主机名。替换为内网 IP 可行的前提是目标地址上确实有对应服务，并且 Kafka 返回的 broker 地址、HBase 在 ZooKeeper 登记的 RPC 地址、Doris FE 返回的 BE 地址也对 Flink 可达。这里只改变 DNS 映射不能补齐缺失服务。
 
 本环境将状态服务部署在独立的 `doit` 命名空间，使用固定节点 LAN 地址通告协议端点：

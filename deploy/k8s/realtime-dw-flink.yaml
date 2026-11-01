@@ -1,3 +1,6 @@
+# Historical 1.16 bootstrap manifest: NOT for upgrades of the running 1.19 application.
+# It uses stateless mode and old job overrides. Use scripts/k3s-stateful-upgrade.py
+# and docs/k3s-redeploy-2026-11-01.md instead; do not apply this over the live job.
 apiVersion: v1
 kind: Namespace
 metadata:

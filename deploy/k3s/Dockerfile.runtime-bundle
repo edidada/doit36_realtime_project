@@ -1,0 +1,11 @@
+ARG FLINK_IMAGE=docker.io/apache/flink:1.19.3-scala_2.12-java17
+FROM ${FLINK_IMAGE}
+USER root
+COPY logging/ /tmp/realtime-logging/
+# Replace the distribution's old logging stack; do not install a second binder in usrlib.
+RUN find /opt/flink/lib -maxdepth 1 -type f \( -name 'log4j-*.jar' -o -name 'slf4j-*.jar' \) -delete \
+    && cp /tmp/realtime-logging/*.jar /opt/flink/lib/ \
+    && rm -r /tmp/realtime-logging
+COPY --chown=flink:flink usrlib/ /opt/flink/usrlib/
+COPY --chown=flink:flink tools/ /opt/realtime-tools/
+USER flink
