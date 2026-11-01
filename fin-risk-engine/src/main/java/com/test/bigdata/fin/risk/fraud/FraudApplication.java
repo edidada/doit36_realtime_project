@@ -1,5 +1,8 @@
 package com.test.bigdata.fin.risk.fraud;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Clock;
@@ -7,6 +10,7 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 public final class FraudApplication {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FraudApplication.class);
     private FraudApplication() { }
     public static void main(String[] args) throws Exception {
         if (args.length > 0 && args[0].equals("dataset")) {
@@ -28,8 +32,7 @@ public final class FraudApplication {
         var server = new FraudHttpServer(service, Integer.parseInt(System.getenv().getOrDefault("RISK_PORT", "8088")));
         Runtime.getRuntime().addShutdownHook(new Thread(server::close));
         server.start();
-        System.out.println("Risk sandbox API http://127.0.0.1:" + server.port()
-                + " (CPU only, fake money; use independent operator credential for review)");
+        LOGGER.info("Risk sandbox API http://127.0.0.1:{} (CPU only, fake money; use independent operator credential for review)", server.port());
         new CountDownLatch(1).await();
     }
     private static String env(String key) {

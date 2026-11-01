@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
-  <Properties>
-    <Property name="logDir">${sys:main.log.dir:-logs/runtime}</Property>
-    <Property name="mainName">${sys:main.class:-application}</Property>
-    <Property name="pattern">[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c - %m%n%throwable</Property>
-  </Properties>
-  <Appenders>
-    <Console name="Console" target="SYSTEM_OUT"><PatternLayout pattern="${pattern}"/></Console>
-    <RollingFile name="File" fileName="${logDir}/${mainName}.log" filePattern="${logDir}/${mainName}-%i.log.gz">
-      <PatternLayout pattern="${pattern}"/>
-      <Policies><SizeBasedTriggeringPolicy size="20 MB"/></Policies>
-      <DefaultRolloverStrategy max="3"/>
-    </RollingFile>
-  </Appenders>
-  <Loggers>
-    <Logger name="org.apache.hadoop" level="ERROR"/>
-    <Root level="INFO"><AppenderRef ref="Console"/><AppenderRef ref="File"/></Root>
-  </Loggers>
+    <Properties>
+        <!-- Relative to JVM working directory; override with -Drealtime.log.dir=... -->
+        <Property name="logDir">${sys:realtime.log.dir:-logs/runtime}</Property>
+        <Property name="pattern">%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%t] %c - %replace{%msg}{[\r\n]+}{ }%n%throwable</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_ERR">
+            <PatternLayout charset="UTF-8" pattern="${pattern}"/>
+        </Console>
+        <RollingFile name="File" fileName="${logDir}/realtime_dw.log"
+                     filePattern="${logDir}/archive/realtime_dw-%d{yyyy-MM-dd}-%i.log.gz"
+                     createOnDemand="true" append="true" immediateFlush="true">
+            <PatternLayout charset="UTF-8" pattern="${pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="7">
+                <Delete basePath="${logDir}/archive" maxDepth="1">
+                    <IfFileName glob="realtime_dw-*.log.gz"/>
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.test.bigdata" level="INFO"/>
+        <Logger name="org.apache.hadoop" level="ERROR"/>
+        <Root level="WARN">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
 </Configuration>

@@ -1,5 +1,8 @@
 package com.test.bigdata.fin.risk.fraud;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
@@ -18,6 +21,7 @@ import java.util.zip.ZipInputStream;
 
 /** Streaming public-data acquisition/evaluation; labels are read only after prediction. CPU only. */
 public final class PaySimTool {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PaySimTool.class);
     private static final List<String> HEADER = List.of("step", "type", "amount", "nameOrig", "oldbalanceOrg",
             "newbalanceOrig", "nameDest", "oldbalanceDest", "newbalanceDest", "isFraud", "isFlaggedFraud");
     private static final String URL = "https://www.kaggle.com/api/v1/datasets/download/ealaxi/paysim1?datasetVersionNumber=2";
@@ -30,15 +34,15 @@ public final class PaySimTool {
         } else if (args.length == 3 && args[0].equals("replay")) {
             var metrics = replay(Path.of(args[1]));
             Files.writeString(Path.of(args[2]), Database.json(metrics), StandardOpenOption.CREATE_NEW);
-            System.out.println(Database.json(metrics));
+            LOGGER.info("PaySim replay {}", Database.json(metrics));
         } else if (args.length == 3 && args[0].equals("benchmark")) {
             var result = PaySimBenchmark.run(Path.of(args[1]));
             Files.writeString(Path.of(args[2]), Database.json(result), StandardOpenOption.CREATE_NEW);
-            System.out.println(Database.json(result));
+            LOGGER.info("PaySim benchmark {}", Database.json(result));
         } else if (args.length == 3 && args[0].equals("simulate")) {
             var result = PaySimScenarioReplay.run(Path.of(args[1]));
             Files.writeString(Path.of(args[2]), Database.json(result), StandardOpenOption.CREATE_NEW);
-            System.out.println(Database.json(result));
+            LOGGER.info("PaySim simulation {}", Database.json(result));
         } else { throw new IllegalArgumentException("dataset download <new-directory> [rows=50000] | replay <csv> <new-report.json>"); }
     }
 
@@ -80,7 +84,7 @@ public final class PaySimTool {
         provenance.put("sha256", digest(output));
         provenance.put("synthetic", true);
         Files.writeString(directory.resolve("provenance.json"), Database.json(provenance), StandardOpenOption.CREATE_NEW);
-        System.out.println(Database.json(provenance));
+        LOGGER.info("PaySim provenance {}", Database.json(provenance));
     }
 
     private static InputStream connect(URI uri, int redirects) throws IOException {

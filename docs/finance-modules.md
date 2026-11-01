@@ -1,5 +1,7 @@
 # FIN-OLAP / FIN-RISK Maven 模块交付说明
 
+2026-10-29 更新：全模块改用 SLF4J + Log4j2 XML/文件日志，`RiskApplication` 零参数可运行 QuantLib 官方开源基准；可直接复制的两行 Maven 命令见 [日志与运行手册](log4j2-and-risk-run-guide.md)。
+
 2026-10-27 更新：`fin-risk-engine` 已增加支付/优惠券业务风控、嵌入式持久化、模拟通道和公开数据回放，详见 [独立功能手册](payment-coupon-risk-guide.md)。以下数值定价部分保留原有实现与当时验收范围。
 
 ## 实施范围
